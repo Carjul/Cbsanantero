@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.1"
+  },
+  "scripts": {
+    "start": "concurrently \"nodemon server.js\" \"live-server --port=3001 --watch=Front/dist\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "live-server": "^1.2.2",
+    "nodemon": "^3.0.1"
+  }
+}
