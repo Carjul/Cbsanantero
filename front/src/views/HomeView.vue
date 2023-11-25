@@ -1,10 +1,5 @@
 <template>
   <div class="home">
-    <!-- Topbar Start -->
-  
-    <!-- Topbar End -->
-
-
     
 
 
@@ -13,7 +8,7 @@
         <div id="header-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="https://media.admagazine.com/photos/628e814d2ca77e057b9403c8/16:9/w_2560%2Cc_limit/Mujer%2520en%2520resort.jpg" alt="Image">
+                    <img class="w-100" src="https://cdn.forbes.com.mx/2020/07/hoteles-Grand-Velas-Resorts-e1596047698604.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h4 class="text-white text-uppercase mb-md-3">Tours & Travel</h4>
@@ -23,7 +18,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="w-100" src="https://media.admagazine.com/photos/628e814d2ca77e057b9403c8/16:9/w_2560%2Cc_limit/Mujer%2520en%2520resort.jpg" alt="Image">
+                    <img class="w-100" src="https://media.admagazine.com/photos/618a6ae690c4ec9a52ca12cd/master/w_1600%2Cc_limit/61423.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h4 class="text-white text-uppercase mb-md-3">Tours & Travel</h4>
@@ -48,6 +43,7 @@
     <!-- Carousel End -->
 
 
+   
     <!-- Booking Start -->
     <div class="container-fluid booking mt-5 pb-5">
         <div class="container pb-5">
@@ -105,10 +101,8 @@
     <div class="container-fluid py-5">
         <div class="container pt-5">
             <div class="row">
-                <div class="col-lg-6" style="min-height: 500px;">
-                    <div class="position-relative h-100">
-                        <img class="position-absolute w-100 h-100" src="https://www.caminosalkantay.com/blog/wp-content/uploads/2023/05/13-mejores-Hoteles-en-Cusco-Peru.jpg" style="object-fit: cover;">
-                    </div>
+                <div class="col-lg-4" style="min-height:100px;">
+                   <h1>espa</h1>
                 </div>
                 <div class="col-lg-6 pt-5 pb-lg-5">
                     <div class="about-text bg-white p-4 p-lg-5 my-lg-5">
@@ -117,10 +111,10 @@
                         <p>Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed et. Sit rebum labore sit sit ut vero no sit. Et elitr stet dolor sed sit et sed ipsum et kasd ut. Erat duo eos et erat sed diam duo</p>
                         <div class="row mb-4">
                             <div class="col-6">
-                                <img class="img-fluid" src="img/about-1.jpg" alt="">
+                                <img class="img-fluid" src="https://images.pexels.com/photos/2272853/pexels-photo-2272853.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="">
                             </div>
                             <div class="col-6">
-                                <img class="img-fluid" src="img/about-2.jpg" alt="">
+                                <img class="img-fluid" src="https://images.pexels.com/photos/2272853/pexels-photo-2272853.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="">
                             </div>
                         </div>
                         <a href="" class="btn btn-primary mt-1">Book Now</a>
@@ -721,8 +715,7 @@
     <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color: rgba(256, 256, 256, .1) !important;">
         <div class="row">
             <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-              
-                
+               
             </div>
             <div class="col-lg-6 text-center text-md-right">
                 <p class="m-0 text-white-50">Designed by <a href="https://htmlcodex.com">HTML Codex</a>
@@ -735,10 +728,6 @@
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
-
-   
-
 
     <HelloWorld/>
   </div>
@@ -756,3 +745,6 @@ export default {
 }
 </script>
  
+<style>
+
+</style>
