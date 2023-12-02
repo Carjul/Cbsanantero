@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
-
 const routes = [
   {
     path: '/',
@@ -11,18 +10,52 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    component: () => import('../views/AboutView.vue')
   },
   {
     path: '/principal',
     name: 'princ',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/PrincView.vue')
+    component: () => import('../views/PrincView.vue')
+  },
+  {
+    path: '/artes',
+    name: 'art',
+    component: () => import('../views/ArteView.vue')
+  },
+  {
+    path: '/bard',
+    name: 'bar',
+    component: () => import('../views/BardView.vue')
+  },
+  {
+    path: '/hotels',
+    name: 'hote',
+    component: () => import('../views/HotelsView.vue')
+  },
+  {
+    path: '/hospe',
+    name: 'hopeda',
+    component: () => import('../views/HospeView.vue')
+  },
+  {
+    path: '/recre',
+    name: 'recrat',
+    component: () => import('../views/RecreaView.vue')
+  },
+  {
+    path: '/restau',
+    name: 'restaur',
+    component: () => import('../views/RestourView.vue')
+  },
+  {
+    path: '/tourn',
+    name: 'tures',
+    component: () => import('../views/TourView.vue')
+  },
+  {
+    path: '/tranport',
+    name: 'transp',
+    component: () => import('../views/TransporView.vue')
   }
 ]
 
