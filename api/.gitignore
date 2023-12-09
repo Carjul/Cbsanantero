@@ -1,0 +1,18 @@
+# Archivos binarios y ejecutables
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Archivos de compilación
+*.o
+*.a
+*.obj
+
+# Archivos generados por el compilador
+*.test
+*.out
+
+# Archivos de dependencias
+vendor/
+/tmp
