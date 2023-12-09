@@ -12,7 +12,7 @@
 # Archivos generados por el compilador
 *.test
 *.out
-
+.env
 # Archivos de dependencias
 vendor/
 /tmp
