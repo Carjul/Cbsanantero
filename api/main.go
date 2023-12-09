@@ -7,6 +7,7 @@ import (
 	"github.com/cbsanantero/controllers"
 	"github.com/cbsanantero/db"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 )
 
@@ -26,9 +27,19 @@ func main() {
 
     app := fiber.New()
 
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "*", 
+		AllowMethods:     "GET,POST,PUT,DELETE", 
+		AllowHeaders:     "Origin, Content-Type, Accept",
+		AllowCredentials: true, 
+	}))
+
 	//Ruta Inicial 
     app.Get("/", controllers.Init)
+	
 	app.Get("/customer", controllers.GetCustumer)
+	app.Get("/customer/:id", controllers.GetCustumerById)
+	app.Post("/customer", controllers.CreateCustomer)
 
     app.Listen(":3000")
 }
