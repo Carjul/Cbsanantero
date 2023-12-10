@@ -18,7 +18,7 @@ func main() {
 	}
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
-		log.Fatal("You must set your 'MONGODB_URI' environment variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
+		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
 	}
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -58,6 +58,43 @@ func main() {
 	app.Post("/hospedaje", controllers.CreateHospedaje)
 	app.Put("/hospedaje/:id", controllers.UpdateHospedaje)
 	app.Delete("/hospedaje/:id", controllers.DeleteHospedaje)
+	//Rutas de Tour
+	app.Get("/tour", controllers.GetTour)
+	app.Get("/tour/:id", controllers.GetTourById)
+	app.Post("/tour", controllers.CreateTour)
+	app.Put("/tour/:id", controllers.UpdateTour)
+	app.Delete("/tour/:id", controllers.DeleteTour)
+	//Rutas de Hoteles
+	app.Get("/hotel", controllers.GetHoteles)
+	app.Get("/hotel/:id", controllers.GetHotelesById)
+	app.Post("/hotel", controllers.CreateHoteles)
+	app.Put("/hotel/:id", controllers.UpdateHoteles)
+	app.Delete("/hotel/:id", controllers.DeleteHoteles)
+	//Rutas de Restaurantes
+	app.Get("/restaurante", controllers.GetRestaurante)
+	app.Get("/restaurante/:id", controllers.GetRestauranteById)
+	app.Post("/restaurante", controllers.CreateRestaurante)
+	app.Put("/restaurante/:id", controllers.UpdateRestaurante)
+	app.Delete("/restaurante/:id", controllers.DeleteRestaurante)
+	//Rutas de Recreacion
+	app.Get("/recreacion", controllers.GetRecreacion)
+	app.Get("/recreacion/:id", controllers.GetRecreacionById)
+	app.Post("/recreacion", controllers.CreateRecreacion)
+	app.Put("/recreacion/:id", controllers.UpdateRecreacion)
+	app.Delete("/recreacion/:id", controllers.DeleteRecreacion)
+	//Rutas de Bar
+	app.Get("/bar", controllers.GetBar)
+	app.Get("/bar/:id", controllers.GetBarById)
+	app.Post("/bar", controllers.CreateBar)
+	app.Put("/bar/:id", controllers.UpdateBar)
+	app.Delete("/bar/:id", controllers.DeleteBar)
+	//Rutas de Artesanias
+	app.Get("/artesania", controllers.GetArtesanias)
+	app.Get("/artesania/:id", controllers.GetArtesaniasById)
+	app.Post("/artesania", controllers.CreateArtesanias)
+	app.Put("/artesania/:id", controllers.UpdateArtesanias)
+	app.Delete("/artesania/:id", controllers.DeleteArtesanias)
+
 	//Puerto de escucha
     app.Listen(":"+port)
 }

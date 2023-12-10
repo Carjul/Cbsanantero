@@ -13,9 +13,12 @@ import (
 type Customer struct {
 	ID      primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	Name    string             `json:"name,omitempty" bson:"name,omitempty"`
+	Image  string             `json:"image,omitempty" bson:"image,omitempty"`
 	Email   string             `json:"email,omitempty" bson:"email,omitempty"`
+	Password   string             `json:"passwords,omitempty" bson:"passwords,omitempty"`
 	Phone   string             `json:"phone,omitempty" bson:"phone,omitempty"`
 	Address string             `json:"address,omitempty" bson:"address,omitempty"`
+	Rol	 string             `json:"rol,omitempty" bson:"rol,omitempty"`
 }
 
 func GetCustumer(c *fiber.Ctx) error {

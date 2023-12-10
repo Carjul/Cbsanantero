@@ -16,6 +16,12 @@ var Client *mongo.Client
 var Customer *mongo.Collection
 var Traporte *mongo.Collection
 var Hospedaje *mongo.Collection
+var Tour *mongo.Collection
+var Hoteles *mongo.Collection
+var Restaurantes *mongo.Collection
+var Recreacion *mongo.Collection
+var Bares *mongo.Collection
+var Artesanias *mongo.Collection
 
 func ConexionDB() error {
 	uri := os.Getenv("MONGODB_URI")
@@ -41,6 +47,12 @@ func ConexionDB() error {
 	Customer = Client.Database("Cbsanatero").Collection("Customer")
 	Traporte = Client.Database("Cbsanatero").Collection("Trasporte")
 	Hospedaje = Client.Database("Cbsanatero").Collection("Hospedaje")
+	Tour = Client.Database("Cbsanatero").Collection("Tour")
+	Hoteles = Client.Database("Cbsanatero").Collection("Hoteles")
+	Restaurantes = Client.Database("Cbsanatero").Collection("Restaurantes")
+	Recreacion = Client.Database("Cbsanatero").Collection("Recreacion")
+	Bares = Client.Database("Cbsanatero").Collection("Bares")
+	Artesanias = Client.Database("Cbsanatero").Collection("Artesanias")
 
 	return nil
 }

@@ -11,10 +11,11 @@ import (
 
 type Trasporte struct {
 	ID      primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Tipo   string             `json:"tipo,omitempty" bson:"tipo,omitempty"`
+	Tipo    string             `json:"tipo,omitempty" bson:"tipo,omitempty"`
+	Image  string             `json:"image,omitempty" bson:"image,omitempty"`
 	Placa   string             `json:"placa,omitempty" bson:"placa,omitempty"`
-	Conductor   string             `json:"conductor,omitempty" bson:"conductor,omitempty"`
-	Celular   string             `json:"celular,omitempty" bson:"celular,omitempty"`
+	Conductor   string         `json:"conductor,omitempty" bson:"conductor,omitempty"`
+	Celular   string           `json:"celular,omitempty" bson:"celular,omitempty"`
 }
 
 func GetTrasporte(c *fiber.Ctx) error {
