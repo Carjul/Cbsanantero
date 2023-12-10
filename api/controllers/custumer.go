@@ -19,18 +19,18 @@ type Customer struct {
 }
 
 func GetCustumer(c *fiber.Ctx) error {
-customer:= db.Client.Database("test").Collection("Customer")
+customer:= db.Customer
 
 busqueda, err := customer.Find(context.TODO(), bson.M{})
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 	defer busqueda.Close(context.Background())
 
 var customers []bson.M
 
 if err = busqueda.All(context.Background(), &customers); err != nil {
-	panic(err)
+	log.Println(err)
 }
 
 
@@ -38,40 +38,93 @@ if err = busqueda.All(context.Background(), &customers); err != nil {
 }
 
 func GetCustumerById(c *fiber.Ctx) error {
-    customers := db.Client.Database("test").Collection("Customer")
+    customers := db.Customer
 
     id := c.Params("id")
 
     objID, err := primitive.ObjectIDFromHex(id)
     if err != nil {
-        panic(err)
+        log.Println(err)
     }
 
     var customer bson.M
 
+
     err = customers.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&customer)
     if err != nil {
-        panic(err)
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
     }
 
     return c.Status(fiber.StatusAccepted).JSON(customer)
 }
 
 func CreateCustomer(c *fiber.Ctx) error {
-	customers := db.Client.Database("test").Collection("Customer")
+	customers := db.Customer
 
 	customer := new(Customer)
 
 	if err := c.BodyParser(customer); err != nil {
-		panic(err)
+		log.Println(err)
 	}
 
 	result, err := customers.InsertOne(context.Background(), customer)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo insertar el cliente"})
 	}
+	if result.InsertedID == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo insertar el cliente"})
+	}else{
+		return c.Status(fiber.StatusCreated).JSON(Message{Msg: "Cliente insertado"})
+	}
 
-	return c.Status(fiber.StatusCreated).JSON(result)
 }
 
+func UpdateCustomer(c *fiber.Ctx) error {
+	customers := db.Customer
+
+	id := c.Params("id")
+
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println(err)
+	}
+
+	customer := new(Customer)
+
+	if err := c.BodyParser(customer); err != nil {
+		log.Println(err)
+	}
+
+	update := bson.M{
+		"$set": customer,
+	}
+
+	result, err := customers.UpdateOne(context.Background(), bson.M{"_id": objID}, update)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return c.Status(fiber.StatusAccepted).JSON(result)
+}
+
+func DeleteCustomer(c *fiber.Ctx) error {
+	customers := db.Customer
+
+	id := c.Params("id")
+
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println(err)
+	}
+
+	result, err := customers.DeleteOne(context.Background(), bson.M{"_id": objID})
+	if err != nil {
+		log.Println(err)
+	}
+	if result.DeletedCount == 0 {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo eliminar el cliente"})
+	}else{
+		return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Cliente eliminado"})
+	}
+}

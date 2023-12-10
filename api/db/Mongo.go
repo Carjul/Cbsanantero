@@ -11,7 +11,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+
 var Client *mongo.Client
+var Customer *mongo.Collection
+var Traporte *mongo.Collection
+var Hospedaje *mongo.Collection
 
 func ConexionDB() error {
 	uri := os.Getenv("MONGODB_URI")
@@ -33,6 +37,11 @@ func ConexionDB() error {
 	}
 
 	log.Println("Conexión exitosa a MongoDB")
+
+	Customer = Client.Database("Cbsanatero").Collection("Customer")
+	Traporte = Client.Database("Cbsanatero").Collection("Trasporte")
+	Hospedaje = Client.Database("Cbsanatero").Collection("Hospedaje")
+
 	return nil
 }
 
