@@ -1,72 +1,79 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+// router.js
+import { createRouter, createWebHashHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import LoginView from '../views/LogincbView.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
   },
   {
     path: '/about',
     name: 'about',
-    component: () => import('../views/AboutView.vue')
+    component: () => import('../views/AboutView.vue'),
   },
   {
     path: '/principal',
     name: 'princ',
-    component: () => import('../views/PrincView.vue')
+    component: () => import('../views/PrincView.vue'),
   },
   {
     path: '/artes',
     name: 'art',
-    component: () => import('../views/ArteView.vue')
+    component: () => import('../views/ArteView.vue'),
   },
   {
     path: '/bard',
     name: 'bar',
-    component: () => import('../views/BardView.vue')
+    component: () => import('../views/BardView.vue'),
   },
   {
     path: '/hotels',
     name: 'hote',
-    component: () => import('../views/HotelsView.vue')
+    component: () => import('../views/HotelsView.vue'),
   },
   {
     path: '/hospe',
     name: 'hopeda',
-    component: () => import('../views/HospeView.vue')
+    component: () => import('../views/HospeView.vue'),
   },
   {
     path: '/recre',
     name: 'recrat',
-    component: () => import('../views/RecreaView.vue')
+    component: () => import('../views/RecreaView.vue'),
   },
   {
     path: '/restau',
     name: 'restaur',
-    component: () => import('../views/RestourView.vue')
+    component: () => import('../views/RestourView.vue'),
   },
   {
     path: '/tourn',
     name: 'tures',
-    component: () => import('../views/TourView.vue')
+    component: () => import('../views/TourView.vue'),
   },
   {
     path: '/tranport',
     name: 'transp',
-    component: () => import('../views/TransporView.vue')
+    component: () => import('../views/TransporView.vue'),
+  },
+  {
+    path: '/admin',
+    name: 'ad',
+    component: () => import('../views/AdminView.vue'),
   },
   {
     path: '/login',
     name: 'log',
-    component: () => import('../views/LogincbView.vue')
-  }
-]
+    component: LoginView,
+  },
+];
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

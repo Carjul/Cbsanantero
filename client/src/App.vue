@@ -61,6 +61,11 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                     <div class="navbar-nav ml-auto py-0">
+                      <!--v-if="usuarioAutenticado && usuarioRol === 'admin'"-->
+                      <a  class="nav-item nav-link active">
+                  <router-link to="/admin">Admin</router-link>
+            </a>
+                      <a href="index.html" class="nav-item nav-link active"><router-link to="">Publicar</router-link> </a>
                         <a href="index.html" class="nav-item nav-link active"><router-link to="/">Home</router-link> </a>
                         <a href="about.html" class="nav-item nav-link"> <router-link to="/about">About</router-link></a>
                         <a href="service.html" class="nav-item nav-link">Services</a>
@@ -87,6 +92,18 @@
 
   <router-view/>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      usuarioAutenticado: localStorage.getItem('usuarioAutenticado') === 'true',
+      usuarioRol: localStorage.getItem('usuarioRol') || '',
+    };
+  },
+};
+</script>
+
 
 <style>
 #app {
