@@ -13,6 +13,7 @@
 *.test
 *.out
 .env
+api/go.sum
 # Archivos de dependencias
 vendor/
 /tmp
