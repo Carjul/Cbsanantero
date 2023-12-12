@@ -56,6 +56,11 @@ const routes = [
     path: '/tranport',
     name: 'transp',
     component: () => import('../views/TransporView.vue')
+  },
+  {
+    path: '/login',
+    name: 'log',
+    component: () => import('../views/LogincbView.vue')
   }
 ]
 
