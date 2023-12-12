@@ -44,15 +44,15 @@ func ConexionDB() error {
 
 	log.Println("Conexión exitosa a MongoDB")
 
-	Customer = Client.Database("Cbsanatero").Collection("Customer")
-	Traporte = Client.Database("Cbsanatero").Collection("Trasporte")
-	Hospedaje = Client.Database("Cbsanatero").Collection("Hospedaje")
-	Tour = Client.Database("Cbsanatero").Collection("Tour")
-	Hoteles = Client.Database("Cbsanatero").Collection("Hoteles")
-	Restaurantes = Client.Database("Cbsanatero").Collection("Restaurantes")
-	Recreacion = Client.Database("Cbsanatero").Collection("Recreacion")
-	Bares = Client.Database("Cbsanatero").Collection("Bares")
-	Artesanias = Client.Database("Cbsanatero").Collection("Artesanias")
+	Customer = Client.Database("Cbsanantero").Collection("Customer")
+	Traporte = Client.Database("Cbsanantero").Collection("Trasporte")
+	Hospedaje = Client.Database("Cbsanantero").Collection("Hospedaje")
+	Tour = Client.Database("Cbsanantero").Collection("Tour")
+	Hoteles = Client.Database("Cbsanantero").Collection("Hoteles")
+	Restaurantes = Client.Database("Cbsanantero").Collection("Restaurantes")
+	Recreacion = Client.Database("Cbsanantero").Collection("Recreacion")
+	Bares = Client.Database("Cbsanantero").Collection("Bares")
+	Artesanias = Client.Database("Cbsanantero").Collection("Artesanias")
 
 	return nil
 }

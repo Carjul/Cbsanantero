@@ -11,54 +11,53 @@ import (
 )
 
 type Customer struct {
-	ID      primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name    string             `json:"name,omitempty" bson:"name,omitempty"`
-	Image  string             `json:"image,omitempty" bson:"image,omitempty"`
-	Email   string             `json:"email,omitempty" bson:"email,omitempty"`
-	Password   string             `json:"passwords,omitempty" bson:"passwords,omitempty"`
-	Phone   string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Address string             `json:"address,omitempty" bson:"address,omitempty"`
-	Rol	 string             `json:"rol,omitempty" bson:"rol,omitempty"`
+	ID       primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name     string             `json:"name,omitempty" bson:"name,omitempty"`
+	Image    string             `json:"image,omitempty" bson:"image,omitempty"`
+	Email    string             `json:"email,omitempty" bson:"email,omitempty"`
+	Password string             `json:"passwords,omitempty" bson:"passwords,omitempty"`
+	Phone    string             `json:"phone,omitempty" bson:"phone,omitempty"`
+	Address  string             `json:"address,omitempty" bson:"address,omitempty"`
+	Rol      string             `json:"rol,omitempty" bson:"rol,omitempty"`
+	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
 }
 
 func GetCustumer(c *fiber.Ctx) error {
-customer:= db.Customer
+	customer := db.Customer
 
-busqueda, err := customer.Find(context.TODO(), bson.M{})
+	busqueda, err := customer.Find(context.TODO(), bson.M{})
 	if err != nil {
 		log.Println(err)
 	}
 	defer busqueda.Close(context.Background())
 
-var customers []bson.M
+	var customers []bson.M
 
-if err = busqueda.All(context.Background(), &customers); err != nil {
-	log.Println(err)
-}
-
+	if err = busqueda.All(context.Background(), &customers); err != nil {
+		log.Println(err)
+	}
 
 	return c.Status(fiber.StatusAccepted).JSON(customers)
 }
 
 func GetCustumerById(c *fiber.Ctx) error {
-    customers := db.Customer
+	customers := db.Customer
 
-    id := c.Params("id")
+	id := c.Params("id")
 
-    objID, err := primitive.ObjectIDFromHex(id)
-    if err != nil {
-        log.Println(err)
-    }
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println(err)
+	}
 
-    var customer bson.M
+	var customer bson.M
 
-
-    err = customers.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&customer)
-    if err != nil {
+	err = customers.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&customer)
+	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
-    }
+	}
 
-    return c.Status(fiber.StatusAccepted).JSON(customer)
+	return c.Status(fiber.StatusAccepted).JSON(customer)
 }
 
 func CreateCustomer(c *fiber.Ctx) error {
@@ -77,7 +76,7 @@ func CreateCustomer(c *fiber.Ctx) error {
 	}
 	if result.InsertedID == nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo insertar el cliente"})
-	}else{
+	} else {
 		return c.Status(fiber.StatusCreated).JSON(Message{Msg: "Cliente insertado"})
 	}
 
@@ -127,7 +126,7 @@ func DeleteCustomer(c *fiber.Ctx) error {
 	}
 	if result.DeletedCount == 0 {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo eliminar el cliente"})
-	}else{
+	} else {
 		return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Cliente eliminado"})
 	}
 }
