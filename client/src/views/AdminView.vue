@@ -9,7 +9,7 @@
       <!-- Contenido principal -->
       <div class="content" :style="{ 'margin-left': sidebarWidth + 'px' }">
         <h2>{{ contenido.title }}</h2>
-        <p>{{ contenido.text }}</p>
+        <p v-html="contenido.text"></p>
       </div>
     </div>
   </template>
@@ -18,18 +18,21 @@
   export default {
     data() {
       return {
-        sidebarWidth: 260, // Ajusta según sea necesario
+        sidebarWidth: 260,
         sections: [
-          { label: 'Sección 1', content: { title: 'Contenido de la Sección 1', text: 'Este es el contenido de la Sección 1.' } },
-          { label: 'Sección 2', content: { title: 'Contenido de la Sección 2', text: 'Este es el contenido de la Sección 2.' } },
-          { label: 'Sección 3', content: { title: 'Contenido de la Sección 3', text: 'Este es el contenido de la Sección 3.' } }
+          { label: 'contenido1', content: { title: 'Contenido de la Sección 1', text: 'Este es el contenido de la Sección 1.' } },
+          { label: 'contenido2', content: { title: 'Contenido de la Sección 2', text: 'Este es el contenido de la Sección 2.' } },
+          { label: 'contenido3', content: { title: 'Contenido de la Sección 3', text: 'Este es el contenido de la Sección 3.' } }
         ],
         contenido: { title: 'Contenido Principal', text: 'Selecciona una sección en la barra lateral para ver el contenido correspondiente.' }
       };
     },
     methods: {
-      mostrarContenido(content) {
-        this.contenido = content;
+      mostrarContenido(contentKey) {
+        const selectedContent = this.sections.find(section => section.label === contentKey);
+        if (selectedContent) {
+          this.contenido = { ...selectedContent.content };
+        }
       }
     }
   };
@@ -42,9 +45,9 @@
     width: 250px;
     position: fixed;
     z-index: 4;
-    top: 4; /* Agrega la unidad de medida, por ejemplo, px */
+    top: 4;
     left: 0;
-    background-color: #111;
+    background-color: #0680878c;
     padding: 2px;
   }
   
