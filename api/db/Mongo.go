@@ -33,6 +33,8 @@ func ConexionDB() error {
 	Client, err = mongo.Connect(context.Background(), options.Client().ApplyURI(uri))
 	if err != nil {
 		return fmt.Errorf("error al conectar con MongoDB: %v", err)
+	}else{	
+		log.Println("Conexión exitosa a MongoDB")
 	}
 
 	// Verificar la conexión
@@ -42,17 +44,18 @@ func ConexionDB() error {
 		return fmt.Errorf("no se pudo realizar el ping a la base de datos: %v", err)
 	}
 
-	log.Println("Conexión exitosa a MongoDB")
 
-	Customer = Client.Database("Cbsanantero").Collection("Customer")
-	Traporte = Client.Database("Cbsanantero").Collection("Trasporte")
-	Hospedaje = Client.Database("Cbsanantero").Collection("Hospedaje")
-	Tour = Client.Database("Cbsanantero").Collection("Tour")
-	Hoteles = Client.Database("Cbsanantero").Collection("Hoteles")
-	Restaurantes = Client.Database("Cbsanantero").Collection("Restaurantes")
-	Recreacion = Client.Database("Cbsanantero").Collection("Recreacion")
-	Bares = Client.Database("Cbsanantero").Collection("Bares")
-	Artesanias = Client.Database("Cbsanantero").Collection("Artesanias")
+	Db := Client.Database("Cbsanantero")
+
+	Customer = Db.Collection("Customer")
+	Traporte = Db.Collection("Trasporte")
+	Hospedaje = Db.Collection("Hospedaje")
+	Tour = Db.Collection("Tour")
+	Hoteles = Db.Collection("Hoteles")
+	Restaurantes = Db.Collection("Restaurantes")
+	Recreacion = Db.Collection("Recreacion")
+	Bares = Db.Collection("Bares")
+	Artesanias = Db.Collection("Artesanias")
 
 	return nil
 }

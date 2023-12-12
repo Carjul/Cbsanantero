@@ -9,17 +9,18 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
+
+	pasetoware "github.com/gofiber/contrib/paseto"
 )
+ 
+const secretSymmetricKey = "symmetric-secret-key (size = 32)"
 
 func main() {
 	// Load environment variables from .env file, where API keys and passwords are stored
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
-	uri := os.Getenv("MONGODB_URI")
-	if uri == "" {
-		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
-	}
+	
 	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("You must set your 'PORT' environment variable.")
@@ -38,6 +39,12 @@ func main() {
 		AllowCredentials:true, 
 	}))
 
+    // Paseto Middleware with local (encrypted) token
+    apiGroup := app.Group("api", pasetoware.New(pasetoware.Config{
+		SymmetricKey: []byte(secretSymmetricKey),
+        TokenPrefix:  "",
+    }))
+	
 	//Ruta Inicial 
     app.Get("/", controllers.Init)
 	//Rutas de Customer
@@ -94,6 +101,15 @@ func main() {
 	app.Post("/artesania", controllers.CreateArtesanias)
 	app.Put("/artesania/:id", controllers.UpdateArtesanias)
 	app.Delete("/artesania/:id", controllers.DeleteArtesanias)
+	//Rutas de Comida
+	app.Post("/login", controllers.Login)
+
+    // Restricted Routes
+    apiGroup.Get("/restricted", controllers.Restricted)
+    apiGroup.Put("/customerStatus/:id", controllers.UpdateCustomerStatus)
+    apiGroup.Put("/customerRol/:id", controllers.UpdateCustomerRol)
+
+
 
 	//Puerto de escucha
     app.Listen(":"+port)

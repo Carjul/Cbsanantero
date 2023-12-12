@@ -15,7 +15,7 @@ type Customer struct {
 	Name     string             `json:"name,omitempty" bson:"name,omitempty"`
 	Image    string             `json:"image,omitempty" bson:"image,omitempty"`
 	Email    string             `json:"email,omitempty" bson:"email,omitempty"`
-	Password string             `json:"passwords,omitempty" bson:"passwords,omitempty"`
+	Password string             `json:"password,omitempty" bson:"password,omitempty"`
 	Phone    string             `json:"phone,omitempty" bson:"phone,omitempty"`
 	Address  string             `json:"address,omitempty" bson:"address,omitempty"`
 	Rol      string             `json:"rol,omitempty" bson:"rol,omitempty"`
@@ -68,7 +68,8 @@ func CreateCustomer(c *fiber.Ctx) error {
 	if err := c.BodyParser(customer); err != nil {
 		log.Println(err)
 	}
-
+	customer.Status = "Inactivo"
+	customer.Rol = "Cliente"
 	result, err := customers.InsertOne(context.Background(), customer)
 	if err != nil {
 		log.Println(err)
@@ -107,7 +108,11 @@ func UpdateCustomer(c *fiber.Ctx) error {
 		log.Println(err)
 	}
 
-	return c.Status(fiber.StatusAccepted).JSON(result)
+	if result.ModifiedCount == 0 {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el cliente"})
+	} else {
+		return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Cliente actualizado"})
+	}
 }
 
 func DeleteCustomer(c *fiber.Ctx) error {
@@ -129,4 +134,80 @@ func DeleteCustomer(c *fiber.Ctx) error {
 	} else {
 		return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Cliente eliminado"})
 	}
+}
+
+func UpdateCustomerStatus (c *fiber.Ctx) error {
+    type Status struct {
+        Status string `json:"status,omitempty" bson:"status,omitempty"`
+    }
+
+    customers := db.Customer
+
+    id := c.Params("id")
+
+    objID, err := primitive.ObjectIDFromHex(id)
+    if err != nil {
+        log.Println(err)
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+    }
+
+    var customerStatus Status
+
+    if err := c.BodyParser(&customerStatus); err != nil {
+        log.Println(err)
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
+    }
+
+    x := Status{Status: customerStatus.Status}
+    update := bson.M{"$set":x}
+
+    result, err := customers.UpdateOne(context.Background(), bson.M{"_id": objID}, update)
+    if err != nil {
+        log.Println(err)
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Cannot update customer"})
+    }
+
+    if result.ModifiedCount == 0 {
+        return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{"message": "No se pudo actualizar el cliente"})
+    } else {
+        return c.Status(fiber.StatusAccepted).JSON(fiber.Map{"message": "Cliente actualizado"})
+    }
+}
+
+func UpdateCustomerRol (c *fiber.Ctx) error {
+    type Rol struct {
+		Rol string `json:"rol,omitempty" bson:"rol,omitempty"`
+	}
+
+    customers := db.Customer
+
+    id := c.Params("id")
+
+    objID, err := primitive.ObjectIDFromHex(id)
+    if err != nil {
+        log.Println(err)
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+    }
+
+    var customerRol Rol
+
+    if err := c.BodyParser(&customerRol); err != nil {
+        log.Println(err)
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
+    }
+
+    x := Rol{Rol: customerRol.Rol}
+    update := bson.M{"$set":x}
+
+    result, err := customers.UpdateOne(context.Background(), bson.M{"_id": objID}, update)
+    if err != nil {
+        log.Println(err)
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Cannot update rol"})
+    }
+
+    if result.ModifiedCount == 0 {
+        return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{"message": "No se pudo actualizar el cliente"})
+    } else {
+        return c.Status(fiber.StatusAccepted).JSON(fiber.Map{"message": "Cliente actualizado"})
+    }
 }
