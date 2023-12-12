@@ -16,10 +16,7 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
-	uri := os.Getenv("MONGODB_URI")
-	if uri == "" {
-		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
-	}
+	
 	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("You must set your 'PORT' environment variable.")
