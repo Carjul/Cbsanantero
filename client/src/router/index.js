@@ -64,6 +64,7 @@ const routes = [
     name: 'ad',
     component: () => import('../views/AdminView.vue'),
   },
+ 
   {
     path: '/login',
     name: 'log',
