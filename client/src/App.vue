@@ -63,21 +63,22 @@
                     <div class="navbar-nav ml-auto py-0">
                       <!--v-if="usuarioAutenticado && usuarioRol === 'admin'"-->
                       <a  class="nav-item nav-link active">
-                  <router-link to="/admin">Admin</router-link>
+                  <router-link v-if="usuarioAutenticado && usuarioRol === 'admin'" to="/admin">Admin</router-link>
             </a>
-                      <a href="index.html" class="nav-item nav-link active"><router-link to="">Publicar</router-link> </a>
+            <router-link v-if="usuarioAutenticado && usuarioRol === 'admin'" to="/admin">Publicar</router-link>
+
                         <a href="index.html" class="nav-item nav-link active"><router-link to="/">Home</router-link> </a>
                         <a href="about.html" class="nav-item nav-link"> <router-link to="/about">About</router-link></a>
                         <a href="service.html" class="nav-item nav-link">Services</a>
                         <a href="package.html" class="nav-item nav-link">Tour Packages</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Servicios</a>
                             <div class="dropdown-menu border-0 rounded-0 m-0">
-                                <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                                <a href="single.html" class="dropdown-item">Blog Detail</a>
-                                <a href="destination.html" class="dropdown-item">Destination</a>
-                                <a href="guide.html" class="dropdown-item">Travel Guides</a>
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="blog.html" class="dropdown-item"><router-link to="/artes">Atesanias</router-link></a>
+                                <a href="single.html" class="dropdown-item"><router-link to="/bard">Bares y Discotecas</router-link></a>
+                                <a href="destination.html" class="dropdown-item"> <router-link to="/hospe">Hospedaje</router-link></a> 
+                                <a href="guide.html" class="dropdown-item">  <router-link to="/hotels">Hoteles</router-link></a> 
+                                <a href="testimonial.html" class="dropdown-item"><router-link to="/recre">Juegos y Recreación</router-link></a> 
                             </div>
                         </div>
                         <a href="contact.html" class="nav-item nav-link">Contact</a>
