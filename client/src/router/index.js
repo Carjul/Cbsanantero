@@ -70,6 +70,11 @@ const routes = [
     name: 'log',
     component: LoginView,
   },
+  {
+    path: '/usuario',
+    name: 'us',
+    component: () => import('../views/ListarUsuario.vue'),
+  },
 ];
 
 const router = createRouter({

@@ -18,7 +18,7 @@
                   <input v-model="contrasena" type="password" class="form-control" id="contrasena" placeholder="Ingrese su contraseña">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block" @click="submitForm" :disabled="iniciandoSesion">
-                  Iniciar Sesión
+                  Iniciar Sesión 
                 </button>
               </form>
             </div>

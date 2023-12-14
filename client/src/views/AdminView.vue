@@ -23,6 +23,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -80,19 +81,22 @@ export default {
   methods: {
     mostrarContenido(sectionKey) {
       const selectedSection = this.sections.find(section => section.label === sectionKey);
+
       if (selectedSection) {
-        this.contenido = { ...selectedSection.content };
+        if (sectionKey === 'Usuarios') {
+          // Si la sección es 'Usuarios', muestra la vista ListarUsuario.vue
+          this.$router.push({ path: '/usuario' });
+        } else {
+          // Para otras secciones, actualiza el contenido normalmente
+          this.contenido = { ...selectedSection.content };
+        }
+
         // Cerrar las demás secciones
         this.sections.forEach(section => (section.expanded = section.label === sectionKey));
       }
     },
-    mostrarSubseccion(sectionKey, subSection) {
-      // Aquí puedes manejar lógica específica para cada subsección
-      this.contenido = {
-        title: `${subSection.charAt(0).toUpperCase() + subSection.slice(1)} en ${sectionKey}`,
-        text: `Este es el contenido de la subsección ${subSection} en ${sectionKey}.`
-      };
-    }
+
+    // ... (otros métodos)
   }
 };
 </script>
