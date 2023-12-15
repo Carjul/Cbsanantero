@@ -11,8 +11,8 @@
                     <img class="w-100" src="https://cdn.forbes.com.mx/2020/07/hoteles-Grand-Velas-Resorts-e1596047698604.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
-                            <h4 class="text-white text-uppercase mb-md-3">Tours & Travel</h4>
-                            <h1 class="display-3 text-white mb-md-4">Let's Discover The World Together</h1>
+                            <h4 class="text-white text-uppercase mb-md-3">Vamos</h4>
+                            <h1 class="display-3 text-white mb-md-4">Descubramos el mundo juntos</h1>
                             <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Book Now</a>
                         </div>
                     </div>
@@ -21,8 +21,8 @@
                     <img class="w-100" src="https://media.admagazine.com/photos/618a6ae690c4ec9a52ca12cd/master/w_1600%2Cc_limit/61423.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
-                            <h4 class="text-white text-uppercase mb-md-3">Tours & Travel</h4>
-                            <h1 class="display-3 text-white mb-md-4">Discover Amazing Places With Us</h1>
+                            <h4 class="text-white text-uppercase mb-md-3">HORA  DE CONOCER</h4>
+                            <h1 class="display-3 text-white mb-md-4">Descubre Lugares Increíbles Con Nosotros</h1>
                             <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Book Now</a>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
 
 
    
-    <!-- Booking Start -->
+    <!-- Booking Start --
     <div class="container-fluid booking mt-5 pb-5">
         <div class="container pb-5">
             <div class="bg-light shadow" style="padding: 30px;">
@@ -94,27 +94,26 @@
             </div>
         </div>
     </div>
-    <!-- Booking End -->
+     Booking End -->
 
-
+   
     <!-- About Start -->
-    <div class="container-fluid py-5">
-        <div class="container pt-5">
+    <div class="container-fluid py-6">
+        <div class="container pt-6">
             <div class="row">
-                <div class="col-lg-4" style="min-height:100px;">
-                   <h1>espa</h1>
+                <div class="col-lg-4" style="min-height:100%;">
                 </div>
-                <div class="col-lg-6 pt-5 pb-lg-5">
+                <div class="col-lg-6 pt-6 pb-lg-6">
                     <div class="about-text bg-white p-4 p-lg-5 my-lg-5">
-                        <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">About Us</h6>
-                        <h1 class="mb-3">We Provide Best Tour Packages In Your Budget</h1>
+                        <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">SOBRE NOSOTROS</h6>
+                        <h1 class="mb-3"> Ofrecemos los mejores paquetes turísticos dentro de su presupuesto</h1>
                         <p>Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed et. Sit rebum labore sit sit ut vero no sit. Et elitr stet dolor sed sit et sed ipsum et kasd ut. Erat duo eos et erat sed diam duo</p>
                         <div class="row mb-4">
                             <div class="col-6">
-                                <img class="img-fluid" src="https://images.pexels.com/photos/2272853/pexels-photo-2272853.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="">
+                                <img class="img-fluid" src="https://img.freepik.com/foto-gratis/mujer-disfrutando-paseo-cuestas-espalda-su-novio-cerca-mar_23-2147841615.jpg?w=900&t=st=1702656585~exp=1702657185~hmac=0c1117589156323fd46fc81049f4d13083a648cebcb6a4f26fbd79f8e4b512d3" alt="">
                             </div>
                             <div class="col-6">
-                                <img class="img-fluid" src="https://images.pexels.com/photos/2272853/pexels-photo-2272853.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="">
+                                <img class="img-fluid" src="https://img.freepik.com/foto-gratis/feliz-compania-hipster-amigos-viajando-mundo_285396-3649.jpg?w=900&t=st=1702656653~exp=1702657253~hmac=afe6d425190d9e33f086828f1257ee1c7d7f29847b5390deb4b0d946840e05ae" alt="">
                             </div>
                         </div>
                         <a href="" class="btn btn-primary mt-1">Book Now</a>
@@ -169,7 +168,7 @@
     <!-- Feature End -->
 
 
-    <!-- Destination Start -->
+    <!-- Destination Start 
     <div class="container-fluid py-5">
         <div class="container pt-5 pb-3">
             <div class="text-center mb-3 pb-3">
@@ -234,12 +233,12 @@
             </div>
         </div>
     </div>
-    <!-- Destination Start -->
+    Destination Start -->
 
 
     <!-- Service Start -->
-    <div class="container-fluid py-5">
-        <div class="container pt-5 pb-3">
+    <div class="container-fluid py-6">
+        <div class="container pt-6 pb-3">
             <div class="text-center mb-3 pb-3">
                 <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Services</h6>
                 <h1>Tours & Travel Services</h1>
@@ -273,8 +272,10 @@
 
 
     <!-- Packages Start -->
-    <div class="container-fluid py-5">
-        <div class="container pt-5 pb-3">
+    
+    <div class="container-fluid py-6">
+        <div class="container pt-6 pb-3">
+            
             <div class="text-center mb-3 pb-3">
                 <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Packages</h6>
                 <h1>Pefect Tour Packages</h1>
@@ -453,8 +454,8 @@
 
 
     <!-- Team Start -->
-    <div class="container-fluid py-5">
-        <div class="container pt-5 pb-3">
+    <div class="container-fluid py-6">
+        <div class="container pt-6 pb-3">
             <div class="text-center mb-3 pb-3">
                 <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Guides</h6>
                 <h1>Our Travel Guides</h1>
@@ -534,7 +535,7 @@
     <!-- Team End -->
 
 
-    <!-- Testimonial Start -->
+    <!-- Testimonial Start 
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="text-center mb-3 pb-3">
@@ -581,12 +582,12 @@
             </div>
         </div>
     </div>
-    <!-- Testimonial End -->
+    Testimonial End -->
 
 
     <!-- Blog Start -->
-    <div class="container-fluid py-5">
-        <div class="container pt-5 pb-3">
+    <div class="container-fluid py-6">
+        <div class="container pt-6 pb-3">
             <div class="text-center mb-3 pb-3">
                 <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Our Blog</h6>
                 <h1>Latest From Our Blog</h1>
@@ -657,7 +658,7 @@
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px;">
-        <div class="row pt-5">
+        <div class="row pt-6">
             <div class="col-lg-3 col-md-6 mb-5">
                 <a href="" class="navbar-brand">
                     <h1 class="text-primary"><span class="text-white">TRAVEL</span>ER</h1>
@@ -744,7 +745,4 @@ export default {
   }
 }
 </script>
- 
-<style>
 
-</style>

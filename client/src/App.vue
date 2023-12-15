@@ -56,21 +56,40 @@
               <router-link v-if="usuarioAutenticado && usuarioRol === 'admin'" to="/admin">Publicar</router-link>
               -->
             
-              <a href="" class="nav-item nav-link"> <router-link  to="/">Home</router-link></a>
-              <a href="" class="nav-item nav-link"><router-link to="/about">About</router-link></a>
-              <a href="service.html" class="nav-item nav-link">Services</a>
-              <a href="package.html" class="nav-item nav-link">Tour Packages</a>
+              <a href="" class="nav-item nav-link">
+                <router-link to="/">
+                  <i class="fas fa-home"></i> Inicio
+                </router-link>
+              </a>
+              <router-link to="/about" class="nav-item nav-link">
+                <i class="fas fa-info-circle"></i> Acerca de
+              </router-link>
+              <a href="service.html" class="nav-item nav-link">
+               <i class="fas fa-map-marked-alt"></i> Mapa turístico
+               </a>
+               <router-link to="/tourn" class="nav-item nav-link">
+                  <i class="fas fa-route"></i> Tours
+                </router-link>
+
+              
               <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Servicios</a>
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                  <i class="fas fa-cogs"></i> Servicios
+                </a>
+
                 <div class="dropdown-menu border-0 rounded-0 m-0">
                   <router-link to="/artes" class="dropdown-item">Atesanias</router-link>
-                  <router-link to="/bard" class="dropdown-item">Bares y Discotecas</router-link>
+                  <router-link to="/tranport" class="dropdown-item">Transporte</router-link>
                   <router-link to="/hospe" class="dropdown-item">Hospedaje</router-link>
                   <router-link to="/hotels" class="dropdown-item">Hoteles</router-link>
+                  <router-link to="/bard" class="dropdown-item">Bares y Discotecas</router-link>
                   <router-link to="/recre" class="dropdown-item">Juegos y Recreación</router-link>
                 </div>
               </div>
-              <a href="contact.html" class="nav-item nav-link">Contact</a>
+              <a href="contact.html" class="nav-item nav-link">
+                <i class="fas fa-envelope"></i> Contact
+              </a>
+
             </div>
           </div>
         </nav>
