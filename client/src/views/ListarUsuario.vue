@@ -50,8 +50,10 @@
         <input type="text" v-model="nuevoCliente.name" class="form-control" id="newName" required>
       </div>
       <div class="form-group">
-        <label for="newImage">URL de la imagen:</label>
-        <input type="text" v-model="nuevoCliente.image" class="form-control" id="newImage" required>
+
+        <input class="form-control"  accept="image/jpeg, image/jpg, image/png" @change='uploadFile()' id="file" ref="file" type="file" s
+                tyle="display:none">
+        
       </div>
       <div class="form-group">
         <label for="newEmail">Email:</label>
@@ -114,7 +116,7 @@
                 <label for="role">Role:</label>
                 <input type="text" v-model="clienteActualizado.rol" class="form-control" id="role" required>
               </div>
-              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              <button type="submit" @click="ActualizarCustomer(clienteActualizado,clienteActualizado._id)"  class="btn btn-primary">Guardar Cambios</button>
             </form>
           </div>
           <div class="modal-footer">
@@ -144,6 +146,7 @@ export default {
         phone: '',
         rol: '',
       },
+      file:null,
       nuevoCliente: {
         name: '',
         image: '',
@@ -169,22 +172,52 @@ export default {
     async eliminarCliente(id) {
       try {
         await axios.delete(`http://localhost:3000/Customer/${id}`);
-        this.customers = this.customers.filter(customer => customer._id !== id);
+        this.fetchCustomers();
       } catch (error) {
         console.error('Error deleting customer:', error);
       }
     },
     abrirModalActualizar(customer) {
-  this.clienteActualizado = { ...customer };
+  this.clienteActualizado =  { ...customer };
   const modalElement = this.$refs.modalActualizar;
   if (modalElement) {
     modalElement.classList.add('show');
     modalElement.style.display = 'block';
   }
 
-
-
     },
+
+   async ActualizarCustomer(customer,id){
+  const response= await axios.put(`http://localhost:3000/Customer/${id}`,customer);
+  console.log(response)
+  this.fetchCustomers();
+   },
+   uploadFile() {
+      this.file = this.$refs.file.files[0];
+      var sizeByte = this.$refs.file.files[0].size;
+      var siezekiloByte = parseInt(sizeByte / 1024)
+      if (siezekiloByte > 2048) {
+       console.log("la imagen es muy grande")
+      }
+      else{
+        this.createImage(this.file)
+      }
+        
+},
+  createImage(file) {
+
+var reader = new FileReader();
+reader.onload = (e) => {
+  this.nuevoCliente.image = e.target.result;
+  /* const blob = this.dataURItoBlob(this.paquete.img);
+  saveAs(blob, 'http://localhost/prueba.png'); */
+
+
+};
+reader.readAsDataURL(file);
+console.log(this.nuevoCliente)
+},
+
     cerrarModalActualizar() {
       const modalElement = this.$refs.modalActualizar;
       if (modalElement) {
