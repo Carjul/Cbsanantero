@@ -30,9 +30,9 @@
                 <!-- Switch -->
                 <!-- Lever Toggle Switch -->
                 <div class="form-check form-switch">
-                  <input type="checkbox" class="form-check-input position-relative" id="leverSwitch" v-model="customer.isActive">
-                  <label class="form-check-label position-absolute" for="leverSwitch" :class="{ 'text-success': customer.isActive, 'text-muted': !customer.isActive }">
-                    {{ customer.isActive ? 'Active' : 'Inactive' }}
+                  <input type="checkbox" :checked="customer.status === 'Activo' ? true : false" class="form-check-input position-relative"  id="leverSwitch" @change="statusCustomer($event, customer)">
+                  <label class="form-check-label position-absolute" for="leverSwitch" >
+                    {{ customer.status === 'Activo'? 'Active' : 'Inactive' }}
                   </label>
                 </div>
 
@@ -182,6 +182,29 @@ export default {
         console.error('Error fetching customers:', error);
       }
     },
+    async statusCustomer(e,c) {
+  
+
+      try {
+  const res = await axios.put(`http://localhost:3000/customerStatus/${c._id}`, {
+    status: e.target.checked
+  });
+  console.log(res.data);
+} catch (error) {
+  if (error.response) {
+    // El servidor respondió con un código de estado fuera del rango 2xx
+    console.error('Error de respuesta:', error.response.data);
+    console.error('Código de estado HTTP:', error.response.status);
+  } else if (error.request) {
+    // La solicitud fue realizada pero no se recibió respuesta
+    console.error('No se recibió respuesta del servidor:', error.request);
+  } else {
+    // Se produjo un error al configurar la solicitud
+    console.error('Error al configurar la solicitud:', error.message);
+  }
+}
+      this.fetchCustomers(); 
+    },
     async eliminarCliente(id) {
       try {
         await axios.delete(`http://localhost:3000/Customer/${id}`);
@@ -222,13 +245,8 @@ export default {
 var reader = new FileReader();
 reader.onload = (e) => {
   this.nuevoCliente.image = e.target.result;
-  /* const blob = this.dataURItoBlob(this.paquete.img);
-  saveAs(blob, 'http://localhost/prueba.png'); */
-
-
 };
 reader.readAsDataURL(file);
-console.log(this.nuevoCliente)
 },
 
     cerrarModalActualizar() {
@@ -255,8 +273,8 @@ console.log(this.nuevoCliente)
     async crearCliente() {
       try {
         const response = await axios.post('http://localhost:3000/Customer', this.nuevoCliente);
-        const createdCustomer = response.data;
-        this.customers.push(createdCustomer);
+        console.log(response.data);
+        this.fetchCustomers();
 
         // Reset the form and close the modal
         this.nuevoCliente = {

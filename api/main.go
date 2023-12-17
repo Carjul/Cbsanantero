@@ -45,6 +45,7 @@ func main() {
         TokenPrefix:  "",
     }))
 	
+	
 	//Ruta Inicial 
     app.Get("/", controllers.Init)
 	//Rutas de Customer
@@ -106,8 +107,8 @@ func main() {
 
     // Restricted Routes
     apiGroup.Get("/restricted", controllers.Restricted)
-    apiGroup.Put("/customerStatus/:id", controllers.UpdateCustomerStatus)
-    apiGroup.Put("/customerRol/:id", controllers.UpdateCustomerRol)
+    app.Put("/customerStatus/:id", controllers.UpdateCustomerStatus)
+    app.Put("/customerRol/:id", controllers.UpdateCustomerRol)
 
 
 
