@@ -59,7 +59,7 @@
               localStorage.setItem('usuarioAutenticado', true);
               localStorage.setItem('usuarioRol', data.user.rol);
   
-              if (data.user.rol === 'Cliente') {
+              if (data.user.rol === 'Admin') {
                 // Redirige a la vista principal si el usuario es administrador
                 this.$router.push({ name: 'home' });
                 console.log("Estoy Logiado")
@@ -68,6 +68,9 @@
                 // Puedes personalizar esta lógica según tus necesidades
                 // Por ahora, redirigimos a la página de inicio
                 this.$router.push({ path: '/' });
+
+                this.$router.go(0);
+                
                 
               }
             }

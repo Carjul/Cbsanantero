@@ -73,8 +73,14 @@ const routes = [
   {
     path: '/usuario',
     name: 'us',
-    component: () => import('../views/ListarUsuario.vue'),
+    component: () => import('../views/listar/ListarUsuario.vue'),
   },
+  {
+    path: '/lisart',
+    name: 'ar',
+    component: () => import('../views/listar/ListarArtesanias.vue'),
+  },
+  
 ];
 
 const router = createRouter({
