@@ -16,12 +16,14 @@ type Trasporte struct {
 	Placa   string             `json:"placa,omitempty" bson:"placa,omitempty"`
 	Conductor   string         `json:"conductor,omitempty" bson:"conductor,omitempty"`
 	Celular   string           `json:"celular,omitempty" bson:"celular,omitempty"`
+	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetTrasporte(c *fiber.Ctx) error {
 	trasporte := db.Traporte
 
-	busqueda, err := trasporte.Find(context.TODO(), bson.M{})
+	busqueda, err := trasporte.Find(context.TODO(), bson.M{"status":"Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el trasporte"})
 	}
@@ -46,7 +48,7 @@ func GetTrasporteById(c *fiber.Ctx) error {
 
 	var trasporte bson.M
 
-	err = trasportes.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&trasporte)
+	err = trasportes.FindOne(context.TODO(), bson.M{"_id": objID,"status":"Activo"}).Decode(&trasporte)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el trasporte"})
 	}
@@ -56,11 +58,30 @@ func GetTrasporteById(c *fiber.Ctx) error {
 
 func CreateTrasporte(c *fiber.Ctx) error {
 	trasporte := db.Traporte
+	customer := db.Customer
 
 	data := new(Trasporte)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Los datos del trasporte no son corectos"})
 	}
+
+	idc:= data.CustomerID
+
+	objID, err := primitive.ObjectIDFromHex(idc)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El _id no es valido"})
+	}
+
+	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
+
+	var customerData Customer
+
+	if err = busqueda.Decode(&customerData); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
+	
+	}
+	data.Status = "Activo"
 
 	insertion, err := trasporte.InsertOne(context.Background(), data)
 	if err != nil {

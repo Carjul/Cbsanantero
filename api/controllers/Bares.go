@@ -15,12 +15,14 @@ type Bar struct {
 	Address string             `json:"address,omitempty" bson:"address,omitempty"`
 	Image   string             `json:"image,omitempty" bson:"image,omitempty"`
 	Description   string             `json:"description,omitempty" bson:"description,omitempty"`
+	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetBar(c *fiber.Ctx) error {
 	bar := db.Bares
 
-	busqueda, err := bar.Find(context.TODO(), bson.M{})
+	busqueda, err := bar.Find(context.TODO(), bson.M{"status":"Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
 	}
@@ -43,7 +45,7 @@ func GetBarById(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
 	}
 
-	busqueda := bar.FindOne(context.Background(), bson.M{"_id": objID})
+	busqueda := bar.FindOne(context.Background(), bson.M{"_id": objID, "status":"Activo"})
 
 	var barres Bar
 	if err = busqueda.Decode(&barres); err != nil {
@@ -54,12 +56,31 @@ func GetBarById(c *fiber.Ctx) error {
 
 func CreateBar(c *fiber.Ctx) error {
 	bar := db.Bares
+	customer := db.Customer
 
 	data := new(Bar)
 
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el bar"})
 	}
+
+	idc:= data.CustomerID
+
+	objID, err := primitive.ObjectIDFromHex(idc)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El _id no es valido"})
+	}
+
+	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
+
+	var customerData Customer
+
+	if err = busqueda.Decode(&customerData); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
+	
+	}
+	data.Status = "Activo"
 
 	insertion, err := bar.InsertOne(context.Background(), data)
 	if err != nil {

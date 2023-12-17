@@ -17,12 +17,14 @@ type Recreacion struct {
 	Services string             `json:"services,omitempty" bson:"services,omitempty"`
 	Image   string             `json:"image,omitempty" bson:"image,omitempty"`
 	Price  string             `json:"price,omitempty" bson:"price,omitempty"`
+	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetRecreacion(c *fiber.Ctx) error {
 	recreacion := db.Recreacion
 
-	busqueda, err := recreacion.Find(context.TODO(), bson.M{})
+	busqueda, err := recreacion.Find(context.TODO(), bson.M{"status":"Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar la recreacion"})
 	}
@@ -47,7 +49,7 @@ func GetRecreacionById(c *fiber.Ctx) error {
 
 	var recreaciones bson.M
 
-	err = recreacion.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&recreaciones)
+	err = recreacion.FindOne(context.TODO(), bson.M{"_id": objID,"status":"Activo"}).Decode(&recreaciones)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar la recreacion"})
 	}
@@ -57,12 +59,30 @@ func GetRecreacionById(c *fiber.Ctx) error {
 
 func CreateRecreacion(c *fiber.Ctx) error {
 	recreacion := db.Recreacion
+	customer := db.Customer
 
 	data := new(Recreacion)
 
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Los datos insertados estan malos"})
 	}
+	idc:= data.CustomerID
+
+	objID, err := primitive.ObjectIDFromHex(idc)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El _id no es valido"})
+	}
+
+	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
+
+	var customerData Customer
+
+	if err = busqueda.Decode(&customerData); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
+	
+	}
+	data.Status = "Activo"
 
 	insertion, err := recreacion.InsertOne(context.Background(), data)
 	if err != nil {

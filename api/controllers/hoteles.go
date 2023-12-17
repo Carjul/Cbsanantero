@@ -17,12 +17,14 @@ type Hoteles struct {
 	Email   string             `json:"email,omitempty" bson:"email,omitempty"`
 	Phone   string             `json:"phone,omitempty" bson:"phone,omitempty"`
 	Price   string             `json:"price,omitempty" bson:"price,omitempty"`
+	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetHoteles(c *fiber.Ctx) error {
 	hoteles := db.Hoteles
 
-	busqueda, err := hoteles.Find(context.TODO(), bson.M{})
+	busqueda, err := hoteles.Find(context.TODO(), bson.M{"status":"Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el hotel"})
 	}
@@ -47,7 +49,7 @@ func GetHotelesById(c *fiber.Ctx) error {
 
 	var hotel bson.M
 
-	err = hoteles.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&hotel)
+	err = hoteles.FindOne(context.TODO(), bson.M{"_id": objID,"status":"Activo"}).Decode(&hotel)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el hotel"})
 	}
@@ -57,11 +59,29 @@ func GetHotelesById(c *fiber.Ctx) error {
 
 func CreateHoteles(c *fiber.Ctx) error {
 	hoteles := db.Hoteles
+	customer := db.Customer
 
 	data := new(Hoteles)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el hotel"})
 	}
+	idc:= data.CustomerID
+
+	objID, err := primitive.ObjectIDFromHex(idc)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El _id no es valido"})
+	}
+
+	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
+
+	var customerData Customer
+
+	if err = busqueda.Decode(&customerData); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
+	
+	}
+	data.Status = "Activo"
 
 	insertion, err := hoteles.InsertOne(context.Background(), data)
 	if err != nil {

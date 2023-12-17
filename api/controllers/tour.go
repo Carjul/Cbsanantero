@@ -17,12 +17,14 @@ type Tour struct {
 	Image  string             `json:"image,omitempty" bson:"image,omitempty"`
 	Trasporte   string             `json:"trasporte,omitempty" bson:"trasporte,omitempty"`
 	Price   string             `json:"price,omitempty" bson:"price,omitempty"`
+	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetTour(c *fiber.Ctx) error {
 	tour := db.Tour
 
-	busqueda, err := tour.Find(context.TODO(), bson.M{})
+	busqueda, err := tour.Find(context.TODO(), bson.M{"status":"Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el tour"})
 	}
@@ -47,7 +49,7 @@ func GetTourById(c *fiber.Ctx) error {
 
 	var tour bson.M
 
-	err = tours.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&tour)
+	err = tours.FindOne(context.TODO(), bson.M{"_id": objID,"status":"Activo"}).Decode(&tour)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el tour"})
 	}
@@ -57,12 +59,30 @@ func GetTourById(c *fiber.Ctx) error {
 
 func CreateTour(c *fiber.Ctx) error {
 	tour := db.Tour
+	customer := db.Customer
 
 	data := new(Tour)
 
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el tour"})
 	}
+	idc:= data.CustomerID
+
+	objID, err := primitive.ObjectIDFromHex(idc)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El _id no es valido"})
+	}
+
+	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
+
+	var customerData Customer
+
+	if err = busqueda.Decode(&customerData); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
+	
+	}
+	data.Status = "Activo"
 
 	result, err := tour.InsertOne(context.Background(), data)
 	if err != nil {

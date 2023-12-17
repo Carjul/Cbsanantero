@@ -16,12 +16,14 @@ type Artesanias struct {
 	Image   string             `json:"image,omitempty" bson:"image,omitempty"`
 	Phone   string             `json:"phone,omitempty" bson:"phone,omitempty"`
 	Description   string             `json:"description,omitempty" bson:"description,omitempty"`
+	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetArtesanias(c *fiber.Ctx) error {
 	artesanias := db.Artesanias
 
-	busqueda, err := artesanias.Find(context.TODO(), bson.M{})
+	busqueda, err := artesanias.Find(context.TODO(), bson.M{"status":"Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar la artesania"})
 	}
@@ -44,7 +46,7 @@ func GetArtesaniasById(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar la artesania"})
 	}
 
-	busqueda := artesanias.FindOne(context.Background(), bson.M{"_id": objID})
+	busqueda := artesanias.FindOne(context.Background(), bson.M{"_id": objID,"status":"Activo"})
 
 	var artesania Artesanias
 	if err = busqueda.Decode(&artesania); err != nil {
@@ -55,12 +57,32 @@ func GetArtesaniasById(c *fiber.Ctx) error {
 
 func CreateArtesanias(c *fiber.Ctx) error {
 	artesanias := db.Artesanias
+	customer := db.Customer
 
 	data := new(Artesanias)
 
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la artesania"})
 	}
+
+	idc:= data.CustomerID
+
+	objID, err := primitive.ObjectIDFromHex(idc)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El _id no es valido"})
+	}
+
+	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
+
+	var customerData Customer
+
+	if err = busqueda.Decode(&customerData); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
+	
+	}
+	data.Status = "Activo"
+	
 
 	result, err := artesanias.InsertOne(context.Background(), data)
 	if err != nil {

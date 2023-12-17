@@ -17,12 +17,14 @@ type Restaurante struct {
 	Email   string             `json:"email,omitempty" bson:"email,omitempty"`
 	Phone   string             `json:"phone,omitempty" bson:"phone,omitempty"`
 	Description   string        `json:"description,omitempty" bson:"description,omitempty"`
+	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetRestaurante(c *fiber.Ctx) error {
 	restaurante := db.Restaurantes
-
-	busqueda, err := restaurante.Find(context.TODO(), bson.M{})
+	
+	busqueda, err := restaurante.Find(context.TODO(), bson.M{"status":"Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el restaurante"})
 	}
@@ -47,7 +49,7 @@ func GetRestauranteById(c *fiber.Ctx) error {
 
 	var restaurante bson.M
 
-	err = restaurantes.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&restaurante)
+	err = restaurantes.FindOne(context.TODO(), bson.M{"_id": objID,"status":"Activo"}).Decode(&restaurante)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el restaurante"})
 	}
@@ -57,12 +59,30 @@ func GetRestauranteById(c *fiber.Ctx) error {
 
 func CreateRestaurante(c *fiber.Ctx) error {
 	restaurante := db.Restaurantes
+	customer := db.Customer
 
 	data := new(Restaurante)
 
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el restaurante"})
 	}
+	idc:= data.CustomerID
+
+	objID, err := primitive.ObjectIDFromHex(idc)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El _id no es valido"})
+	}
+
+	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
+
+	var customerData Customer
+
+	if err = busqueda.Decode(&customerData); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
+	
+	}
+	data.Status = "Activo"
 
 	insertion, err := restaurante.InsertOne(context.Background(), data)
 	if err != nil {

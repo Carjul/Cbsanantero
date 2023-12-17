@@ -16,12 +16,14 @@ type Hospedaje struct {
 	Image  string             `json:"image,omitempty" bson:"image,omitempty"`
 	Phone  string             `json:"phone,omitempty" bson:"phone,omitempty"`
 	Price string             `json:"price,omitempty" bson:"price,omitempty"`
+	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetHospedaje(c *fiber.Ctx) error {
 	hospedaje := db.Hospedaje
 
-	busqueda, err := hospedaje.Find(context.TODO(), bson.M{})
+	busqueda, err := hospedaje.Find(context.TODO(), bson.M{"status":"Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el hospedaje"})
 	}
@@ -46,7 +48,7 @@ func GetHospedajeById(c *fiber.Ctx) error {
 
 	var hospedaje bson.M
 
-	err = hospedajes.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&hospedaje)
+	err = hospedajes.FindOne(context.TODO(), bson.M{"_id": objID,"status":"Activo"}).Decode(&hospedaje)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el hospedaje"})
 	}
@@ -56,11 +58,29 @@ func GetHospedajeById(c *fiber.Ctx) error {
 
 func CreateHospedaje(c *fiber.Ctx) error {
 	hospedaje := db.Hospedaje
+	customer := db.Customer
 
 	data := new(Hospedaje)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el hospedaje"})
 	}
+	idc:= data.CustomerID
+
+	objID, err := primitive.ObjectIDFromHex(idc)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El _id no es valido"})
+	}
+
+	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
+
+	var customerData Customer
+
+	if err = busqueda.Decode(&customerData); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
+	
+	}
+	data.Status = "Activo"
 
 	insertion, err := hospedaje.InsertOne(context.Background(), data)
 	if err != nil {
