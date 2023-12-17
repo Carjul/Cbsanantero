@@ -1,9 +1,22 @@
 <template>
   <div id="app">
     <div class="container">
-      <h1>Listado de Clientes</h1>
-      <button class="btn btn-success mb-4" @click="abrirModalCrear">Crear</button>
+      <br>
+      <div class="card">
+  <h5 class="card-header">Panel de Clientes</h5>
+  <div class="card-body">
+    <h5 class="card-title">Creacion de Usuario</h5>
+    <p class="card-text">En este espacio creamos nuevos usuarorios para COSTA BRISA</p>
+    <button class="btn btn-success mb-4" @click="abrirModalCrear">Crear</button>
+  </div>
+</div>
 
+      
+     
+     
+      <hr>
+      <strong>Todos los clientes</strong>
+      <hr>
       <div class="row">
         <div v-for="customer in customers" :key="customer._id" class="col-md-4 mb-4">
           <div class="card">

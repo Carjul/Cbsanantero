@@ -30,8 +30,20 @@
               <a class="text-primary pl-3" href="">
                 <i class="fab fa-youtube"></i>
               </a>
+              <router-link class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin'" to="/admin">Admin</router-link>
+              
+              <router-link class="text-primary pl-3" v-if="!usuarioAutenticado"  to="/login">Iniciar</router-link>
+              <a href="#" class="nav-item nav-link">
+               
+                <i  v-if="usuarioAutenticado && (usuarioRol === 'Admin' || usuarioRol === 'Usuario')" @click="cerrarSesion" class="fas fa-sign-out-alt"></i> 
+              
+              </a>
 
-              <router-link class="text-primary pl-3" to="/login">Iniciar</router-link>
+              <div v-if="usuarioAutenticado" class="usuario-info">
+                <img :src="imagenUsuario" alt="Avatar" class="avatar">
+                <p class="nombre-usuario">{{ nombreUsuario }}</p>
+              </div>
+
             </div>
           </div>
         </div>
@@ -57,6 +69,7 @@
               -->
             
               <a href="" class="nav-item nav-link">
+               
                 <router-link to="/">
                   <i class="fas fa-home"></i> Inicio
                 </router-link>
@@ -101,17 +114,74 @@
   </nav>
    <!-- eslint-enable -->
 </template>
-
 <script>
 export default {
   data() {
     return {
       usuarioAutenticado: localStorage.getItem('usuarioAutenticado') === 'true',
       usuarioRol: localStorage.getItem('usuarioRol') || '',
+      imagenUsuario: localStorage.getItem('imagenUsuario') || '',
+      nombreUsuario: localStorage.getItem('nombreUsuario') || '',
     };
+  },
+  methods: {
+    cerrarSesion() {
+      // Limpiar la información de autenticación y del usuario
+      localStorage.removeItem('usuarioAutenticado');
+      localStorage.removeItem('usuarioRol');
+      localStorage.removeItem('imagenUsuario');
+      localStorage.removeItem('nombreUsuario');
+
+      // Redirigir a la página de inicio de sesión u otra página
+      this.$router.push('/login');
+
+      // Otra lógica de cierre de sesión si es necesario
+      // ...
+
+      // Actualizar el estado local de autenticación y del usuario
+      this.usuarioAutenticado = false;
+      this.usuarioRol = '';
+      this.imagenUsuario = '';
+      this.nombreUsuario = '';
+    },
+    obtenerDatosUsuario() {
+      // Hacer una solicitud al servidor para obtener los datos del usuario
+      // Aquí deberías utilizar axios o fetch para hacer una solicitud al servidor
+      // y luego actualizar las variables de datos según la respuesta.
+
+      // Ejemplo con fetch:
+      fetch('http://localhost:3000/Customer', {
+        method: 'GET',
+        // Puedes incluir headers si es necesario
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Respuesta del servidor:', data); // Agrega esta línea para depurar
+
+          // Filtrar la información del usuario autenticado
+          const usuarioAutenticado = data.find(user => user.email === 'yoryo@gmail.com');
+
+          if (usuarioAutenticado) {
+            this.nombreUsuario = usuarioAutenticado.name;
+            this.imagenUsuario = usuarioAutenticado.image;
+
+            // Guardar la información en el localStorage
+            localStorage.setItem('nombreUsuario', usuarioAutenticado.name);
+            localStorage.setItem('imagenUsuario', usuarioAutenticado.image);
+          }
+        })
+        .catch(error => {
+          console.error('Error al obtener datos del usuario:', error);
+        });
+    },
+  },
+  mounted() {
+    // Llamar a la función para obtener los datos del usuario cuando se monta el componente
+    this.obtenerDatosUsuario();
   },
 };
 </script>
+
 
 <style>
 #app {
@@ -174,4 +244,20 @@ body {
     background-color: rgba(255, 255, 255, 0.413); /* Fondo blanco para el menú desplegable en dispositivos móviles */
   }
 }
+.usuario-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 50px; /* ajusta el tamaño según tus preferencias */
+  height: 50px; /* ajusta el tamaño según tus preferencias */
+  border-radius: 50%; /* para hacerlo circular, ajusta según tus preferencias */
+  margin-right: 10px; /* ajusta el margen según tus preferencias */
+}
+
+.nombre-usuario {
+  margin: 0; /* asegúrate de quitar cualquier margen predeterminado si es necesario */
+}
+
 </style>
