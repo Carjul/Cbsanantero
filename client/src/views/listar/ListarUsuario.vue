@@ -89,12 +89,21 @@
       </div>
 
       <div class="form-group">
-        <label for="newRol">
-          Rol:</label>
-        <input type="text" v-model="nuevoCliente.rol" class="form-control" id="newRol" required>
-      </div>
+  <label for="newRol">
+    <span>Rol:</span>
+  </label>
+  <select v-model="nuevoCliente.rol" class="form-control" id="newRol" required>
+    <option value="Transporte">Transporte</option>
+    <option value="Hospedaje">Hospedaje</option>
+    <option value="Tour">Tour</option>
+    <option value="Hoteles">Hoteles</option>
+    <option value="Restaurantes">Restaurantes</option>
+    <option value="Recreación">Recreación</option>
+    <option value="Bares y discotecas">Bares y discotecas</option>
+    <option value="Artesanías">Artesanías</option>
+  </select>
+</div>
 
-      
 
     </div>
   </div>
@@ -158,6 +167,8 @@
   </div>
 </template>
 
+
+
 <script>
 import axios from 'axios';
 
@@ -174,12 +185,12 @@ export default {
         phone: '',
         rol: '',
       },
-      file:null,
+      file: null,
       nuevoCliente: {
         name: '',
         image: '',
         email: '',
-        password:'',
+        password: '',
         address: '',
         phone: '',
         rol: null,
@@ -188,43 +199,37 @@ export default {
   },
   mounted() {
     this.fetchCustomers();
-
   },
   methods: {
     async fetchCustomers() {
-      let id = localStorage.getItem('customerId')
+      let id = localStorage.getItem('customerId');
       try {
         const response = await axios.get('http://localhost:3000/Customer');
-        const Filtro = response.data.filter((e)=>e._id!==id)
-        console.log(response.data)
-        console.log(Filtro)
+        const Filtro = response.data.filter((e) => e._id !== id);
+        console.log(response.data);
+        console.log(Filtro);
         this.customers = Filtro;
       } catch (error) {
         console.error('Error fetching customers:', error);
       }
     },
-    async statusCustomer(e,c) {
-  
-
+    async statusCustomer(e, c) {
       try {
-  const res = await axios.put(`http://localhost:3000/customerStatus/${c._id}`, {
-    status: e.target.checked
-  });
-  console.log(res.data);
-} catch (error) {
-  if (error.response) {
-    // El servidor respondió con un código de estado fuera del rango 2xx
-    console.error('Error de respuesta:', error.response.data);
-    console.error('Código de estado HTTP:', error.response.status);
-  } else if (error.request) {
-    // La solicitud fue realizada pero no se recibió respuesta
-    console.error('No se recibió respuesta del servidor:', error.request);
-  } else {
-    // Se produjo un error al configurar la solicitud
-    console.error('Error al configurar la solicitud:', error.message);
-  }
-}
-      this.fetchCustomers(); 
+        const res = await axios.put(`http://localhost:3000/customerStatus/${c._id}`, {
+          status: e.target.checked,
+        });
+        console.log(res.data);
+      } catch (error) {
+        if (error.response) {
+          console.error('Error de respuesta:', error.response.data);
+          console.error('Código de estado HTTP:', error.response.status);
+        } else if (error.request) {
+          console.error('No se recibió respuesta del servidor:', error.request);
+        } else {
+          console.error('Error al configurar la solicitud:', error.message);
+        }
+      }
+      this.fetchCustomers();
     },
     async eliminarCliente(id) {
       try {
@@ -235,41 +240,39 @@ export default {
       }
     },
     abrirModalActualizar(customer) {
-  this.clienteActualizado =  { ...customer };
-  const modalElement = this.$refs.modalActualizar;
-  if (modalElement) {
-    modalElement.classList.add('show');
-    modalElement.style.display = 'block';
-  }
-
+      this.clienteActualizado = { ...customer };
+      const modalElement = this.$refs.modalActualizar;
+      if (modalElement) {
+        modalElement.classList.add('show');
+        modalElement.style.display = 'block';
+      }
     },
-
-   async ActualizarCustomer(customer,id){
-  const response= await axios.put(`http://localhost:3000/Customer/${id}`,customer);
-  console.log(response)
-  this.fetchCustomers();
-   },
-   uploadFile() {
+    async ActualizarCustomer(customer, id) {
+      try {
+        const response = await axios.put(`http://localhost:3000/Customer/${id}`, customer);
+        console.log(response);
+        this.fetchCustomers();
+      } catch (error) {
+        console.error('Error updating customer:', error);
+      }
+    },
+    uploadFile() {
       this.file = this.$refs.file.files[0];
       var sizeByte = this.$refs.file.files[0].size;
-      var siezekiloByte = parseInt(sizeByte / 1024)
+      var siezekiloByte = parseInt(sizeByte / 1024);
       if (siezekiloByte > 2048) {
-       console.log("la imagen es muy grande")
+        console.log('La imagen es muy grande');
+      } else {
+        this.createImage(this.file);
       }
-      else{
-        this.createImage(this.file)
-      }
-        
-},
-  createImage(file) {
-
-var reader = new FileReader();
-reader.onload = (e) => {
-  this.nuevoCliente.image = e.target.result;
-};
-reader.readAsDataURL(file);
-},
-
+    },
+    createImage(file) {
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        this.nuevoCliente.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
     cerrarModalActualizar() {
       const modalElement = this.$refs.modalActualizar;
       if (modalElement) {
@@ -293,27 +296,30 @@ reader.readAsDataURL(file);
     },
     async crearCliente() {
       try {
-        const response = await axios.post('http://localhost:3000/Customer', this.nuevoCliente);
+        console.log('Nuevo Cliente antes de enviar:', this.nuevoCliente);
+        const response = await axios.post('http://localhost:3000/Customer', {
+          ...this.nuevoCliente,
+        });
         console.log(response.data);
         this.fetchCustomers();
 
-        // Reset the form and close the modal
+        // Resetear el formulario y cerrar el modal
         this.nuevoCliente = {
           name: '',
           image: '',
           email: '',
-          password:'',
+          password: '',
           address: '',
           phone: '',
           rol: '',
         };
 
-        // Close the modal
         this.cerrarModalCrear();
       } catch (error) {
-        console.error('Error creating customer:', error);
+        console.error('Error creando cliente:', error);
       }
     },
   },
 };
+
 </script>

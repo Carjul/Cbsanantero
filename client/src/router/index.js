@@ -80,6 +80,32 @@ const routes = [
     name: 'ar',
     component: () => import('../views/listar/ListarArtesanias.vue'),
   },
+  {
+    path: '/lishospe',
+    name:'lishop',
+    component: ()=> import('../views/listar/ListarHospedaje.vue'),
+  },
+
+  {
+    path:'/listarhoteles',
+    name: 'listhotel',
+    component: ()=> import('../views/listar/ListarHotel.vue'),
+  },
+  {
+    path: '/listaTrasporte',
+    name: 'listtrasporte',
+    component: ()=> import ('../views/listar/ListarTrasporte.vue'),
+  },
+  {
+    path: '/listarbar',
+    name: 'ba',
+    component: ()=> import('../views/listar/ListarBar.vue'),
+  },
+  {
+    path: '/listjuegos',
+    name:'listarjuegos',
+    component: ()=> import ('../views/listar/ListarJuegos.vue')
+  }
   
 ];
 
