@@ -30,12 +30,12 @@
               <a class="text-primary pl-3" href="">
                 <i class="fab fa-youtube"></i>
               </a>
-              <router-link class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin'" to="/admin">Admin</router-link>
+              <router-link class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin'|| usuarioRol === 'Cliente' " to="/admin">Admin</router-link>
               
               <router-link class="text-primary pl-3" v-if="!usuarioAutenticado"  to="/login">Iniciar</router-link>
               <a href="#" class="nav-item nav-link">
                
-                <i  v-if="usuarioAutenticado && (usuarioRol === 'Admin' || usuarioRol === 'Usuario')" @click="cerrarSesion" class="fas fa-sign-out-alt"></i> 
+                <i  v-if="usuarioAutenticado && (usuarioRol === 'Admin' || usuarioRol === 'Cliente')" @click="cerrarSesion" class="fas fa-sign-out-alt"></i> 
               
               </a>
 
@@ -131,6 +131,9 @@ export default {
       localStorage.removeItem('usuarioRol');
       localStorage.removeItem('imagenUsuario');
       localStorage.removeItem('nombreUsuario');
+      localStorage.removeItem('customerId');
+      
+
 
       // Redirigir a la página de inicio de sesión u otra página
       this.$router.push('/login');
@@ -144,40 +147,11 @@ export default {
       this.imagenUsuario = '';
       this.nombreUsuario = '';
     },
-    obtenerDatosUsuario() {
-      // Hacer una solicitud al servidor para obtener los datos del usuario
-      // Aquí deberías utilizar axios o fetch para hacer una solicitud al servidor
-      // y luego actualizar las variables de datos según la respuesta.
-
-      // Ejemplo con fetch:
-      fetch('http://localhost:3000/Customer', {
-        method: 'GET',
-        // Puedes incluir headers si es necesario
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Respuesta del servidor:', data); // Agrega esta línea para depurar
-
-          // Filtrar la información del usuario autenticado
-          const usuarioAutenticado = data.find(user => user.email === 'yoryo@gmail.com');
-
-          if (usuarioAutenticado) {
-            this.nombreUsuario = usuarioAutenticado.name;
-            this.imagenUsuario = usuarioAutenticado.image;
-
-            // Guardar la información en el localStorage
-            localStorage.setItem('nombreUsuario', usuarioAutenticado.name);
-            localStorage.setItem('imagenUsuario', usuarioAutenticado.image);
-          }
-        })
-        .catch(error => {
-          console.error('Error al obtener datos del usuario:', error);
-        });
-    },
   },
+       
   mounted() {
     // Llamar a la función para obtener los datos del usuario cuando se monta el componente
-    this.obtenerDatosUsuario();
+   
   },
 };
 </script>

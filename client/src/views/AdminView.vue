@@ -3,7 +3,7 @@
     <MostrarVista :infoUser="infoReset"></MostrarVista>
      <hr>
     <!-- Agrega los botones que mostrarán la vista de usuario o artesanías al hacer clic -->
-    <button @click="mostrarUsuario">Usuario</button>
+    <button v-if="usuarioAutenticado && usuarioRol === 'Admin'" @click="mostrarUsuario">Usuario</button>
     <button @click="mostrarArtesanias">Artesanías</button>
 
     <!-- Muestra el componente "Us" solo si la variable mostrarUsuario es verdadera -->
@@ -31,6 +31,8 @@ export default {
     return {
       mostrarUsuarioComponent: false,
       mostrarArtesaniasComponent: false,
+      usuarioAutenticado: localStorage.getItem('usuarioAutenticado') === 'true',
+      usuarioRol: localStorage.getItem('usuarioRol') || '',
     };
   },
   methods: {
@@ -38,6 +40,8 @@ export default {
       // Muestra el componente "Us" y oculta el componente "Ar"
       this.mostrarUsuarioComponent = true;
       this.mostrarArtesaniasComponent = false;
+      localStorage.removeItem('usuarioAutenticado');
+      localStorage.removeItem('usuarioRol');
     },
     mostrarArtesanias() {
       // Muestra el componente "Ar" y oculta el componente "Us"

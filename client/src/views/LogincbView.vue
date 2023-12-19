@@ -58,18 +58,23 @@
             if (data.token) {
               localStorage.setItem('usuarioAutenticado', true);
               localStorage.setItem('usuarioRol', data.user.rol);
-  
-              if (data.user.rol === 'Admin') {
+              localStorage.setItem('customerId',data.user._id);
+              localStorage.setItem('nombreUsuario', data.user.name);
+              localStorage.setItem('imagenUsuario', data.user.image);
+             
+              if (data.user.rol === 'Admin'|| data.user.rol === 'Cliente' ) {
                 // Redirige a la vista principal si el usuario es administrador
-                this.$router.push({ name: 'home' });
+                //this.$router.push({ name: 'home' });
+                location.href = '/home'
                 console.log("Estoy Logiado")
               } else {
                 // Redirige a otra vista si no es administrador
                 // Puedes personalizar esta lógica según tus necesidades
                 // Por ahora, redirigimos a la página de inicio
                 this.$router.push({ path: '/' });
+                
 
-                this.$router.go(0);
+                
                 
                 
               }

@@ -742,7 +742,9 @@ export default {
   name: 'HomeView',
   components: {
     HelloWorld
-  }
+  },
+  
 }
+
 </script>
 

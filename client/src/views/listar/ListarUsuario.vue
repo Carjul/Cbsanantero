@@ -24,6 +24,7 @@
             <div class="card-body">
               <h5 class="card-title">{{ customer.name }}</h5>
               <p class="card-text">Email: {{ customer.email }}</p>
+              <p class="card-text">Contraseña: {{ customer.password }}</p>
               <p class="card-text">Address: {{ customer.address }}</p>
               <p class="card-text">Phone: {{ customer.phone }}</p>
               <p class="card-text">Role: {{ customer.rol }}</p>
@@ -72,6 +73,10 @@
         <label for="newEmail">Email:</label>
         <input type="email" v-model="nuevoCliente.email" class="form-control" id="newEmail" required>
       </div>
+      <div class="form-group">
+        <label for="newEmail">Contraseña:</label>
+        <input type="text" v-model="nuevoCliente.password" class="form-control" id="newEmail" required>
+      </div>
     </div>
     <div class="col-md-6">
       <div class="form-group">
@@ -82,10 +87,15 @@
         <label for="newPhone">Teléfono:</label>
         <input type="text" v-model="nuevoCliente.phone" class="form-control" id="newPhone" required>
       </div>
+
       <div class="form-group">
-        <label for="newRole">Rol:</label>
-        <input type="text" v-model="nuevoCliente.rol" class="form-control" id="newRole" required>
+        <label for="newRol">
+          Rol:</label>
+        <input type="text" v-model="nuevoCliente.rol" class="form-control" id="newRol" required>
       </div>
+
+      
+
     </div>
   </div>
   <button type="submit" class="btn btn-primary">Crear Cliente</button>
@@ -116,6 +126,10 @@
               <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" v-model="clienteActualizado.email" class="form-control" id="email" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Contraseña:</label>
+                <input type="text" v-model="clienteActualizado.password" class="form-control" id="email" required>
               </div>
               <div class="form-group">
                 <label for="address">Address:</label>
@@ -155,6 +169,7 @@ export default {
         _id: null,
         name: '',
         email: '',
+        password: '',
         address: '',
         phone: '',
         rol: '',
@@ -164,20 +179,26 @@ export default {
         name: '',
         image: '',
         email: '',
+        password:'',
         address: '',
         phone: '',
-        rol: '',
+        rol: null,
       },
     };
   },
   mounted() {
     this.fetchCustomers();
+
   },
   methods: {
     async fetchCustomers() {
+      let id = localStorage.getItem('customerId')
       try {
         const response = await axios.get('http://localhost:3000/Customer');
-        this.customers = response.data;
+        const Filtro = response.data.filter((e)=>e._id!==id)
+        console.log(response.data)
+        console.log(Filtro)
+        this.customers = Filtro;
       } catch (error) {
         console.error('Error fetching customers:', error);
       }
@@ -281,6 +302,7 @@ reader.readAsDataURL(file);
           name: '',
           image: '',
           email: '',
+          password:'',
           address: '',
           phone: '',
           rol: '',

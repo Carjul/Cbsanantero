@@ -136,6 +136,7 @@ export default {
         image: '',
         phone: '',
         description: '',
+        customer_id:'',
       },
     };
   },
@@ -189,10 +190,13 @@ export default {
       }
     },
     async crearArtesania() {
+      let id = localStorage.getItem('customerId')
       try {
+        if(id){
+          this.nuevaArtesania.customer_id = id;
+        } 
         const response = await axios.post('http://localhost:3000/Artesania', this.nuevaArtesania);
-        const createdArtesania = response.data;
-        this.artesanias.push(createdArtesania);
+       console.log(response)
 
         // Reset the form and close the modal
         this.nuevaArtesania = {
@@ -201,13 +205,16 @@ export default {
           image: '',
           phone: '',
           description: '',
+          customer_id:'',
         };
 
         // Close the modal
         this.cerrarModalCrear();
+        this.fetchArtesanias();
       } catch (error) {
         console.error('Error creating Artesania:', error);
       }
+
     },
     async actualizarArtesania() {
       try {
