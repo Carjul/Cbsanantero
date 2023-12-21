@@ -82,18 +82,18 @@ const routes = [
   },
   {
     path: '/lishospe',
-    name:'lishop',
+    name:'ho',
     component: ()=> import('../views/listar/ListarHospedaje.vue'),
   },
 
   {
     path:'/listarhoteles',
-    name: 'listhotel',
+    name: 'te',
     component: ()=> import('../views/listar/ListarHotel.vue'),
   },
   {
     path: '/listaTrasporte',
-    name: 'listtrasporte',
+    name: 'tra',
     component: ()=> import ('../views/listar/ListarTrasporte.vue'),
   },
   {
@@ -103,7 +103,7 @@ const routes = [
   },
   {
     path: '/listjuegos',
-    name:'listarjuegos',
+    name:'jue',
     component: ()=> import ('../views/listar/ListarJuegos.vue')
   }
   
