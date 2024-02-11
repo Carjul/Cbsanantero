@@ -54,7 +54,7 @@
                 </div>
                 <div class="form-group">
                   <label for="imagenArtesania">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear()' id="imagenArtesania" ref="fileCrear" type="file" style="display:none">
+                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear()' id="imagenArtesania" ref="fileCrear" type="file" multiple style="display:none">
                 </div>
                 <div class="form-group">
                   <label for="telefonoArtesania">Teléfono:</label>
@@ -114,146 +114,139 @@
       </div>
     </div>
   </template>
-  
-  <script>
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      artesanias: [],
-      artesaniaActualizada: {
-        _id: null,
-        name: '',
-        address: '',
-        image: '',
-        phone: '',
-        description: '',
-      },
-      nuevaArtesania: {
-        name: '',
-        address: '',
-        image: '',
-        phone: '',
-        description: '',
-        customer_id:'',
-      },
-    };
-  },
-  mounted() {
-    this.fetchArtesanias();
-  },
-  methods: {
-    async fetchArtesanias() {
-      try {
-        const response = await axios.get('http://localhost:3000/Artesania');
-        this.artesanias = response.data;
-      } catch (error) {
-        console.error('Error fetching artesanias:', error);
-      }
-    },
-    async eliminarArtesania(id) {
-      try {
-        await axios.delete(`http://localhost:3000/Artesania/${id}`);
-        this.fetchArtesanias();
-      } catch (error) {
-        console.error('Error deleting artesania:', error);
-      }
-    },
-    abrirModalActualizar(artesania) {
-      this.artesaniaActualizada = { ...artesania };
-      const modalElement = this.$refs.modalActualizar;
-      if (modalElement) {
-        modalElement.classList.add('show');
-        modalElement.style.display = 'block';
-      }
-    },
-    cerrarModalActualizar() {
-      const modalElement = this.$refs.modalActualizar;
-      if (modalElement) {
-        modalElement.classList.remove('show');
-        modalElement.style.display = 'none';
-      }
-    },
-    abrirModalCrear() {
-      const modalElement = this.$refs.modalCrear;
-      if (modalElement) {
-        modalElement.classList.add('show');
-        modalElement.style.display = 'block';
-      }
-    },
-    cerrarModalCrear() {
-      const modalElement = this.$refs.modalCrear;
-      if (modalElement) {
-        modalElement.classList.remove('show');
-        modalElement.style.display = 'none';
-      }
-    },
-    async crearArtesania() {
-      let id = localStorage.getItem('customerId')
-      try {
-        if(id){
-          this.nuevaArtesania.customer_id = id;
-        } 
-        const response = await axios.post('http://localhost:3000/Artesania', this.nuevaArtesania);
-       console.log(response)
-
-        // Reset the form and close the modal
-        this.nuevaArtesania = {
-          name: '',
-          address: '',
-          image: '',
-          phone: '',
-          description: '',
-          customer_id:'',
-        };
-
-        // Close the modal
-        this.cerrarModalCrear();
-        this.fetchArtesanias();
-      } catch (error) {
-        console.error('Error creating Artesania:', error);
-      }
-
-    },
-    async actualizarArtesania() {
-      try {
-        const response = await axios.put(`http://localhost:3000/Artesania/${this.artesaniaActualizada._id}`, this.artesaniaActualizada);
-        console.log(response);
-        this.fetchArtesanias();
-        // Close the modal
-        this.cerrarModalActualizar();
-      } catch (error) {
-        console.error('Error updating Artesania:', error);
-      }
-    },
-    uploadFileCrear() {
-      this.uploadFile('fileCrear', 'nuevaArtesania');
-    },
-    uploadFileActualizar() {
-      this.uploadFile('fileActualizar', 'artesaniaActualizada');
-    },
-    uploadFile(refName, dataProperty) {
-      const fileInput = this.$refs[refName];
-      if (fileInput && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        var sizeByte = file.size;
-        var sizeKiloByte = parseInt(sizeByte / 1024);
-
-        if (sizeKiloByte > 2048) {
-          console.log("La imagen es muy grande");
-        } else {
-          this.createImage(file, dataProperty);
-        }
-      }
-    },
-    createImage(file, dataProperty) {
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this[dataProperty].image = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    },
-  },
-};
-</script>
+ <script>
+ import axios from 'axios';
+ 
+ export default {
+   data() {
+     return {
+       artesanias: [],
+       artesaniaActualizada: {
+         _id: null,
+         name: '',
+         address: '',
+         image: '',
+         phone: '',
+         description: '',
+       },
+       nuevaArtesania: {
+         name: '',
+         address: '',
+         image: '',
+         phone: '',
+         description: '',
+         customer_id: '',
+       },
+     };
+   },
+   mounted() {
+     this.fetchArtesanias();
+   },
+   methods: {
+     async fetchArtesanias() {
+       try {
+         const response = await axios.get('http://localhost:3000/Artesania');
+         this.artesanias = response.data;
+       } catch (error) {
+         console.error('Error fetching artesanias:', error);
+       }
+     },
+     async eliminarArtesania(id) {
+       try {
+         await axios.delete(`http://localhost:3000/Artesania/${id}`);
+         this.fetchArtesanias();
+       } catch (error) {
+         console.error('Error deleting artesania:', error);
+       }
+     },
+     abrirModalActualizar(artesania) {
+       this.artesaniaActualizada = { ...artesania };
+       const modalElement = this.$refs.modalActualizar;
+       if (modalElement) {
+         modalElement.classList.add('show');
+         modalElement.style.display = 'block';
+       }
+     },
+     cerrarModalActualizar() {
+       const modalElement = this.$refs.modalActualizar;
+       if (modalElement) {
+         modalElement.classList.remove('show');
+         modalElement.style.display = 'none';
+       }
+     },
+     abrirModalCrear() {
+       const modalElement = this.$refs.modalCrear;
+       if (modalElement) {
+         modalElement.classList.add('show');
+         modalElement.style.display = 'block';
+       }
+     },
+     cerrarModalCrear() {
+       const modalElement = this.$refs.modalCrear;
+       if (modalElement) {
+         modalElement.classList.remove('show');
+         modalElement.style.display = 'none';
+       }
+     },
+     async crearArtesania() {
+       let id = localStorage.getItem('customerId');
+       try {
+         if (id) {
+           this.nuevaArtesania.customer_id = id;
+         }
+         const response = await axios.post('http://localhost:3000/Artesania', this.nuevaArtesania);
+         console.log(response);
+ 
+         // Reset the form and close the modal
+         this.nuevaArtesania = {
+           name: '',
+           address: '',
+           image: '',
+           phone: '',
+           description: '',
+           customer_id: '',
+         };
+ 
+         // Close the modal
+         this.cerrarModalCrear();
+         this.fetchArtesanias();
+       } catch (error) {
+         console.error('Error creating Artesania:', error);
+       }
+     },
+     async actualizarArtesania() {
+       try {
+         const response = await axios.put(`http://localhost:3000/Artesania/${this.artesaniaActualizada._id}`, this.artesaniaActualizada);
+         console.log(response);
+         this.fetchArtesanias();
+         // Close the modal
+         this.cerrarModalActualizar();
+       } catch (error) {
+         console.error('Error updating Artesania:', error);
+       }
+     },
+     uploadFile(refName, dataProperty) {
+       const fileInput = this.$refs[refName];
+       if (fileInput && fileInput.files.length > 0) {
+         const file = fileInput.files[0];
+         var sizeByte = file.size;
+         var sizeKiloByte = parseInt(sizeByte / 1024);
+ 
+         if (sizeKiloByte > 2048) {
+           console.log("La imagen es muy grande");
+         } else {
+           this.createImage(file, dataProperty);
+         }
+       }
+     },
+     createImage(file, dataProperty) {
+       var reader = new FileReader();
+       reader.onload = (e) => {
+         this[dataProperty].image = e.target.result;
+       };
+       reader.readAsDataURL(file);
+     },
+   },
+ };
+ </script>
+ 
