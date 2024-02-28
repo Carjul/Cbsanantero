@@ -151,15 +151,8 @@ export default {
        
   mounted() {
     // Llamar a la función para obtener los datos del usuario cuando se monta el componente
-    fetch('https://api.github.com/users/username',{
-      headers: {
-        'Authorization': 'v2.local.ETD0COIR8KyKqO_DGnuIWDTIJX4VQTtS1yfc64s07itwUoKVnhcxIUfAobGEJLhXfzmK46YJK5A10WzDqEcNerispIGt5boaHHRHXlT5IfBnsE6QhNWzYT7BAtXFlAS3urJuq36AfBMV9ohwDqMY3FmVp1jmcE4VBBtQJnS5HM7p-T_M2rKDq_nfD8ZMrs972_As3dg0GqLYETkq4FOodTUfTWOlmle05w_mizGHb95QvcPVzXQpMhPhVRveZwOOuxwpXMZ3kJh6VGORjbkaYGJY2NZxhjIU-sNFnNw0Fesi1s5ls49LGNeYsooFLX8oE0CB34SLIQ.bnVsbA'
-    }})
-      .then(response => response.json())
-      .then(data => {
-        this.imagenUsuario = data.avatar_url;
-        this.nombreUsuario = data.name;
-      });
+   
+  },
 };
 </script>
 
