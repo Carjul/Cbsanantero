@@ -41,11 +41,9 @@
       submitForm() {
         if (this.iniciandoSesion) {
           return;
-        }
-  
-        this.iniciandoSesion = true;
-  
-        fetch('http://localhost:3000/login', {
+        }else{
+          this.iniciandoSesion = true;
+          fetch('http://localhost:3000/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -66,7 +64,7 @@
                 // Redirige a la vista principal si el usuario es administrador
                 //this.$router.push({ name: 'home' });
                 location.href = '/home'
-                console.log("Estoy Logiado")
+                console.log("sesion iniciada")
               } else {
                 // Redirige a otra vista si no es administrador
                 // Puedes personalizar esta lógica según tus necesidades
@@ -86,6 +84,8 @@
           .finally(() => {
             this.iniciandoSesion = false;
           });
+        }
+  
       },
     },
     beforeRouteLeave(to, from, next) {

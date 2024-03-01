@@ -20,7 +20,7 @@ const secretSymmetricKey = "symmetric-secret-key (size = 32)"
 func main() {
 	// Load environment variables from .env file, where API keys and passwords are stored
 	if err := godotenv.Load(); err != nil {
-		log.Println("No .env file found")
+		log.Fatalln(".env file err:",err)
 	}
 	
 	port := os.Getenv("PORT")
@@ -35,9 +35,6 @@ func main() {
 	//instancea
     app := fiber.New()
 
-	//rutas
-	Routes.Rutas(app)
-
 	//cors
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:"*", 
@@ -45,20 +42,17 @@ func main() {
 		AllowHeaders:"Origin, Content-Type, Accept",
 		AllowCredentials:true, 
 	}))
+	
+	//rutas
+	Routes.Rutas(app)
+
 
     // Paseto Middleware with local (encrypted) token
     apiGroup := app.Group("api", pasetoware.New(pasetoware.Config{
 		SymmetricKey: []byte(secretSymmetricKey),
         TokenPrefix:  "",
     }))
-	apiGroup.Use(
-		cors.New(cors.Config{
-			AllowOrigins:"*", 
-			AllowMethods:"GET,POST,PUT,DELETE", 
-			AllowHeaders:"Origin, Content-Type, Accept",
-			AllowCredentials:true, 
-		}), // Add a comma here
-	)
+	
     // Restricted Routes
     apiGroup.Get("/restricted", controllers.Restricted)
 	

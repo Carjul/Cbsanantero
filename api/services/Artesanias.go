@@ -2,7 +2,9 @@ package services
 
 import (
 	"context"
+	"time"
 
+	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -34,17 +36,17 @@ type Customer struct {
 	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
 }
 
-func GetArtesanias() interface{} {
+func GetArtesanias() interface{}  {
 	artesanias := db.Artesanias
 	busqueda, err := artesanias.Find(context.TODO(), bson.M{"status":"Activo"})
 	if err != nil {
-		return Message{Msg: "No se pudo encontrar la artesania"}
+		return  "error al buscar artesania"
 	}
 	defer busqueda.Close(context.Background())
 
 	var artesania []bson.M
 	if err = busqueda.All(context.Background(), &artesania); err != nil {
-		return Message{Msg: "No se pudo encontrar la artesania"}
+		return  "No se pudo encontrar la artesania"
 	}
 	return artesania
 }
@@ -68,6 +70,13 @@ func CreateArtesanias(data *Artesanias) interface{} {
 	customer := db.Customer
 	idc:= data.CustomerID
 	objID, err := primitive.ObjectIDFromHex(idc)
+
+	go config.UploadImageLocal(data.Image)
+	time.Sleep(1 * time.Second)
+	url := config.UploadImage()
+	if url == "error al subir la imagen a cloudinary"{
+		return Message{Msg: "error al subir la imagen a cloudinary"}
+	}
 	if err != nil {
 		return Message{Msg: "El _id Customer no es valido"}
 	}
@@ -88,6 +97,16 @@ func UpdateArtesanias(data *Artesanias, id string) interface{} {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return Message{Msg: "No se pudo encontrar la artesania"}
+	}
+	if data.Image != "" {
+		go config.UploadImageLocal(data.Image)
+		time.Sleep(1 * time.Second)
+		url := config.UploadImage()
+		if url == "error al subir la imagen a cloudinary"{
+			return Message{Msg: "error al subir la imagen a cloudinary"}
+		}
+		data.Image = url
+	
 	}
 	result, err := artesanias.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
 	if err != nil {

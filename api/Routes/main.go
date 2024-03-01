@@ -9,6 +9,8 @@ import (
 func Rutas(app *fiber.App) {
 	//Ruta Inicial
 	app.Get("/", controllers.Init)	
+	/* //prueba de subida de imagen
+	app.Post("/upload", controllers.Upload)	 */
 	//Rutas de Customer
 	app.Get("/customer", controllers.GetCustumer)
 	app.Get("/customer/:id", controllers.GetCustumerById)

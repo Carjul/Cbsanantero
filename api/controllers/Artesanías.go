@@ -21,11 +21,16 @@ type Artesanias struct {
 func GetArtesanias(c *fiber.Ctx) error {
 	artesanias:= services.GetArtesanias()
 	return c.Status(fiber.StatusAccepted).JSON(artesanias)
+	
 }
 
 func GetArtesaniasById(c *fiber.Ctx) error {
 	id := c.Params("id")
 	artesania:= services.GetArtesaniasById(id)
+	if artesania == "error al buscar artesania"{
+		return c.Status(fiber.StatusNotFound).JSON(Message{Msg: "Error al buscar artesanias"})
+	
+	}
 	return c.Status(fiber.StatusAccepted).JSON(artesania)
 }
 

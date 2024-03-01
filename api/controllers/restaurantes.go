@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"context"
+	"time"
 
+	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -10,21 +12,21 @@ import (
 )
 
 type Restaurante struct {
-	ID      primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name    string             `json:"name,omitempty" bson:"name,omitempty"`
-	Address string             `json:"address,omitempty" bson:"address,omitempty"`
-	Image  string             `json:"image,omitempty" bson:"image,omitempty"`
-	Email   string             `json:"email,omitempty" bson:"email,omitempty"`
-	Phone   string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Description   string        `json:"description,omitempty" bson:"description,omitempty"`
-	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
+	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name        string             `json:"name,omitempty" bson:"name,omitempty"`
+	Address     string             `json:"address,omitempty" bson:"address,omitempty"`
+	Image       string             `json:"image,omitempty" bson:"image,omitempty"`
+	Email       string             `json:"email,omitempty" bson:"email,omitempty"`
+	Phone       string             `json:"phone,omitempty" bson:"phone,omitempty"`
+	Description string             `json:"description,omitempty" bson:"description,omitempty"`
+	Status      string             `json:"status,omitempty" bson:"status,omitempty"`
 	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetRestaurante(c *fiber.Ctx) error {
 	restaurante := db.Restaurantes
-	
-	busqueda, err := restaurante.Find(context.TODO(), bson.M{"status":"Activo"})
+
+	busqueda, err := restaurante.Find(context.TODO(), bson.M{"status": "Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el restaurante"})
 	}
@@ -49,7 +51,7 @@ func GetRestauranteById(c *fiber.Ctx) error {
 
 	var restaurante bson.M
 
-	err = restaurantes.FindOne(context.TODO(), bson.M{"_id": objID,"status":"Activo"}).Decode(&restaurante)
+	err = restaurantes.FindOne(context.TODO(), bson.M{"_id": objID, "status": "Activo"}).Decode(&restaurante)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el restaurante"})
 	}
@@ -66,7 +68,7 @@ func CreateRestaurante(c *fiber.Ctx) error {
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el restaurante"})
 	}
-	idc:= data.CustomerID
+	idc := data.CustomerID
 
 	objID, err := primitive.ObjectIDFromHex(idc)
 
@@ -80,9 +82,12 @@ func CreateRestaurante(c *fiber.Ctx) error {
 
 	if err = busqueda.Decode(&customerData); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
-	
+
 	}
 	data.Status = "Activo"
+	go config.UploadImageLocal(data.Image)
+	time.Sleep(1 * time.Second)
+	data.Image = config.UploadImage()
 
 	insertion, err := restaurante.InsertOne(context.Background(), data)
 	if err != nil {
@@ -91,7 +96,7 @@ func CreateRestaurante(c *fiber.Ctx) error {
 
 	if insertion.InsertedID == nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el restaurante"})
-	}else{
+	} else {
 		return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Restaurante creado"})
 	}
 }
@@ -111,7 +116,11 @@ func UpdateRestaurante(c *fiber.Ctx) error {
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el restaurante"})
 	}
-
+	if data.Image != "" {
+		go config.UploadImageLocal(data.Image)
+		time.Sleep(1 * time.Second)
+		data.Image = config.UploadImage()
+	}
 	_, err = restaurantes.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el restaurante"})
