@@ -107,7 +107,7 @@
                     <div class="about-text bg-white p-4 p-lg-5 my-lg-5">
                         <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">SOBRE NOSOTROS</h6>
                         <h1 class="mb-3"> Ofrecemos los mejores paquetes turísticos dentro de su presupuesto</h1>
-                        <p>Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed et. Sit rebum labore sit sit ut vero no sit. Et elitr stet dolor sed sit et sed ipsum et kasd ut. Erat duo eos et erat sed diam duo</p>
+                        <p>Facilitamos la reserva de servicios turísticos mientras impulsa el crecimiento económico comunitario y promueve la sostenibilidad.</p>
                         <div class="row mb-4">
                             <div class="col-6">
                                 <img class="img-fluid" src="https://img.freepik.com/foto-gratis/mujer-disfrutando-paseo-cuestas-espalda-su-novio-cerca-mar_23-2147841615.jpg?w=900&t=st=1702656585~exp=1702657185~hmac=0c1117589156323fd46fc81049f4d13083a648cebcb6a4f26fbd79f8e4b512d3" alt="">
@@ -116,7 +116,7 @@
                                 <img class="img-fluid" src="https://img.freepik.com/foto-gratis/feliz-compania-hipster-amigos-viajando-mundo_285396-3649.jpg?w=900&t=st=1702656653~exp=1702657253~hmac=afe6d425190d9e33f086828f1257ee1c7d7f29847b5390deb4b0d946840e05ae" alt="">
                             </div>
                         </div>
-                        <a href="" class="btn btn-primary mt-1">Book Now</a>
+                        <a href="" class="btn btn-primary mt-1">Reservar</a>
                     </div>
                 </div>
             </div>
@@ -125,6 +125,16 @@
     <!-- About End -->
 
 
+
+
+
+
+
+
+
+    
+
+    
     <!-- Feature Start -->
     <div class="container-fluid pb-5">
         <div class="container pb-5">
