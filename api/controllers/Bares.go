@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"context"
+	"time"
 
+	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -64,6 +66,9 @@ func CreateBar(c *fiber.Ctx) error {
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el bar"})
 	}
+	go config.UploadImageLocal(data.Image)
+	time.Sleep(1 * time.Second)
+	data.Image = config.UploadImage()
 
 	idc := data.CustomerID
 
@@ -109,7 +114,11 @@ func UpdateBar(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el bar"})
 	}
-
+	if data.Image != "" {
+		go config.UploadImageLocal(data.Image)
+		time.Sleep(1 * time.Second)
+		data.Image = config.UploadImage()
+	}
 	_, err = bar.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el bar"})

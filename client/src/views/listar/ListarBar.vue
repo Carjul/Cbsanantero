@@ -55,7 +55,7 @@
           </div>
           <div class="form-group">
             <label for="imagenBar">Imagen:</label>
-            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear()' id="imagenBar" ref="fileCrear" type="file" style="display:none">
+            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile()' id="imagenBar" ref="file" type="file" style="display:none">
           </div>
           <div class="form-group">
             <label for="telefonoBar">Teléfono:</label>
@@ -135,6 +135,7 @@ export default {
         status: '',
         customer_id: '',
       },
+      file: null,
       nuevoBar: {
         name: '',
         address: '',
@@ -239,24 +240,28 @@ export default {
     uploadFileActualizar() {
       this.uploadFile('fileActualizar', 'barActualizado');
     },
-    uploadFile(refName, dataProperty) {
-      const fileInput = this.$refs[refName];
-      if (fileInput && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        var sizeByte = file.size;
-        var sizeKiloByte = parseInt(sizeByte / 1024);
-
-        if (sizeKiloByte > 2048) {
-          console.log('La imagen es muy grande');
-        } else {
-          this.createImage(file, dataProperty);
-        }
+     uploadFile() {
+      this.file = this.$refs.file.files[0];
+      var sizeByte = this.$refs.file.files[0].size;
+      var extencion = this.$refs.file.files[0].type;
+      /*
+      console.log(this.$refs.file.files) */
+      if (extencion !== 'image/jpeg' && extencion !== 'image/jpg' && extencion !== 'image/png') {
+        console.log('La imagen no es valida');
+        alert('La imagen no es valida');
+      } 
+      var siezekiloByte = parseInt(sizeByte / 1024);
+      if (siezekiloByte > 2048) {
+        console.log('La imagen es muy grande');
+        alert('La imagen es muy grande: ' + sizeByte + ' bytes');
+      } else {
+        this.createImage(this.file);
       }
     },
-    createImage(file, dataProperty) {
+    createImage(file) {
       var reader = new FileReader();
       reader.onload = (e) => {
-        this[dataProperty].image = e.target.result;
+        this.nuevoBar.image = e.target.result;
       };
       reader.readAsDataURL(file);
     },

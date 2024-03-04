@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"context"
+	"time"
 
+	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -10,21 +12,21 @@ import (
 )
 
 type Hoteles struct {
-	ID      primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name    string             `json:"name,omitempty" bson:"name,omitempty"`
-	Address string             `json:"address,omitempty" bson:"address,omitempty"`
-	Image  string             `json:"image,omitempty" bson:"image,omitempty"`
-	Email   string             `json:"email,omitempty" bson:"email,omitempty"`
-	Phone   string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Price   string             `json:"price,omitempty" bson:"price,omitempty"`
-	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
+	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name       string             `json:"name,omitempty" bson:"name,omitempty"`
+	Address    string             `json:"address,omitempty" bson:"address,omitempty"`
+	Image      string             `json:"image,omitempty" bson:"image,omitempty"`
+	Email      string             `json:"email,omitempty" bson:"email,omitempty"`
+	Phone      string             `json:"phone,omitempty" bson:"phone,omitempty"`
+	Price      string             `json:"price,omitempty" bson:"price,omitempty"`
+	Status     string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetHoteles(c *fiber.Ctx) error {
 	hoteles := db.Hoteles
 
-	busqueda, err := hoteles.Find(context.TODO(), bson.M{"status":"Activo"})
+	busqueda, err := hoteles.Find(context.TODO(), bson.M{"status": "Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el hotel"})
 	}
@@ -49,7 +51,7 @@ func GetHotelesById(c *fiber.Ctx) error {
 
 	var hotel bson.M
 
-	err = hoteles.FindOne(context.TODO(), bson.M{"_id": objID,"status":"Activo"}).Decode(&hotel)
+	err = hoteles.FindOne(context.TODO(), bson.M{"_id": objID, "status": "Activo"}).Decode(&hotel)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el hotel"})
 	}
@@ -65,7 +67,7 @@ func CreateHoteles(c *fiber.Ctx) error {
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el hotel"})
 	}
-	idc:= data.CustomerID
+	idc := data.CustomerID
 
 	objID, err := primitive.ObjectIDFromHex(idc)
 
@@ -79,9 +81,12 @@ func CreateHoteles(c *fiber.Ctx) error {
 
 	if err = busqueda.Decode(&customerData); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
-	
+
 	}
 	data.Status = "Activo"
+	go config.UploadImageLocal(data.Image)
+	time.Sleep(1 * time.Second)
+	data.Image = config.UploadImage()
 
 	insertion, err := hoteles.InsertOne(context.Background(), data)
 	if err != nil {
@@ -90,7 +95,7 @@ func CreateHoteles(c *fiber.Ctx) error {
 
 	if insertion.InsertedID == nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el hotel"})
-	}else{
+	} else {
 		return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Hotel creado correctamente"})
 	}
 }
@@ -107,6 +112,11 @@ func UpdateHoteles(c *fiber.Ctx) error {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el hotel"})
+	}
+	if data.Image != "" {
+		go config.UploadImageLocal(data.Image)
+		time.Sleep(1 * time.Second)
+		data.Image = config.UploadImage()
 	}
 
 	_, err = hoteles.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})

@@ -3,7 +3,9 @@ package controllers
 import (
 	"context"
 	"log"
+	"time"
 
+	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -70,6 +72,10 @@ func CreateCustomer(c *fiber.Ctx) error {
 	}
 	customer.Status = "Inactivo"
 	customer.Rol = "Cliente"
+	go config.UploadImageLocal(customer.Image)
+	time.Sleep(1 * time.Second)
+	customer.Image = config.UploadImage()
+
 	result, err := customers.InsertOne(context.Background(), customer)
 	if err != nil {
 		log.Println(err)
@@ -98,7 +104,11 @@ func UpdateCustomer(c *fiber.Ctx) error {
 	if err := c.BodyParser(customer); err != nil {
 		log.Println(err)
 	}
-
+	if customer.Image != "" {
+		go config.UploadImageLocal(customer.Image)
+		time.Sleep(1 * time.Second)
+		customer.Image = config.UploadImage()
+	}
 	update := bson.M{
 		"$set": customer,
 	}
