@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/cbsanantero/db"
+	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 
@@ -25,10 +26,10 @@ func Login(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 	
-	var userdb Customer
+	var userdb models.Customer
 	// Check if user credentials are correct
 	db.Customer.FindOne(context.TODO(), bson.M{"email": user.Email, "password": user.Password}).Decode(&userdb)
-	if userdb == (Customer{}) {
+	if userdb == (models.Customer{}) {
 		return c.Status(fiber.StatusUnauthorized).JSON(Message{Msg: "Credenciales incorrectas"}) 
 	}
 
@@ -40,7 +41,7 @@ func Login(c *fiber.Ctx) error {
 
 	type Response struct {
 		Token string `json:"token"`
-		User Customer `json:"user"`
+		User models.Customer `json:"user"`
 	}
 
     return c.JSON(Response{Token: encryptedToken, User: userdb})

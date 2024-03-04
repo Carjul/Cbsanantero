@@ -6,21 +6,11 @@ import (
 
 	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
+	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-type Trasporte struct {
-	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Tipo       string             `json:"tipo,omitempty" bson:"tipo,omitempty"`
-	Image      string             `json:"image,omitempty" bson:"image,omitempty"`
-	Placa      string             `json:"placa,omitempty" bson:"placa,omitempty"`
-	Conductor  string             `json:"conductor,omitempty" bson:"conductor,omitempty"`
-	Celular    string             `json:"celular,omitempty" bson:"celular,omitempty"`
-	Status     string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
-}
 
 func GetTrasporte(c *fiber.Ctx) error {
 	trasporte := db.Traporte
@@ -62,7 +52,7 @@ func CreateTrasporte(c *fiber.Ctx) error {
 	trasporte := db.Traporte
 	customer := db.Customer
 
-	data := new(Trasporte)
+	data := new(models.Trasporte)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Los datos del trasporte no son corectos"})
 	}
@@ -77,7 +67,7 @@ func CreateTrasporte(c *fiber.Ctx) error {
 
 	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
 
-	var customerData Customer
+	var customerData models.Customer
 
 	if err = busqueda.Decode(&customerData); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
@@ -104,7 +94,7 @@ func CreateTrasporte(c *fiber.Ctx) error {
 func UpdateTrasporte(c *fiber.Ctx) error {
 	trasporte := db.Traporte
 
-	data := new(Trasporte)
+	data := new(models.Trasporte)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Los datos del trasporte no son corectos"})
 	}

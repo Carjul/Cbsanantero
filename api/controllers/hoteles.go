@@ -6,22 +6,11 @@ import (
 
 	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
+	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-type Hoteles struct {
-	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name       string             `json:"name,omitempty" bson:"name,omitempty"`
-	Address    string             `json:"address,omitempty" bson:"address,omitempty"`
-	Image      string             `json:"image,omitempty" bson:"image,omitempty"`
-	Email      string             `json:"email,omitempty" bson:"email,omitempty"`
-	Phone      string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Price      string             `json:"price,omitempty" bson:"price,omitempty"`
-	Status     string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
-}
 
 func GetHoteles(c *fiber.Ctx) error {
 	hoteles := db.Hoteles
@@ -63,7 +52,7 @@ func CreateHoteles(c *fiber.Ctx) error {
 	hoteles := db.Hoteles
 	customer := db.Customer
 
-	data := new(Hoteles)
+	data := new(models.Hoteles)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el hotel"})
 	}
@@ -77,7 +66,7 @@ func CreateHoteles(c *fiber.Ctx) error {
 
 	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
 
-	var customerData Customer
+	var customerData models.Customer
 
 	if err = busqueda.Decode(&customerData); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
@@ -103,7 +92,7 @@ func CreateHoteles(c *fiber.Ctx) error {
 func UpdateHoteles(c *fiber.Ctx) error {
 	hoteles := db.Hoteles
 
-	data := new(Hoteles)
+	data := new(models.Hoteles)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el hotel"})
 	}

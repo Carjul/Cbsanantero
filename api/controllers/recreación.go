@@ -6,22 +6,11 @@ import (
 
 	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
+	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-type Recreacion struct {
-	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name       string             `json:"name,omitempty" bson:"name,omitempty"`
-	Phone      string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Address    string             `json:"address,omitempty" bson:"address,omitempty"`
-	Services   string             `json:"services,omitempty" bson:"services,omitempty"`
-	Image      string             `json:"image,omitempty" bson:"image,omitempty"`
-	Price      string             `json:"price,omitempty" bson:"price,omitempty"`
-	Status     string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
-}
 
 func GetRecreacion(c *fiber.Ctx) error {
 	recreacion := db.Recreacion
@@ -63,7 +52,7 @@ func CreateRecreacion(c *fiber.Ctx) error {
 	recreacion := db.Recreacion
 	customer := db.Customer
 
-	data := new(Recreacion)
+	data := new(models.Recreacion)
 
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Los datos insertados estan malos"})
@@ -78,7 +67,7 @@ func CreateRecreacion(c *fiber.Ctx) error {
 
 	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
 
-	var customerData Customer
+	var customerData models.Customer
 
 	if err = busqueda.Decode(&customerData); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
@@ -105,7 +94,7 @@ func CreateRecreacion(c *fiber.Ctx) error {
 func UpdateRecreacion(c *fiber.Ctx) error {
 	recreacion := db.Recreacion
 
-	data := new(Recreacion)
+	data := new(models.Recreacion)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Los datos de la recreacion no son corectos"})
 	}
