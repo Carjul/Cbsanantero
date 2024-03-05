@@ -13,16 +13,15 @@ import (
 
 	pasetoware "github.com/gofiber/contrib/paseto"
 )
- 
-const secretSymmetricKey = "symmetric-secret-key (size = 32)"
 
+const secretSymmetricKey = "symmetric-secret-key (size = 32)"
 
 func main() {
 	// Load environment variables from .env file, where API keys and passwords are stored
 	if err := godotenv.Load(); err != nil {
-		log.Fatalln(".env file err:",err)
+		log.Fatalln(".env file err:", err)
 	}
-	
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("You must set your 'PORT' environment variable.")
@@ -33,30 +32,28 @@ func main() {
 	defer db.DesconectarDB()
 
 	//instancea
-    app := fiber.New()
+	app := fiber.New()
 
 	//cors
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:"*", 
-		AllowMethods:"GET,POST,PUT,DELETE", 
-		AllowHeaders:"Origin, Content-Type, Accept",
-		AllowCredentials:true, 
+		AllowOrigins:     "*",
+		AllowMethods:     "GET,POST,PUT,DELETE",
+		AllowHeaders:     "Origin, Content-Type, Accept",
+		AllowCredentials: true,
 	}))
-	
+
 	//rutas
 	Routes.Rutas(app)
 
-
-    // Paseto Middleware with local (encrypted) token
-    apiGroup := app.Group("api", pasetoware.New(pasetoware.Config{
+	// Paseto Middleware with local (encrypted) token
+	apiGroup := app.Group("api", pasetoware.New(pasetoware.Config{
 		SymmetricKey: []byte(secretSymmetricKey),
-        TokenPrefix:  "",
-    }))
-	
-    // Restricted Routes
-    apiGroup.Get("/restricted", controllers.Restricted)
-	
+		TokenPrefix:  "",
+	}))
+
+	// Restricted Routes
+	apiGroup.Get("/restricted", controllers.Restricted)
 
 	//Puerto de escucha
-    app.Listen(":"+port)
+	app.Listen(":" + port)
 }
