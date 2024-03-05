@@ -2,25 +2,14 @@ package controllers
 
 import (
 	"context"
-	"time"
 
 	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
+	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-type Trasporte struct {
-	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Tipo       string             `json:"tipo,omitempty" bson:"tipo,omitempty"`
-	Image      string             `json:"image,omitempty" bson:"image,omitempty"`
-	Placa      string             `json:"placa,omitempty" bson:"placa,omitempty"`
-	Conductor  string             `json:"conductor,omitempty" bson:"conductor,omitempty"`
-	Celular    string             `json:"celular,omitempty" bson:"celular,omitempty"`
-	Status     string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
-}
 
 func GetTrasporte(c *fiber.Ctx) error {
 	trasporte := db.Traporte
@@ -62,7 +51,7 @@ func CreateTrasporte(c *fiber.Ctx) error {
 	trasporte := db.Traporte
 	customer := db.Customer
 
-	data := new(Trasporte)
+	data := new(models.Trasporte)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Los datos del trasporte no son corectos"})
 	}
@@ -77,7 +66,7 @@ func CreateTrasporte(c *fiber.Ctx) error {
 
 	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
 
-	var customerData Customer
+	var customerData models.Customer
 
 	if err = busqueda.Decode(&customerData); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
@@ -85,10 +74,23 @@ func CreateTrasporte(c *fiber.Ctx) error {
 	}
 	data.Status = "Activo"
 
-	go config.UploadImageLocal(data.Image)
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	// Obtiene los archivos subidos
+	files := form.File["image"]
+	customerID := form.Value["customer_id"]
+
+	x := files[0]
+	y := config.UploadImage2(x)
+	data.Image = y
+	data.CustomerID = customerID[0]
+	/* go config.UploadImageLocal(data.Image)
 	time.Sleep(1 * time.Second)
 	data.Image = config.UploadImage()
-
+	*/
 	insertion, err := trasporte.InsertOne(context.Background(), data)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el trasporte"})
@@ -104,7 +106,7 @@ func CreateTrasporte(c *fiber.Ctx) error {
 func UpdateTrasporte(c *fiber.Ctx) error {
 	trasporte := db.Traporte
 
-	data := new(Trasporte)
+	data := new(models.Trasporte)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Los datos del trasporte no son corectos"})
 	}
@@ -116,11 +118,25 @@ func UpdateTrasporte(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el trasporte"})
 	}
 
-	if data.Image != "" {
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	// Obtiene los archivos subidos
+	files := form.File["image"]
+	customerID := form.Value["customer_id"]
+
+	x := files[0]
+	y := config.UploadImage2(x)
+	data.Image = y
+	data.CustomerID = customerID[0]
+
+	/* if data.Image != "" {
 		go config.UploadImageLocal(data.Image)
 		time.Sleep(1 * time.Second)
 		data.Image = config.UploadImage()
-	}
+	} */
 
 	_, err = trasporte.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
 	if err != nil {

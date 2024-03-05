@@ -2,25 +2,14 @@ package controllers
 
 import (
 	"context"
-	"time"
 
 	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
+	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-type Hospedaje struct {
-	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name       string             `json:"name,omitempty" bson:"name,omitempty"`
-	Address    string             `json:"address,omitempty" bson:"address,omitempty"`
-	Image      string             `json:"image,omitempty" bson:"image,omitempty"`
-	Phone      string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Price      string             `json:"price,omitempty" bson:"price,omitempty"`
-	Status     string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
-}
 
 func GetHospedaje(c *fiber.Ctx) error {
 	hospedaje := db.Hospedaje
@@ -62,7 +51,7 @@ func CreateHospedaje(c *fiber.Ctx) error {
 	hospedaje := db.Hospedaje
 	customer := db.Customer
 
-	data := new(Hospedaje)
+	data := new(models.Hospedaje)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el hospedaje"})
 	}
@@ -76,16 +65,29 @@ func CreateHospedaje(c *fiber.Ctx) error {
 
 	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
 
-	var customerData Customer
+	var customerData models.Customer
 
 	if err = busqueda.Decode(&customerData); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
 
 	}
 	data.Status = "Activo"
-	go config.UploadImageLocal(data.Image)
+	/* go config.UploadImageLocal(data.Image)
 	time.Sleep(1 * time.Second)
-	data.Image = config.UploadImage()
+	data.Image = config.UploadImage() */
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	// Obtiene los archivos subidos
+	files := form.File["image"]
+	customerID := form.Value["customer_id"]
+
+	x := files[0]
+	y := config.UploadImage2(x)
+	data.Image = y
+	data.CustomerID = customerID[0]
 
 	insertion, err := hospedaje.InsertOne(context.Background(), data)
 	if err != nil {
@@ -102,7 +104,7 @@ func CreateHospedaje(c *fiber.Ctx) error {
 func UpdateHospedaje(c *fiber.Ctx) error {
 	hospedaje := db.Hospedaje
 
-	data := new(Hospedaje)
+	data := new(models.Hospedaje)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Los datos del hospedaje no son corectos"})
 	}
@@ -113,11 +115,24 @@ func UpdateHospedaje(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el hospedaje"})
 	}
-	if data.Image != "" {
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	// Obtiene los archivos subidos
+	files := form.File["image"]
+	customerID := form.Value["customer_id"]
+
+	x := files[0]
+	y := config.UploadImage2(x)
+	data.Image = y
+	data.CustomerID = customerID[0]
+	/* if data.Image != "" {
 		go config.UploadImageLocal(data.Image)
 		time.Sleep(1 * time.Second)
 		data.Image = config.UploadImage()
-	}
+	} */
 	update := bson.M{
 		"$set": data,
 	}

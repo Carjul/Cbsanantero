@@ -2,25 +2,14 @@ package controllers
 
 import (
 	"context"
-	"time"
 
 	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
+	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-type Bar struct {
-	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name        string             `json:"name,omitempty" bson:"name,omitempty"`
-	Address     string             `json:"address,omitempty" bson:"address,omitempty"`
-	Phone       string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Image       string             `json:"image,omitempty" bson:"image,omitempty"`
-	Description string             `json:"description,omitempty" bson:"description,omitempty"`
-	Status      string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
-}
 
 func GetBar(c *fiber.Ctx) error {
 	bar := db.Bares
@@ -50,7 +39,7 @@ func GetBarById(c *fiber.Ctx) error {
 
 	busqueda := bar.FindOne(context.Background(), bson.M{"_id": objID, "status": "Activo"})
 
-	var barres Bar
+	var barres models.Bar
 	if err = busqueda.Decode(&barres); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
 	}
@@ -61,14 +50,27 @@ func CreateBar(c *fiber.Ctx) error {
 	bar := db.Bares
 	customer := db.Customer
 
-	data := new(Bar)
+	data := new(models.Bar)
 
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el bar"})
 	}
-	go config.UploadImageLocal(data.Image)
+	/* go config.UploadImageLocal(data.Image)
 	time.Sleep(1 * time.Second)
-	data.Image = config.UploadImage()
+	data.Image = config.UploadImage() */
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	// Obtiene los archivos subidos
+	files := form.File["image"]
+	customerID := form.Value["customer_id"]
+
+	x := files[0]
+	y := config.UploadImage2(x)
+	data.Image = y
+	data.CustomerID = customerID[0]
 
 	idc := data.CustomerID
 
@@ -80,7 +82,7 @@ func CreateBar(c *fiber.Ctx) error {
 
 	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
 
-	var customerData Customer
+	var customerData models.Customer
 
 	if err = busqueda.Decode(&customerData); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
@@ -103,7 +105,7 @@ func CreateBar(c *fiber.Ctx) error {
 func UpdateBar(c *fiber.Ctx) error {
 	bar := db.Bares
 
-	data := new(Bar)
+	data := new(models.Bar)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el bar"})
 	}
@@ -114,11 +116,25 @@ func UpdateBar(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el bar"})
 	}
-	if data.Image != "" {
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	// Obtiene los archivos subidos
+	files := form.File["image"]
+	customerID := form.Value["customer_id"]
+
+	x := files[0]
+	y := config.UploadImage2(x)
+	data.Image = y
+	data.CustomerID = customerID[0]
+	/* if data.Image != "" {
 		go config.UploadImageLocal(data.Image)
 		time.Sleep(1 * time.Second)
 		data.Image = config.UploadImage()
-	}
+	} */
+
 	_, err = bar.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el bar"})

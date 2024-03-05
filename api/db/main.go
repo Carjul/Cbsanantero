@@ -11,7 +11,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-
 var Client *mongo.Client
 var Customer *mongo.Collection
 var Traporte *mongo.Collection
@@ -22,6 +21,7 @@ var Restaurantes *mongo.Collection
 var Recreacion *mongo.Collection
 var Bares *mongo.Collection
 var Artesanias *mongo.Collection
+var Galeria *mongo.Collection
 
 func ConexionDB() error {
 	uri := os.Getenv("MONGODB_URI")
@@ -33,7 +33,7 @@ func ConexionDB() error {
 	Client, err = mongo.Connect(context.Background(), options.Client().ApplyURI(uri))
 	if err != nil {
 		return fmt.Errorf("error al conectar con MongoDB: %v", err)
-	}else{	
+	} else {
 		log.Println("Conexión exitosa a MongoDB")
 	}
 
@@ -43,7 +43,6 @@ func ConexionDB() error {
 	if err = Client.Ping(ctx, nil); err != nil {
 		return fmt.Errorf("no se pudo realizar el ping a la base de datos: %v", err)
 	}
-
 
 	Db := Client.Database("Cbsanantero")
 
@@ -56,6 +55,7 @@ func ConexionDB() error {
 	Recreacion = Db.Collection("Recreacion")
 	Bares = Db.Collection("Bares")
 	Artesanias = Db.Collection("Artesanias")
+	Galeria = Db.Collection("Galeria")
 
 	return nil
 }

@@ -2,26 +2,14 @@ package controllers
 
 import (
 	"context"
-	"time"
 
 	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
+	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-type Restaurante struct {
-	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name        string             `json:"name,omitempty" bson:"name,omitempty"`
-	Address     string             `json:"address,omitempty" bson:"address,omitempty"`
-	Image       string             `json:"image,omitempty" bson:"image,omitempty"`
-	Email       string             `json:"email,omitempty" bson:"email,omitempty"`
-	Phone       string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Description string             `json:"description,omitempty" bson:"description,omitempty"`
-	Status      string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
-}
 
 func GetRestaurante(c *fiber.Ctx) error {
 	restaurante := db.Restaurantes
@@ -63,7 +51,7 @@ func CreateRestaurante(c *fiber.Ctx) error {
 	restaurante := db.Restaurantes
 	customer := db.Customer
 
-	data := new(Restaurante)
+	data := new(models.Restaurante)
 
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el restaurante"})
@@ -78,16 +66,30 @@ func CreateRestaurante(c *fiber.Ctx) error {
 
 	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
 
-	var customerData Customer
+	var customerData models.Customer
 
 	if err = busqueda.Decode(&customerData); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
 
 	}
 	data.Status = "Activo"
-	go config.UploadImageLocal(data.Image)
+
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	// Obtiene los archivos subidos
+	files := form.File["image"]
+	customerID := form.Value["customer_id"]
+
+	x := files[0]
+	y := config.UploadImage2(x)
+	data.Image = y
+	data.CustomerID = customerID[0]
+	/* go config.UploadImageLocal(data.Image)
 	time.Sleep(1 * time.Second)
-	data.Image = config.UploadImage()
+	data.Image = config.UploadImage() */
 
 	insertion, err := restaurante.InsertOne(context.Background(), data)
 	if err != nil {
@@ -111,16 +113,16 @@ func UpdateRestaurante(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el restaurante"})
 	}
 
-	data := new(Restaurante)
+	data := new(models.Restaurante)
 
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el restaurante"})
 	}
-	if data.Image != "" {
+	/* if data.Image != "" {
 		go config.UploadImageLocal(data.Image)
 		time.Sleep(1 * time.Second)
 		data.Image = config.UploadImage()
-	}
+	} */
 	_, err = restaurantes.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el restaurante"})

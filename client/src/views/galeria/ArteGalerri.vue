@@ -114,8 +114,8 @@
   }
   
   .modal-img {
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 50%;
+    max-height: 50%;
   }
   
   .close-modal {
