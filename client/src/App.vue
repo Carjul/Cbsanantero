@@ -234,5 +234,34 @@ body {
 .nombre-usuario {
   margin: 0; /* asegúrate de quitar cualquier margen predeterminado si es necesario */
 }
+@keyframes glowAnimation {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            }
+        }
 
+        .glow-text {
+            display: inline-block;
+            animation: glowAnimation 2s infinite;
+        }
+
+        h1 {
+            font-family: 'Arial', sans-serif;
+            font-size: 2em;
+            margin: 0;
+        }
+
+        .text-primary {
+            color: #007bff;
+        }
+
+        .text-dark {
+            color: #333;
+        }
 </style>

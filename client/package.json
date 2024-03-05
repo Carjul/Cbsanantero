@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@auth0/auth0-vue": "^2.3.3",
+    "animejs": "^3.2.2",
     "axios": "^1.6.2",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.8.3",
