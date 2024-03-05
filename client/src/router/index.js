@@ -105,10 +105,11 @@ const routes = [
     component: () => import('../views/listar/ListarJuegos.vue')
   },
   {
-    path: '/artegalerri',
+    path: '/artegaleria',
     name: 'Galeri',
     component: () => import('../views/galeria/GaleriVew.vue')
   }
+  
 ];
 
 const router = createRouter({

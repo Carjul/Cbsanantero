@@ -10,28 +10,31 @@
         :key="artesania.id"
       >
         <div class="card mb-4">
-          <router-link  to="/artegalerri">
+         
           <img
-          
+          @click="enviarIdGaleria(artesania._id)"
             :src="artesania.image"
             class="card-img-top"
             alt="Artesanía"
           />
-        </router-link>
+        
+          
 
-          <div class="card-body">
-            <h5 class="card-title">{{ artesania.name }}</h5>
-            <p class="card-text">{{ artesania.description }}</p>
-            <p class="card-text"><strong>Dirección:</strong> {{ artesania.address }}</p>
-            <p class="card-text"><strong>Teléfono:</strong> {{ artesania.phone }}</p>
-           
-
-            
-            <!-- Botón "Obtener Servicio" -->
-            <button v-if="true" class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal" @click="enviarcid(artesania.customer_id,artesania._id)">Obtener Servicio</button>
-
-
-          </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ artesania.name }}</h5>
+              <p class="card-text">{{ artesania.description }}</p>
+              <p class="card-text"><strong>Dirección:</strong> {{ artesania.address }}</p>
+              <p class="card-text"><strong>Teléfono:</strong> {{ artesania.phone }}</p>
+             
+  
+              
+              <!-- Botón "Obtener Servicio" -->
+              <button v-if="true" class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal" @click="enviarcid(artesania.customer_id,artesania._id)">Obtener Servicio</button>
+  
+  
+            </div>
+          
+      
         </div>
       </div>
    
@@ -101,6 +104,10 @@ export default {
       } catch (error) {
         console.error('Error al obtener las artesanías', error);
       }
+    },
+    enviarIdGaleria(id) {
+      this.$router.push({ path: '/artegaleria' });
+      localStorage.setItem('idtemp',id);
     },
     enviarcid(cid,id){
       this.formData.customerId=cid;
