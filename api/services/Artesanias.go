@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 
+	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -85,8 +86,14 @@ func DeleteArtesanias(id string) interface{} {
 	artesanias := db.Artesanias
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
+		return Message{Msg: "_id de la artesania no valido"}
+	}
+	busqueda := artesanias.FindOne(context.Background(), bson.M{"_id": objID})
+	var artesania models.Artesanias
+	if err := busqueda.Decode(&artesania); err != nil {
 		return Message{Msg: "No se pudo encontrar la artesania"}
 	}
+
 	result, err := artesanias.DeleteOne(context.Background(), bson.M{"_id": objID})
 	if err != nil {
 		return Message{Msg: "error al eliminar la artesania"}
@@ -94,5 +101,6 @@ func DeleteArtesanias(id string) interface{} {
 	if result.DeletedCount == 0 {
 		return Message{Msg: "No se pudo eliminar la artesania"}
 	}
+	config.DeleteImage(artesania.Image)
 	return Message{Msg: "Artesania eliminada"}
 }

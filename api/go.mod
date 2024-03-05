@@ -15,7 +15,6 @@ require (
 	github.com/aead/chacha20poly1305 v0.0.0-20201124145622-1a5aba2a8b29 // indirect
 	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect
 	github.com/andybalholm/brotli v1.0.6 // indirect
-	github.com/cloudinary/cloudinary-go v1.7.0 // indirect
 	github.com/creasty/defaults v1.7.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect

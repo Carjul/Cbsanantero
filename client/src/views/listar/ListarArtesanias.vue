@@ -195,7 +195,7 @@
       this.nuevaArtesania.customer_id = localStorage.getItem('customerId');
       
        
-     
+     if(this.nuevaArtesania.customer_id != '') {
            formData.append('image', this.file)
            formData.append('name', this.nuevaArtesania.name)
            formData.append('address', this.nuevaArtesania.address)
@@ -222,6 +222,9 @@
        
          this.cerrarModalCrear();
          this.fetchArtesanias(); 
+        } else {
+          alert('No tienes permisos para crear una artesanía')
+        }
        } catch (error) {
          console.error('Error creating Artesania:', error);
        } 

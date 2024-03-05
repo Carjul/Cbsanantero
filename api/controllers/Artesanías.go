@@ -38,13 +38,17 @@ func CreateArtesanias(c *fiber.Ctx) error {
 	files := form.File["image"]
 	customerID := form.Value["customer_id"]
 
-	x := files[0]
-	y := config.UploadImage2(x)
+	ImageFile := files[0]
+	if ImageFile == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+
+	}
+	UrlCloudinary := config.UploadImage(ImageFile)
 
 	argumen := models.Artesanias{
 		Name:        data.Name,
 		Address:     data.Address,
-		Image:       y,
+		Image:       UrlCloudinary,
 		Phone:       data.Phone,
 		Description: data.Description,
 		Status:      "Activo",
@@ -59,20 +63,35 @@ func CreateArtesanias(c *fiber.Ctx) error {
 func UpdateArtesanias(c *fiber.Ctx) error {
 
 	data := new(models.Artesanias)
+	id := c.Params("id")
+
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la artesania"})
 	}
 
-	id := c.Params("id")
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	files := form.File["image"]
+	customerID := form.Value["customer_id"]
+
+	ImageFile := files[0]
+	if ImageFile == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+
+	}
+	UrlCloudinary := config.UploadImage(ImageFile)
 
 	argument := models.Artesanias{
 		Name:        data.Name,
 		Address:     data.Address,
-		Image:       data.Image,
+		Image:       UrlCloudinary,
 		Phone:       data.Phone,
 		Description: data.Description,
 		Status:      data.Status,
-		CustomerID:  data.CustomerID,
+		CustomerID:  customerID[0],
 	}
 	artesania := services.UpdateArtesanias((*models.Artesanias)(&argument), id)
 

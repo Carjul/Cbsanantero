@@ -55,6 +55,12 @@ func CreateHoteles(c *fiber.Ctx) error {
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el hotel"})
 	}
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+	customerID := form.Value["customer_id"]
+	data.CustomerID = customerID[0]
 	idc := data.CustomerID
 
 	objID, err := primitive.ObjectIDFromHex(idc)
@@ -72,22 +78,16 @@ func CreateHoteles(c *fiber.Ctx) error {
 
 	}
 	data.Status = "Activo"
-	form, err := c.MultipartForm()
-	if err != nil {
-		return err
-	}
 
 	// Obtiene los archivos subidos
 	files := form.File["image"]
-	customerID := form.Value["customer_id"]
 
-	x := files[0]
-	y := config.UploadImage2(x)
-	data.Image = y
-	data.CustomerID = customerID[0]
-	/* go config.UploadImageLocal(data.Image)
-	time.Sleep(1 * time.Second)
-	data.Image = config.UploadImage() */
+	ImageFile := files[0]
+	if ImageFile == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+	}
+	UrlCloudinary := config.UploadImage(ImageFile)
+	data.Image = UrlCloudinary
 
 	insertion, err := hoteles.InsertOne(context.Background(), data)
 	if err != nil {
@@ -104,14 +104,10 @@ func CreateHoteles(c *fiber.Ctx) error {
 func UpdateHoteles(c *fiber.Ctx) error {
 	hoteles := db.Hoteles
 
-	data := new(models.Hoteles)
-	if err := c.BodyParser(data); err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el hotel"})
-	}
 	id := c.Params("id")
 
-	objID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
+	data := new(models.Hoteles)
+	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el hotel"})
 	}
 	form, err := c.MultipartForm()
@@ -119,19 +115,18 @@ func UpdateHoteles(c *fiber.Ctx) error {
 		return err
 	}
 
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el hotel"})
+	}
+
 	// Obtiene los archivos subidos
 	files := form.File["image"]
-	customerID := form.Value["customer_id"]
-
-	x := files[0]
-	y := config.UploadImage2(x)
-	data.Image = y
-	data.CustomerID = customerID[0]
-	/* if data.Image != "" {
-		go config.UploadImageLocal(data.Image)
-		time.Sleep(1 * time.Second)
-		data.Image = config.UploadImage()
-	} */
+	ImageFile := files[0]
+	if ImageFile != nil {
+		UrlCloudinary := config.UploadImage(ImageFile)
+		data.Image = UrlCloudinary
+	}
 
 	_, err = hoteles.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
 	if err != nil {
@@ -151,11 +146,17 @@ func DeleteHoteles(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo eliminar el hotel"})
 	}
+	var hotel bson.M
+
+	err = hoteles.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&hotel)
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el hotel"})
+	}
 
 	_, err = hoteles.DeleteOne(context.Background(), bson.M{"_id": objID})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo eliminar el hotel"})
 	}
-
+	config.DeleteImage(hotel["image"].(string))
 	return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Hotel eliminado correctamente"})
 }

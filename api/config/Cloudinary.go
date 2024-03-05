@@ -6,8 +6,11 @@ import (
 	"log"
 	"mime/multipart"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/cloudinary/cloudinary-go/v2"
+	"github.com/cloudinary/cloudinary-go/v2/api/admin"
 	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 )
 
@@ -27,7 +30,7 @@ func CloudinaryV2() *cloudinary.Cloudinary {
 
 // Función que decodifica una imagen en base64 y la guarda en un archivo
 
-func UploadImage2(image *multipart.FileHeader) string {
+func UploadImage(image *multipart.FileHeader) string {
 
 	cld := CloudinaryV2()
 
@@ -48,4 +51,30 @@ func UploadImage2(image *multipart.FileHeader) string {
 	// Retorna la URL de la imagen cargada
 	return uploadResult.SecureURL
 
+}
+
+// delete imagen from cloudinary
+func DeleteImage(public_id string) {
+
+	cld := CloudinaryV2()
+	var ctx = context.Background()
+	Public_id := obtenerPublicID(public_id)
+	result, err := cld.Admin.DeleteAssets(ctx, admin.DeleteAssetsParams{
+		PublicIDs:    []string{"costa-brisa/" + Public_id},
+		DeliveryType: "upload",
+		AssetType:    "image",
+	})
+	if err != nil {
+		log.Fatalf("Error deleting image: %v", err)
+
+	}
+	log.Println(result)
+
+}
+
+func obtenerPublicID(url string) string {
+	partes := strings.Split(url, "/")
+	ultimaParte := partes[len(partes)-1]
+	id := strings.TrimSuffix(ultimaParte, filepath.Ext(ultimaParte))
+	return id
 }
