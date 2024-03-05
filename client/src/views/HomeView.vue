@@ -293,7 +293,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-1.jpg" alt="">
+                        <img class="img-fluid" src="https://img.freepik.com/foto-gratis/playa-sur-miami_649448-149.jpg?t=st=1709608813~exp=1709612413~hmac=d2f46ed1d625352c7213f1b79c6ff565da241c37ae75746dcd6dc50c455f8de6&w=1060" alt="">
                         <div class="p-4">
                             <div class="d-flex justify-content-between mb-3">
                                 <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
@@ -312,7 +312,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-2.jpg" alt="">
+                        <img class="img-fluid" src="https://img.freepik.com/foto-gratis/piscina_74190-2104.jpg?t=st=1709609578~exp=1709613178~hmac=d38e64428fe064f8e5919878b318781575be8f3225ac51b97b76d8b642bc84bf&w=900" alt="">
                         <div class="p-4">
                             <div class="d-flex justify-content-between mb-3">
                                 <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
@@ -331,7 +331,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-3.jpg" alt="">
+                        <img class="img-fluid" src="https://img.freepik.com/foto-gratis/camarero-feliz-sirviendo-comida-grupo-amigos-alegres-pub_637285-12525.jpg?t=st=1709609631~exp=1709613231~hmac=bdbd45d5b6ef93cac464beacd7ed4786b8b3ff807a8ff678c440b1cd59e9fc6e&w=900" alt="">
                         <div class="p-4">
                             <div class="d-flex justify-content-between mb-3">
                                 <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
@@ -350,7 +350,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-4.jpg" alt="">
+                        <img class="img-fluid" src="https://img.freepik.com/foto-gratis/hamacas-sombrillas-puestas-cercas-piscina-grande_1203-192.jpg?t=st=1709609691~exp=1709613291~hmac=d75478a6a7d5de7842a54c929a7840087b3149c69bdeca1814cf9096db8cd267&w=900" alt="">
                         <div class="p-4">
                             <div class="d-flex justify-content-between mb-3">
                                 <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
@@ -369,7 +369,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-5.jpg" alt="">
+                        <img class="img-fluid" src="https://img.freepik.com/foto-gratis/moderna-habitacion-hotel-lujo-ropa-cama-comoda-generada-ia_188544-17078.jpg?t=st=1709609745~exp=1709613345~hmac=1bed5e2e7d6bc27363d75d474d208e009643ef1fdb07cc556fb7f294829f0265&w=1060" alt="">
                         <div class="p-4">
                             <div class="d-flex justify-content-between mb-3">
                                 <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
@@ -388,7 +388,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-6.jpg" alt="">
+                        <img class="img-fluid" src="https://img.freepik.com/foto-gratis/feliz-ciudad-turistica-mapa_329181-477.jpg?t=st=1709609865~exp=1709613465~hmac=595756046e0cb17690213a024ed0420a696a95f3ee07521abe0974abc501337e&w=900" alt="">
                         <div class="p-4">
                             <div class="d-flex justify-content-between mb-3">
                                 <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>

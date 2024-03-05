@@ -64,7 +64,6 @@ const routes = [
     name: 'ad',
     component: () => import('../views/AdminView.vue'),
   },
- 
   {
     path: '/login',
     name: 'log',
@@ -82,31 +81,34 @@ const routes = [
   },
   {
     path: '/lishospe',
-    name:'ho',
-    component: ()=> import('../views/listar/ListarHospedaje.vue'),
+    name: 'ho',
+    component: () => import('../views/listar/ListarHospedaje.vue'),
   },
-
   {
-    path:'/listarhoteles',
+    path: '/listarhoteles',
     name: 'te',
-    component: ()=> import('../views/listar/ListarHotel.vue'),
+    component: () => import('../views/listar/ListarHotel.vue'),
   },
   {
     path: '/listaTrasporte',
     name: 'tra',
-    component: ()=> import ('../views/listar/ListarTrasporte.vue'),
+    component: () => import('../views/listar/ListarTrasporte.vue'),
   },
   {
     path: '/listarbar',
     name: 'ba',
-    component: ()=> import('../views/listar/ListarBar.vue'),
+    component: () => import('../views/listar/ListarBar.vue'),
   },
   {
     path: '/listjuegos',
-    name:'jue',
-    component: ()=> import ('../views/listar/ListarJuegos.vue')
+    name: 'jue',
+    component: () => import('../views/listar/ListarJuegos.vue')
+  },
+  {
+    path: '/artegalerri',
+    name: 'artga',
+    component: () => import('../views/galeria/ArteGalerri.vue')
   }
-  
 ];
 
 const router = createRouter({

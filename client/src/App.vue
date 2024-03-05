@@ -80,6 +80,7 @@
               <a href="service.html" class="nav-item nav-link">
                <i class="fas fa-map-marked-alt"></i> Mapa turístico
                </a>
+               
                <router-link to="/tourn" class="nav-item nav-link">
                   <i class="fas fa-route"></i> Tours
                 </router-link>
