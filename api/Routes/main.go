@@ -5,19 +5,18 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-
 func Rutas(app *fiber.App) {
 	//Ruta Inicial
-	app.Get("/", controllers.Init)	
-	/* //prueba de subida de imagen
-	app.Post("/upload", controllers.Upload)	 */
+	app.Get("/", controllers.Init)
+	//prueba de subida de imagen
+	app.Post("/upload", controllers.Upload)
 	//Rutas de Customer
 	app.Get("/customer", controllers.GetCustumer)
 	app.Get("/customer/:id", controllers.GetCustumerById)
 	app.Post("/customer", controllers.CreateCustomer)
 	app.Put("/customer/:id", controllers.UpdateCustomer)
 	app.Put("/customerStatus/:id", controllers.UpdateCustomerStatus)
-    app.Put("/customerRol/:id", controllers.UpdateCustomerRol)
+	app.Put("/customerRol/:id", controllers.UpdateCustomerRol)
 	app.Delete("/customer/:id", controllers.DeleteCustomer)
 	//Rutas de Trasporte
 	app.Get("/trasporte", controllers.GetTrasporte)
@@ -69,8 +68,5 @@ func Rutas(app *fiber.App) {
 	app.Delete("/artesania/:id", controllers.DeleteArtesanias)
 	//Rutas login
 	app.Post("/login", controllers.Login)
-	 
-	
-
 
 }

@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"fmt"
+
+	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db/models"
 	"github.com/cbsanantero/services"
 	"github.com/gofiber/fiber/v2"
@@ -28,15 +31,27 @@ func CreateArtesanias(c *fiber.Ctx) error {
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la artesania"})
 	}
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	// Obtiene los archivos subidos
+	files := form.File["image"]
+
+	x := files[0]
+	y := config.UploadImage2(x)
+	fmt.Println(data)
 	argumen := models.Artesanias{
 		Name:        data.Name,
 		Address:     data.Address,
-		Image:       data.Image,
+		Image:       y,
 		Phone:       data.Phone,
 		Description: data.Description,
 		Status:      "Activo",
 		CustomerID:  data.CustomerID,
 	}
+	fmt.Println(argumen)
 	artesania := services.CreateArtesanias((*models.Artesanias)(&argumen))
 
 	return c.Status(fiber.StatusCreated).JSON(artesania)

@@ -54,7 +54,7 @@
                 </div>
                 <div class="form-group">
                   <label for="imagenArtesania">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile()' id="imagenArtesania" ref="file" type="file" multiple style="display:none">
+                  <input name="image" class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="imagenArtesania" ref="file" type="file" multiple style="display:none">
                 </div>
                 <div class="form-group">
                   <label for="telefonoArtesania">Teléfono:</label>
@@ -190,31 +190,41 @@
        }
      },
      async crearArtesania() {
-       console.log(this.nuevaArtesania);
-       let id = localStorage.getItem('customerId');
-       try {
-         if (id) {
-           this.nuevaArtesania.customer_id = id;
-         }
-         const response = await axios.post('http://localhost:3000/Artesania', this.nuevaArtesania);
+      try {
+     var formData = new FormData(); 
+      this.nuevaArtesania.customer_id = localStorage.getItem('customerId');
+      
+       
+     
+           formData.append('image', this.file)
+           formData.append('name', this.nuevaArtesania.name)
+           formData.append('address', this.nuevaArtesania.address)
+           formData.append('phone', this.nuevaArtesania.phone)
+            formData.append('description', this.nuevaArtesania.description)
+           formData.append('customer_id', this.nuevaArtesania.customer_id)
+          
+         
+  
+         
+        const response = await axios.post('http://localhost:3000/Artesania', formData);
          console.log(response);
  
          // Reset the form and close the modal
-         this.nuevaArtesania = {
+       /*   this.nuevaArtesania = {
            name: '',
            address: '',
            image: '',
            phone: '',
            description: '',
            customer_id: '',
-         };
- 
-         // Close the modal
+         }; */
+        
+         /* // Close the modal
          this.cerrarModalCrear();
-         this.fetchArtesanias();
+         this.fetchArtesanias(); */
        } catch (error) {
          console.error('Error creating Artesania:', error);
-       }
+       } 
      },
      async actualizarArtesania() {
        try {
@@ -227,31 +237,12 @@
          console.error('Error updating Artesania:', error);
        }
      },
-     uploadFile() {
-      this.file = this.$refs.file.files[0];
-      var sizeByte = this.$refs.file.files[0].size;
-      var extencion = this.$refs.file.files[0].type;
-      /*
-      console.log(this.$refs.file.files) */
-      if (extencion !== 'image/jpeg' && extencion !== 'image/jpg' && extencion !== 'image/png') {
-        console.log('La imagen no es valida');
-        alert('La imagen no es valida');
-      } 
-      var siezekiloByte = parseInt(sizeByte / 1024);
-      if (siezekiloByte > 2048) {
-        console.log('La imagen es muy grande');
-        alert('La imagen es muy grande: ' + sizeByte + ' bytes');
-      } else {
-        this.createImage(this.file);
-      }
+     uploadFile(event) {
+      this.file = event.target.files[0];
     },
-    createImage(file) {
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this.nuevaArtesania.image = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    },
+    
+
+    
    },
  };
  </script>

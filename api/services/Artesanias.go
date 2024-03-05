@@ -2,9 +2,7 @@ package services
 
 import (
 	"context"
-	"time"
 
-	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -50,15 +48,6 @@ func CreateArtesanias(data *models.Artesanias) interface{} {
 	idc := data.CustomerID
 	objID, err := primitive.ObjectIDFromHex(idc)
 
-	go config.UploadImageLocal(data.Image)
-	time.Sleep(1 * time.Second)
-	url := config.UploadImage()
-	if url == "error al subir la imagen a cloudinary" {
-		return Message{Msg: "error al subir la imagen a cloudinary"}
-	} else {
-		data.Image = url
-	}
-
 	if err != nil {
 		return Message{Msg: "El _id Customer no es valido"}
 	}
@@ -72,6 +61,7 @@ func CreateArtesanias(data *models.Artesanias) interface{} {
 		return Message{Msg: "No se pudo crear la artesania"}
 	}
 	return Message{Msg: "Artesania creada"}
+
 }
 
 func UpdateArtesanias(data *models.Artesanias, id string) interface{} {
@@ -80,16 +70,7 @@ func UpdateArtesanias(data *models.Artesanias, id string) interface{} {
 	if err != nil {
 		return Message{Msg: "No se pudo encontrar la artesania"}
 	}
-	if data.Image != "" {
-		go config.UploadImageLocal(data.Image)
-		time.Sleep(1 * time.Second)
-		url := config.UploadImage()
-		if url == "error al subir la imagen a cloudinary" {
-			return Message{Msg: "error al subir la imagen a cloudinary"}
-		}
-		data.Image = url
 
-	}
 	result, err := artesanias.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
 	if err != nil {
 		return Message{Msg: "error al actualizar la artesania"}

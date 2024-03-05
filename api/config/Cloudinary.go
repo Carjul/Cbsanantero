@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"mime/multipart"
 	"os"
 	"strings"
 
@@ -132,6 +133,28 @@ func UploadImage() string {
 		fmt.Println("Error deleting file:", err)
 	}
 	extension = ""
+	// Retorna la URL de la imagen cargada
+	return uploadResult.SecureURL
+
+}
+func UploadImage2(image *multipart.FileHeader) string {
+
+	cld := CloudinaryV2()
+
+	// Configura los parámetros de la carga
+	overwrite := true
+	uploadParams := uploader.UploadParams{
+		Folder:    "costa-brisa",
+		Overwrite: &overwrite,
+	}
+
+	// Realiza la carga de la imagen a Cloudinary
+	uploadResult, err := cld.Upload.Upload(context.Background(), image, uploadParams) // Change this line
+	if err != nil {
+		log.Fatalf("Error uploading image: %v", err)
+		return "error al subir la imagen a cloudinary"
+	}
+
 	// Retorna la URL de la imagen cargada
 	return uploadResult.SecureURL
 
