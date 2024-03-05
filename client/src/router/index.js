@@ -106,8 +106,8 @@ const routes = [
   },
   {
     path: '/artegalerri',
-    name: 'artga',
-    component: () => import('../views/galeria/ArteGalerri.vue')
+    name: 'Galeri',
+    component: () => import('../views/galeria/GaleriVew.vue')
   }
 ];
 

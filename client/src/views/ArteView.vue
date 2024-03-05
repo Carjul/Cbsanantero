@@ -133,3 +133,25 @@ export default {
   },
 };
 </script>
+
+
+
+<style scoped>
+  /* Ajustes generales para las tarjetas */
+  .card {
+    height: 100%;
+  }
+
+  /* Ajustes específicos para las imágenes dentro de las tarjetas */
+  .card-img-top {
+    height: 200px; /* Ajusta la altura según tus necesidades */
+    object-fit: cover; /* Ajusta la forma en que la imagen se ajusta al contenedor */
+  }
+
+  /* Ajustes específicos para el cuerpo de la tarjeta */
+  .card-body {
+    min-height: 150px; /* Ajusta la altura mínima según tus necesidades */
+  }
+
+  /* Otras personalizaciones según tus necesidades */
+</style>
