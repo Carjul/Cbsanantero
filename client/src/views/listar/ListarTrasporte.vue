@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                   <label for="imagenTrasporte">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear()' id="imagenTrasporte" ref="fileCrear" type="file" style="display:none">
+                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenTrasporte" ref="fileCrear" type="file" style="display:none">
                 </div>
                 <div class="form-group">
                   <label for="placaTrasporte">Placa:</label>
@@ -131,6 +131,7 @@
           conductor: '',
           celular: '',
         },
+        file:null,
         nuevoTransporte: {
           tipo: '',
           image: '',
@@ -195,8 +196,15 @@
         try {
           if (id) {
             this.nuevoTransporte.customer_id = id;
-          }
-          const response = await axios.post('http://localhost:3000/Trasporte', this.nuevoTransporte);
+          var formData = new FormData();
+          formData.append('image', this.file);
+          formData.append('tipo', this.nuevoTransporte.tipo);
+          formData.append('placa', this.nuevoTransporte.placa);
+          formData.append('conductor', this.nuevoTransporte.conductor);
+          formData.append('celular', this.nuevoTransporte.celular);
+          formData.append('customer_id', this.nuevoTransporte.customer_id);
+          const response = await axios.post('http://localhost:3000/Trasporte', formData);
+      
           console.log(response);
   
           // Reset the form and close the modal
@@ -212,6 +220,7 @@
           // Close the modal
           this.cerrarModalCrear();
           this.fetchTransportes();
+        }
         } catch (error) {
           console.error('Error creating Trasporte:', error);
         }
@@ -227,33 +236,13 @@
           console.error('Error updating Trasporte:', error);
         }
       },
-      uploadFileCrear() {
-        this.uploadFile('fileCrear', 'nuevoTransporte');
-      },
+      uploadFileCrear(event) {
+      this.file = event.target.files[0];
+    },
+    
       uploadFileActualizar() {
         this.uploadFile('fileActualizar', 'transporteActualizado');
-      },
-      uploadFile(refName, dataProperty) {
-        const fileInput = this.$refs[refName];
-        if (fileInput && fileInput.files.length > 0) {
-          const file = fileInput.files[0];
-          var sizeByte = file.size;
-          var sizeKiloByte = parseInt(sizeByte / 1024);
-  
-          if (sizeKiloByte > 2048) {
-            console.log('La imagen es muy grande');
-          } else {
-            this.createImage(file, dataProperty);
-          }
-        }
-      },
-      createImage(file, dataProperty) {
-        var reader = new FileReader();
-        reader.onload = (e) => {
-          this[dataProperty].image = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      },
+      }
     },
   };
   </script>

@@ -56,6 +56,12 @@ func CreateTour(c *fiber.Ctx) error {
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el tour"})
 	}
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+	customerID := form.Value["customer_id"]
+	data.CustomerID = customerID[0]
 	idc := data.CustomerID
 
 	objID, err := primitive.ObjectIDFromHex(idc)
@@ -74,23 +80,15 @@ func CreateTour(c *fiber.Ctx) error {
 	}
 	data.Status = "Activo"
 
-	form, err := c.MultipartForm()
-	if err != nil {
-		return err
-	}
-
 	// Obtiene los archivos subidos
 	files := form.File["image"]
-	customerID := form.Value["customer_id"]
 
-	x := files[0]
-	y := config.UploadImage2(x)
-	data.Image = y
-	data.CustomerID = customerID[0]
-
-	/* go config.UploadImageLocal(data.Image)
-	time.Sleep(1 * time.Second)
-	data.Image = config.UploadImage() */
+	ImageFile := files[0]
+	if ImageFile == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+	}
+	UrlCloudinary := config.UploadImage(ImageFile)
+	data.Image = UrlCloudinary
 
 	result, err := tour.InsertOne(context.Background(), data)
 	if err != nil {
@@ -107,35 +105,31 @@ func CreateTour(c *fiber.Ctx) error {
 func UpdateTour(c *fiber.Ctx) error {
 	tour := db.Tour
 
+	id := c.Params("id")
+
 	data := new(models.Tour)
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el tour"})
 	}
 
-	id := c.Params("id")
-
-	objID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el tour"})
-	}
 	form, err := c.MultipartForm()
 	if err != nil {
 		return err
 	}
 
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el tour"})
+	}
+
 	// Obtiene los archivos subidos
 	files := form.File["image"]
-	customerID := form.Value["customer_id"]
 
-	x := files[0]
-	y := config.UploadImage2(x)
-	data.Image = y
-	data.CustomerID = customerID[0]
-	/* if data.Image != "" {
-		go config.UploadImageLocal(data.Image)
-		time.Sleep(1 * time.Second)
-		data.Image = config.UploadImage()
-	} */
+	ImageFile := files[0]
+	if ImageFile != nil {
+		UrlCloudinary := config.UploadImage(ImageFile)
+		data.Image = UrlCloudinary
+	}
 	update := bson.M{
 		"$set": data,
 	}
@@ -153,7 +147,7 @@ func UpdateTour(c *fiber.Ctx) error {
 }
 
 func DeleteTour(c *fiber.Ctx) error {
-	tour := db.Tour
+	tours := db.Tour
 
 	id := c.Params("id")
 
@@ -162,7 +156,14 @@ func DeleteTour(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el tour"})
 	}
 
-	result, err := tour.DeleteOne(context.Background(), bson.M{"_id": objID})
+	var tour bson.M
+
+	err = tours.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&tour)
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el tour"})
+	}
+
+	result, err := tours.DeleteOne(context.Background(), bson.M{"_id": objID})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo eliminar el tour"})
 	}
@@ -170,6 +171,7 @@ func DeleteTour(c *fiber.Ctx) error {
 	if result.DeletedCount == 0 {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo eliminar el tour"})
 	} else {
+		config.DeleteImage(tour["image"].(string))
 		return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Tour eliminado correctamente"})
 	}
 }

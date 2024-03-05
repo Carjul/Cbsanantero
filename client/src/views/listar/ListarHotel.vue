@@ -54,7 +54,7 @@
                 </div>
                 <div class="form-group">
                   <label for="imagenHotel">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear()' id="imagenHotel" ref="fileCrear" type="file" style="display:none">
+                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenHotel" ref="fileCrear" type="file" style="display:none">
                 </div>
                 <div class="form-group">
                   <label for="telefonoHotel">Teléfono:</label>
@@ -123,6 +123,7 @@
           image: '',
           phone: '',
         },
+        file:null,
         nuevoHotel: {
           name: '',
           address: '',
@@ -186,8 +187,14 @@
         try {
           if (id) {
             this.nuevoHotel.customer_id = id;
-          }
-          const response = await axios.post('http://localhost:3000/Hotel', this.nuevoHotel);
+          var formData = new FormData();
+          formData.append('image', this.file);
+          formData.append('name', this.nuevoHotel.name);
+          formData.append('address', this.nuevoHotel.address);
+          formData.append('phone', this.nuevoHotel.phone);
+          formData.append('customer_id', this.nuevoHotel.customer_id);
+          const response = await axios.post('http://localhost:3000/Hotel', formData);
+          
           console.log(response);
   
           // Reset the form and close the modal
@@ -202,6 +209,7 @@
           // Close the modal
           this.cerrarModalCrear();
           this.fetchHoteles();
+        }
         } catch (error) {
           console.error('Error creating Hotel:', error);
         }
@@ -217,33 +225,13 @@
           console.error('Error updating Hotel:', error);
         }
       },
-      uploadFileCrear() {
-        this.uploadFile('fileCrear', 'nuevoHotel');
+      uploadFileCrear(event) {
+      this.file = event.target.files[0];
       },
       uploadFileActualizar() {
         this.uploadFile('fileActualizar', 'hotelActualizado');
       },
-      uploadFile(refName, dataProperty) {
-        const fileInput = this.$refs[refName];
-        if (fileInput && fileInput.files.length > 0) {
-          const file = fileInput.files[0];
-          var sizeByte = file.size;
-          var sizeKiloByte = parseInt(sizeByte / 1024);
   
-          if (sizeKiloByte > 2048) {
-            console.log('La imagen es muy grande');
-          } else {
-            this.createImage(file, dataProperty);
-          }
-        }
-      },
-      createImage(file, dataProperty) {
-        var reader = new FileReader();
-        reader.onload = (e) => {
-          this[dataProperty].image = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      },
     },
   };
   </script>

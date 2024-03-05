@@ -58,17 +58,23 @@ func CreateCustomer(c *fiber.Ctx) error {
 	if err := c.BodyParser(customer); err != nil {
 		log.Println(err)
 	}
-	customer.Status = "Inactivo"
-	customer.Rol = "Cliente"
 	form, err := c.MultipartForm()
 	if err != nil {
 		return err
 	}
+
+	customer.Status = "Inactivo"
+	customer.Rol = "Cliente"
+
 	files := form.File["image"]
 
-	x := files[0]
-	y := config.UploadImage2(x)
-	customer.Image = y
+	ImageFile := files[0]
+	if ImageFile == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+
+	}
+	UrlCloudinary := config.UploadImage(ImageFile)
+	customer.Image = UrlCloudinary
 
 	result, err := customers.InsertOne(context.Background(), customer)
 	if err != nil {
@@ -105,16 +111,12 @@ func UpdateCustomer(c *fiber.Ctx) error {
 
 	// Obtiene los archivos subidos
 	files := form.File["image"]
+	ImageFile := files[0]
+	if ImageFile != nil {
+		UrlCloudinary := config.UploadImage(ImageFile)
+		customer.Image = UrlCloudinary
+	}
 
-	x := files[0]
-	y := config.UploadImage2(x)
-	customer.Image = y
-
-	/* if customer.Image != "" {
-		go config.UploadImageLocal(customer.Image)
-		time.Sleep(1 * time.Second)
-		customer.Image = config.UploadImage()
-	} */
 	update := bson.M{
 		"$set": customer,
 	}
@@ -141,6 +143,13 @@ func DeleteCustomer(c *fiber.Ctx) error {
 		log.Println(err)
 	}
 
+	var customer bson.M
+
+	err = customers.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&customer)
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
+	}
+
 	result, err := customers.DeleteOne(context.Background(), bson.M{"_id": objID})
 	if err != nil {
 		log.Println(err)
@@ -148,6 +157,7 @@ func DeleteCustomer(c *fiber.Ctx) error {
 	if result.DeletedCount == 0 {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo eliminar el cliente"})
 	} else {
+		config.DeleteImage(customer["image"].(string))
 		return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Cliente eliminado"})
 	}
 }

@@ -65,7 +65,7 @@
       </div>
       <div class="form-group">
 
-        <input class="form-control"  accept="image/jpeg, image/jpg, image/png" @change='uploadFile()' id="file" ref="file" type="file" s
+        <input class="form-control"  accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="file" ref="file" type="file" s
                 tyle="display:none">
         
       </div>
@@ -256,22 +256,8 @@ export default {
         console.error('Error updating customer:', error);
       }
     },
-    uploadFile() {
-      this.file = this.$refs.file.files[0];
-      var sizeByte = this.$refs.file.files[0].size;
-      var siezekiloByte = parseInt(sizeByte / 1024);
-      if (siezekiloByte > 2048) {
-        console.log('La imagen es muy grande');
-      } else {
-        this.createImage(this.file);
-      }
-    },
-    createImage(file) {
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this.nuevoCliente.image = e.target.result;
-      };
-      reader.readAsDataURL(file);
+     uploadFile(event) {
+      this.file = event.target.files[0];
     },
     cerrarModalActualizar() {
       const modalElement = this.$refs.modalActualizar;
@@ -296,10 +282,17 @@ export default {
     },
     async crearCliente() {
       try {
-        console.log('Nuevo Cliente antes de enviar:', this.nuevoCliente);
-        const response = await axios.post('http://localhost:3000/Customer', {
-          ...this.nuevoCliente,
-        });
+       /*  console.log('Nuevo Cliente antes de enviar:', this.nuevoCliente); */
+        const formData = new FormData();
+        formData.append('name', this.nuevoCliente.name);
+        formData.append('image', this.file);
+        formData.append('email', this.nuevoCliente.email);
+        formData.append('password', this.nuevoCliente.password);
+        formData.append('address', this.nuevoCliente.address);
+        formData.append('phone', this.nuevoCliente.phone);
+        formData.append('rol', this.nuevoCliente.rol);
+        const response = await axios.post('http://localhost:3000/Customer', formData);
+        
         console.log(response.data);
         this.fetchCustomers();
 

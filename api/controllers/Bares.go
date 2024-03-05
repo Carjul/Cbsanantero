@@ -55,9 +55,7 @@ func CreateBar(c *fiber.Ctx) error {
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el bar"})
 	}
-	/* go config.UploadImageLocal(data.Image)
-	time.Sleep(1 * time.Second)
-	data.Image = config.UploadImage() */
+
 	form, err := c.MultipartForm()
 	if err != nil {
 		return err
@@ -67,9 +65,12 @@ func CreateBar(c *fiber.Ctx) error {
 	files := form.File["image"]
 	customerID := form.Value["customer_id"]
 
-	x := files[0]
-	y := config.UploadImage2(x)
-	data.Image = y
+	ImageFile := files[0]
+	if ImageFile == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+	}
+	UrlCloudinary := config.UploadImage(ImageFile)
+	data.Image = UrlCloudinary
 	data.CustomerID = customerID[0]
 
 	idc := data.CustomerID
@@ -77,7 +78,7 @@ func CreateBar(c *fiber.Ctx) error {
 	objID, err := primitive.ObjectIDFromHex(idc)
 
 	if err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El _id no es valido"})
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El customer_id no es valido"})
 	}
 
 	busqueda := customer.FindOne(context.Background(), bson.M{"_id": objID})
@@ -123,17 +124,12 @@ func UpdateBar(c *fiber.Ctx) error {
 
 	// Obtiene los archivos subidos
 	files := form.File["image"]
-	customerID := form.Value["customer_id"]
 
-	x := files[0]
-	y := config.UploadImage2(x)
-	data.Image = y
-	data.CustomerID = customerID[0]
-	/* if data.Image != "" {
-		go config.UploadImageLocal(data.Image)
-		time.Sleep(1 * time.Second)
-		data.Image = config.UploadImage()
-	} */
+	ImageFile := files[0]
+	if ImageFile != nil {
+		UrlCloudinary := config.UploadImage(ImageFile)
+		data.Image = UrlCloudinary
+	}
 
 	_, err = bar.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
 	if err != nil {
@@ -153,10 +149,18 @@ func DeleteBar(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
 	}
 
+	busqueda := bar.FindOne(context.Background(), bson.M{"_id": objID})
+
+	var barres models.Bar
+	if err = busqueda.Decode(&barres); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
+	}
+
 	_, err = bar.DeleteOne(context.Background(), bson.M{"_id": objID})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo eliminar el bar"})
 	}
+	config.DeleteImage(barres.Image)
 
 	return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Bar eliminado correctamente"})
 }

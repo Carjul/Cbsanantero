@@ -55,7 +55,7 @@
           </div>
           <div class="form-group">
             <label for="imagenBar">Imagen:</label>
-            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile()' id="imagenBar" ref="file" type="file" style="display:none">
+            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="imagenBar" ref="file" type="file" style="display:none">
           </div>
           <div class="form-group">
             <label for="telefonoBar">Teléfono:</label>
@@ -201,8 +201,16 @@ export default {
       try {
         if (id) {
           this.nuevoBar.customer_id = id;
-        }
-        const response = await axios.post('http://localhost:3000/Bar', this.nuevoBar);
+        
+        const formData = new FormData();
+        formData.append('image', this.file);
+        formData.append('name', this.nuevoBar.name);
+        formData.append('address', this.nuevoBar.address);
+        formData.append('phone', this.nuevoBar.phone);
+        formData.append('description', this.nuevoBar.description);
+        formData.append('customer_id', this.nuevoBar.customer_id);
+        const response = await axios.post('http://localhost:3000/Bar', formData);
+       
         console.log(response);
 
         // Reset the form and close the modal
@@ -219,6 +227,7 @@ export default {
         // Close the modal
         this.cerrarModalCrear();
         this.fetchBares();
+      }
       } catch (error) {
         console.error('Error creating Bar:', error);
       }
@@ -240,30 +249,8 @@ export default {
     uploadFileActualizar() {
       this.uploadFile('fileActualizar', 'barActualizado');
     },
-     uploadFile() {
-      this.file = this.$refs.file.files[0];
-      var sizeByte = this.$refs.file.files[0].size;
-      var extencion = this.$refs.file.files[0].type;
-      /*
-      console.log(this.$refs.file.files) */
-      if (extencion !== 'image/jpeg' && extencion !== 'image/jpg' && extencion !== 'image/png') {
-        console.log('La imagen no es valida');
-        alert('La imagen no es valida');
-      } 
-      var siezekiloByte = parseInt(sizeByte / 1024);
-      if (siezekiloByte > 2048) {
-        console.log('La imagen es muy grande');
-        alert('La imagen es muy grande: ' + sizeByte + ' bytes');
-      } else {
-        this.createImage(this.file);
-      }
-    },
-    createImage(file) {
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this.nuevoBar.image = e.target.result;
-      };
-      reader.readAsDataURL(file);
+     uploadFile(event) {
+      this.file = event.target.files[0];
     },
   },
 };

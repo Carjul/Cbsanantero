@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group">
                   <label for="imagenRecreacion">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear()' id="imagenRecreacion" ref="fileCrear" type="file" style="display:none">
+                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenRecreacion" ref="fileCrear" type="file" style="display:none">
                 </div>
                 <div class="form-group">
                   <label for="serviciosRecreacion">Servicios:</label>
@@ -138,6 +138,7 @@ export default {
         status: '',
        
       },
+      file: null,
       nuevaRecreacion: {
         nombre: '',
         services: '',
@@ -203,8 +204,14 @@ export default {
       try {
         if (id) {
           this.nuevaRecreacion.customer_id = id;
-        }
-        const response = await axios.post('http://localhost:3000/Recreacion', this.nuevaRecreacion);
+      var formData = new FormData();
+      formData.append('image', this.file);
+      formData.append('name', this.nuevaRecreacion.name);
+      formData.append('address', this.nuevaRecreacion.address);
+      formData.append('services', this.nuevaRecreacion.services);
+      formData.append('price', this.nuevaRecreacion.price);
+      formData.append('customer_id', this.nuevaRecreacion.customer_id);
+      const response = await axios.post('http://localhost:3000/Recreacion', formData);
         console.log(response);
 
         // Reset the form and close the modal
@@ -221,6 +228,7 @@ export default {
         // Close the modal
         this.cerrarModalCrear();
         this.fetchRecreaciones();
+      }
       } catch (error) {
         console.error('Error creating Recreacion:', error);
       }
@@ -236,32 +244,11 @@ export default {
         console.error('Error updating Recreacion:', error);
       }
     },
-    uploadFileCrear() {
-      this.uploadFile('fileCrear', 'nuevaRecreacion');
+    uploadFileCrear(event) {
+      this.file = event.target.files[0];
     },
-    uploadFileActualizar() {
-      this.uploadFile('fileActualizar', 'recreacionActualizada');
-    },
-    uploadFile(refName, dataProperty) {
-      const fileInput = this.$refs[refName];
-      if (fileInput && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        var sizeByte = file.size;
-        var sizeKiloByte = parseInt(sizeByte / 1024);
-
-        if (sizeKiloByte > 2048) {
-          console.log('La imagen es muy grande');
-        } else {
-          this.createImage(file, dataProperty);
-        }
-      }
-    },
-    createImage(file, dataProperty) {
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this[dataProperty].imagen = e.target.result;
-      };
-      reader.readAsDataURL(file);
+    uploadFileActualizar(event) {
+      this.file = event.target.files[0];
     },
   },
 };
