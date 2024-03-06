@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"context"
+	"fmt"
+	"strconv"
 
 	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
@@ -13,7 +15,9 @@ import (
 
 func GetGaleria(c *fiber.Ctx) error {
 	galeria := db.Galeria
-	busqueda, err := galeria.Find(context.TODO(), bson.M{"status": "Activo"})
+	id := c.Params("id")
+
+	busqueda, err := galeria.Find(context.TODO(), bson.M{"negocio_id": id, "status": "Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
 	}
@@ -32,29 +36,39 @@ func CreateGaleria(c *fiber.Ctx) error {
 
 	data := new(models.Galeria)
 
-	if err := c.BodyParser(data); err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el bar"})
-	}
-
+	// Parsea el formulario
 	form, err := c.MultipartForm()
 	if err != nil {
 		return err
 	}
 
 	// Obtiene los archivos subidos
-	files := form.File["image"]
+	longitud := form.Value["logitud"]
+	num, err := strconv.Atoi(longitud[0])
 
-	for i := 0; i < len(files); i++ {
-		ImageFile := files[i]
+	if err != nil {
+		fmt.Println("Error al convertir la cadena a un número:", err)
+	}
+	for i := 0; i < num; i++ {
+
+		str := strconv.Itoa(i)
+		name := "image" + str
+		files := form.File[name]
+		ImageFile := files[0]
 		if ImageFile == nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
 		}
 		UrlCloudinary := config.UploadImage(ImageFile)
-		data.Photos[i] = UrlCloudinary
+		data.Photos = append(data.Photos, UrlCloudinary)
 	}
 
 	customerID := form.Value["customer_id"]
+	negocioID := form.Value["negocio_id"]
+
 	data.CustomerID = customerID[0]
+	data.NegocioID = negocioID[0]
+	data.Status = "Activo"
+
 	idc := data.CustomerID
 
 	objID, err := primitive.ObjectIDFromHex(idc)
@@ -71,7 +85,6 @@ func CreateGaleria(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
 
 	}
-	data.Status = "Activo"
 
 	insertion, err := galeria.InsertOne(context.Background(), data)
 	if err != nil {

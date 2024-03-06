@@ -65,7 +65,7 @@ func Rutas(app *fiber.App) {
 	app.Put("/artesania/:id", controllers.UpdateArtesanias)
 	app.Delete("/artesania/:id", controllers.DeleteArtesanias)
 	//galeria
-	app.Get("/galeria", controllers.GetGaleria)
+	app.Get("/galeria/:id", controllers.GetGaleria)
 	app.Post("/galeria", controllers.CreateGaleria)
 	/* app.Put("/galeria/:id", controllers.UpdateGaleria) */
 

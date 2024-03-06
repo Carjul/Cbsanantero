@@ -2,20 +2,28 @@
   <div>
     <hr>
     <div class="row gallery">
-      <div class="col-md-4" v-for="(artesania, index) in artesanias" :key="artesania.id">
-        <img :src="artesania.image" class="img-fluid gallery-item" alt="Artesanía"
-          @click="openImage(artesania.image, index)" />
-      </div>
+
       <div class="col-md-4">
         <form @submit.prevent="crearGal">
           <div class="form-group">
             <label for="imagenBar">Imagen:</label>
-            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' multiple id="imagenBar"
-              ref="file" type="file" style="display:none">
+            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' multiple
+              id="imagenBar" ref="file" type="file" style="display:none">
           </div>
           <input type="submit" value="enviar">
         </form>
       </div>
+      <div class="row">
+        <div class="col-md-4" v-for="(elemento, index) in Galeria" :key="index">
+          <div class="card mb-4">
+            <div v-for="(imagen, imgIndex) in elemento.photos" :key="imgIndex">
+              <img :src="imagen" class="card-img-top" alt="imagen" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 
       <!-- Modal para la imagen agrandada con slider -->
       <div v-if="showModal" class="modal-container">
@@ -39,59 +47,64 @@ export default {
     return {
       id: null,
       file: null,
-      artesanias: [],
+      Galeria: [],
       showModal: false,
       selectedImage: "",
       currentIndex: 0,
     };
   },
   methods: {
-    async fetchArtesanias() {
+    async fetchGaleria() {
       try {
-        const response = await axios.get('http://localhost:3000/Artesania');
-        this.artesanias = response.data;
+        const response = await axios.get(`http://localhost:3000/galeria/${this.id}`);
+
+        this.Galeria = response.data;
       } catch (error) {
         console.error('Error al obtener las artesanías', error);
       }
     },
     uploadFile(event) {
+      const arr = [];
       this.file = event.target.files;
-      console.log(this.file);
-    },
-   async crearGal(){
-      try {
-     var formData = new FormData(); 
-      let customer = localStorage.getItem('customerId');
+      for (let key in this.file) {
+        arr[key] = this.file[key]
       
-       
-     if(customer != '') {
-           formData.append('image', this.file)
-           formData.append('negocio_id', this.id)
-           formData.append('customer_id', customer)
+      }
+      this.file = arr;
 
-  
-         
-        const response = await axios.post('http://localhost:3000/galeria', formData);
-         console.log(response);
- 
-          
-         /* this.nuevaArtesania = {
-           name: '',
-           address: '',
-           image: '',
-           phone: '',
-           description: '',
-           customer_id: '',
-         }; */ 
-        
-       
-      
+    },
+    async crearGal() {
+      try {
+        var formData = new FormData();
+        let customer = localStorage.getItem('customerId');
+
+
+        if (customer != '') {
+
+          for (let i = 0; i < this.file.length; i++) {
+            const element = this.file[i];
+           
+            let cadena = i.toString();
+            let name = 'image' + cadena;
+   
+            formData.append(name, element)
+          }
+          formData.append('logitud', this.file.length)
+          formData.append('negocio_id', this.id)
+          formData.append('customer_id', customer)
+
+          const response = await axios.post('http://localhost:3000/galeria', formData);
+          console.log(response);
+          this.file =''
+
+          this.fetchGaleria()
+
         } else {
           alert('No tienes permisos para crear una artesanía')
         }
-       } catch (error) {
-         console.error('Error creating Artesania:', error);
-       } 
+      } catch (error) {
+        console.error('Error creating Artesania:', error);
+      }
     },
     openImage(image, index) {
       this.showModal = true;
@@ -116,6 +129,8 @@ export default {
     let x = localStorage.getItem('idtemp');
     this.id = x;
     localStorage.removeItem('idtemp')
+    this.fetchGaleria()
+
   },
 
 };
