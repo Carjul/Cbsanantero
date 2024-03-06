@@ -67,7 +67,7 @@ func Rutas(app *fiber.App) {
 	//galeria
 	app.Get("/galeria/:id", controllers.GetGaleria)
 	app.Post("/galeria", controllers.CreateGaleria)
-	/* app.Put("/galeria/:id", controllers.UpdateGaleria) */
+	app.Put("/galeria/:id", controllers.UpdateGaleria)
 
 	//Rutas login
 	app.Post("/login", controllers.Login)

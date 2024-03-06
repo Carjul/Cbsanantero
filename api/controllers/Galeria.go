@@ -17,6 +17,8 @@ func GetGaleria(c *fiber.Ctx) error {
 	galeria := db.Galeria
 	id := c.Params("id")
 
+	galeria.DeleteMany(context.Background(), bson.M{"photos": bson.M{"$exists": true, "$size": 0}})
+
 	busqueda, err := galeria.Find(context.TODO(), bson.M{"negocio_id": id, "status": "Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
@@ -98,6 +100,59 @@ func CreateGaleria(c *fiber.Ctx) error {
 	}
 }
 
-/* func UpdateGaleria(c *fiber.Ctx) error{
+func UpdateGaleria(c *fiber.Ctx) error {
+	galeria := db.Galeria
+	type UrlImage struct {
+		Url string `json:"photo"`
+	}
+	id := c.Params("id")
 
-} */
+	data := new(UrlImage)
+
+	if err := c.BodyParser(data); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+	}
+	fmt.Println(data.Url)
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El id no es valido"})
+	}
+	var galeriaData models.Galeria
+	galeria.FindOne(context.Background(), bson.M{"_id": objID}).Decode(&galeriaData)
+
+	if galeriaData.Photos == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar la photo"})
+
+	}
+
+	result := eliminarElemento(galeriaData.Photos, data.Url)
+
+	_, err = galeria.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": bson.M{"photos": result}})
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar la galeria"})
+	}
+
+	config.DeleteImage(data.Url)
+
+	return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "galeria elinimada"})
+
+}
+
+func eliminarElemento(arr []string, elemento string) []string {
+	// Buscar el índice del elemento a eliminar
+	indice := -1
+	for i, v := range arr {
+		if v == elemento {
+			indice = i
+			break
+		}
+	}
+
+	// Si el elemento existe, eliminarlo
+	if indice != -1 {
+		// Reconstruir el array sin el elemento
+		arr = append(arr[:indice], arr[indice+1:]...)
+	}
+
+	return arr
+}

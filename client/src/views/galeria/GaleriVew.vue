@@ -14,13 +14,14 @@
         </form>
       </div>
       <div class="row">
-        <div class="col-md-4" v-for="(elemento, index) in Galeria" :key="index">
-          <div class="card mb-4">
-            <div v-for="(imagen, imgIndex) in elemento.photos" :key="imgIndex">
-              <img :src="imagen" class="card-img-top" alt="imagen" />
-            </div>
+
+        <div class="card mb-4">
+          <div class="" v-for="(obj, imgIndex) in Galeria.photos" :key="imgIndex">
+            <buttom @click="EliminarPhoto(Galeria.photos[imgIndex])">X</buttom>
+            <img :src="obj.image" class="card-img-top" alt="imagen" loading="lazy" />
           </div>
         </div>
+
       </div>
 
 
@@ -45,57 +46,76 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      id: null,
       file: null,
-      Galeria: [],
+      Galeria: {
+        photos: [],
+        negocio_id: null,
+        customer_id: null
+      },
       showModal: false,
       selectedImage: "",
       currentIndex: 0,
     };
   },
   methods: {
-    async fetchGaleria() {
-      try {
-        const response = await axios.get(`http://localhost:3000/galeria/${this.id}`);
-
-        this.Galeria = response.data;
-      } catch (error) {
-        console.error('Error al obtener las artesanías', error);
-      }
-    },
     uploadFile(event) {
       const arr = [];
       this.file = event.target.files;
       for (let key in this.file) {
         arr[key] = this.file[key]
-      
       }
       this.file = arr;
 
     },
+    async fetchGaleria() {
+      try {
+        const response = await axios.get(`http://localhost:3000/galeria/${this.Galeria.negocio_id}`);
+        let data = response.data;
+
+        if (data.length !== 0) {
+          for (let i = 0; i < data.length; i++) {
+            const element = data[i];
+            for (let j = 0; j < element.photos.length; j++) {
+              const photo = element.photos[j];
+              const objetoEncontrado = this.Galeria.photos.find(obj => obj.image === photo);
+
+              if (!objetoEncontrado) {
+                this.Galeria.photos.unshift({ id: element._id, image: photo });
+              }
+
+            }
+            this.Galeria.negocio_id = element.negocio_id;
+            this.Galeria.customer_id = element.customer_id;
+          }
+        }
+
+
+
+      } catch (error) {
+        console.error('Error al obtener las artesanías', error);
+      }
+    },
     async crearGal() {
       try {
         var formData = new FormData();
-        let customer = localStorage.getItem('customerId');
 
-
-        if (customer != '') {
+        if (this.Galeria.customer_id != '') {
 
           for (let i = 0; i < this.file.length; i++) {
             const element = this.file[i];
-           
+
             let cadena = i.toString();
             let name = 'image' + cadena;
-   
+
             formData.append(name, element)
           }
           formData.append('logitud', this.file.length)
-          formData.append('negocio_id', this.id)
-          formData.append('customer_id', customer)
+          formData.append('negocio_id', this.Galeria.negocio_id)
+          formData.append('customer_id', this.Galeria.customer_id)
 
           const response = await axios.post('http://localhost:3000/galeria', formData);
           console.log(response);
-          this.file =''
+          this.file = null;
 
           this.fetchGaleria()
 
@@ -105,6 +125,25 @@ export default {
       } catch (error) {
         console.error('Error creating Artesania:', error);
       }
+    },
+    async EliminarPhoto(photo) {
+      const respuesta = window.confirm("¿Quieres Eliminar esta imagen?");
+
+      if (respuesta) {
+       
+      try {
+        const response = await axios.put(`http://localhost:3000/galeria/${photo.id}`, { photo: photo.image });
+        console.log(response)
+        this.Galeria.photos = this.Galeria.photos.filter(obj => obj.image !== photo.image);
+        this.fetchGaleria()
+      } catch (error) {
+        console.log(error)
+      }
+      } else {
+        console.log("solicitud cancelad");
+      }
+
+
     },
     openImage(image, index) {
       this.showModal = true;
@@ -126,8 +165,8 @@ export default {
     },
   },
   mounted() {
-    let x = localStorage.getItem('idtemp');
-    this.id = x;
+    this.Galeria.customer_id = localStorage.getItem('customerId');
+    this.Galeria.negocio_id = localStorage.getItem('negocioId');
     localStorage.removeItem('idtemp')
     this.fetchGaleria()
 
