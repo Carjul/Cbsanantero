@@ -8,13 +8,18 @@
           <div class="col-md-4">
         <form @submit.prevent="crearGal">
           <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupFile01">Upload</label>
-            <input type="file" class="form-control">
-            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' multiple
-              id="inputGroupFile01" ref="file" type="file" style="display:none">
+             
+            
+            
+           <input type="file" class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' multiple
+              id="imagenBar" ref="file" >
+
           </div>
           <input type="submit" value="enviar">
+         
+
         </form>
+        <progress v-if="uploadProgress !== null" :value="uploadProgress" max="100"></progress>
       </div>
         </center>
         
@@ -65,6 +70,8 @@ export default {
       },
       modalOpen: false,
       selectedImage: null,
+      uploadProgress: null,
+      numSelectedImages: 0,
     };
   },
   methods: {
@@ -111,21 +118,28 @@ export default {
 
     async crearGal() {
       try {
-        var formData = new FormData();
+        if (this.Galeria.customer_id !== '') {
+          const formData = new FormData();
 
-        if (this.Galeria.customer_id != '') {
           for (let i = 0; i < this.file.length; i++) {
-            const element = this.file[i];
-            let cadena = i.toString();
-            let name = 'image' + cadena;
-            formData.append(name, element);
+            formData.append(`image${i}`, this.file[i]);
           }
+
           formData.append('logitud', this.file.length);
           formData.append('negocio_id', this.Galeria.negocio_id);
           formData.append('customer_id', this.Galeria.customer_id);
 
-          const response = await axios.post('http://localhost:3000/galeria', formData);
+          const config = {
+            onUploadProgress: (progressEvent) => {
+              // Calcular el progreso y actualizar la variable
+              this.uploadProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            },
+          };
+
+          // Enviar la solicitud con la configuración que incluye el progreso
+          const response = await axios.post('http://localhost:3000/galeria', formData, config);
           console.log(response);
+
           this.file = null;
           this.Galeria.photos = [];
           this.fetchGaleria();
@@ -134,8 +148,16 @@ export default {
         }
       } catch (error) {
         console.error('Error creating Artesania:', error);
+      } finally {
+        // Restaurar la variable de progreso después de completar la solicitud
+        this.uploadProgress = null;
       }
     },
+    // Otras funciones del componente...
+  
+
+
+
     async EliminarPhoto(photo) {
   const result = await Swal.fire({
     title: "¿Quieres eliminar esta imagen?",
