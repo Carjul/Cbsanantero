@@ -47,22 +47,51 @@
           <div class="modal-header">
             <h4 class="modal-title" id="solicitudModalLabel">Solicitar Servicio</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal">
-              <span aria-hidden="true">&times;</span>
+  
+
             </button>
           </div>
 
           <!-- Modal Body -->
           <div class="modal-body">
-            <p>CustomerID Seleccionado: {{ selectedCustomerId }}</p>
+            <b>
+              <p>Creando servicio:</p>
+            </b>
+          
             <!-- Formulario con campos solicitados -->
             <form>
               <div class="form-group">
-                <label for="nombre">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" v-model="formData.nombre">
+                <label for="nombre">Nombres:</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Describa nombre y apellido" v-model="formData.nombre">
+                
+              </div>
+<!-- 
+              input 2 -->
+
+              <div class="form-group">
+                <label for="correo">Correo:</label>
+                <input type="email" class="form-control" placeholder="Escriba su correo" id="apellidos" v-model="formData.correo">
+                
               </div>
 
-              <!-- ... Otros campos del formulario ... -->
+             <!--  input 3 -->
+             <div class="form-group">
+                <label for="celular">Numero de celular:</label>
+                <input type="text" class="form-control" id="celular" placeholder="eje +57 304 000 4445" v-model="formData.celular">
+                
+              </div>
+             
+        
 
+              <!-- input 4  -->
+
+              <div class="form-group">
+                <label for="description">Descripcion:</label>
+                <textarea id="description"  placeholder="Deescriba su solicitud" rows="3"></textarea>
+              
+              </div>
+
+             
               <!-- Botón de solicitar -->
               <button type="button" class="btn btn-success" @click="submitForm">Solicitar</button>
             </form>
@@ -84,8 +113,8 @@ export default {
       formData: {
         _id:null,
         nombre: '',
-        apellidos: '',
-        descripcion: '',
+/*         apellidos: '', */
+        /* descripcion: '',   esta descripcion no esta llegando debido a que utilizo un area de texto y identifica el ID  */
         celular: '',
         correo: '',
         customerId: null,
