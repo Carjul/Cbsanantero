@@ -13,9 +13,11 @@
             
            <input type="file" class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' multiple
               id="imagenBar" ref="file" >
-
+              <p style="color: transparent;">+</p>
+              <input type="submit" value="enviar">
+ 
           </div>
-          <input type="submit" value="enviar">
+          
          
 
         </form>
@@ -28,10 +30,10 @@
    <hr>
 
 
-   <div class="row">
-          <div class="col-md-4" v-for="(obj, imgIndex) in Galeria.photos" :key="imgIndex">
-            <div class="card mb-4" @click="openModal(obj.image)">
-              <button type="button" class="btn btn-danger" @click.stop="EliminarPhoto(Galeria.photos[imgIndex])">Eliminar</button>
+   <div  class="row">
+          <div  class="col-md-4" v-for="(obj, imgIndex) in Galeria.photos" :key="imgIndex">
+            <div class="card mb-2" @click="openModal(obj.image)">
+              <button style="height: 50px; width: 50px;" type="button" class="btn btn-danger" @click.stop="EliminarPhoto(Galeria.photos[imgIndex])">X</button>
               <img :src="obj.image" class="card-img-top gallery-image" alt="imagen" loading="lazy" />
             </div>
           </div>
@@ -173,6 +175,7 @@ export default {
     try {
       const response = await axios.put(`http://localhost:3000/galeria/${photo.id}`, { photo: photo.image });
       console.log(response);
+      this.Galeria.photos =[]
       this.fetchGaleria();
       Swal.fire({
         title: "Eliminada",
