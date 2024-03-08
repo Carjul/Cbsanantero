@@ -60,8 +60,12 @@ func CreateGaleria(c *fiber.Ctx) error {
 		if ImageFile == nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
 		}
-		UrlCloudinary := config.UploadImage(ImageFile)
-		data.Photos = append(data.Photos, UrlCloudinary)
+
+		var UrlCloudinary string
+		go func() {
+			UrlCloudinary = config.UploadImage(ImageFile)
+			data.Photos = append(data.Photos, UrlCloudinary)
+		}()
 	}
 
 	customerID := form.Value["customer_id"]
