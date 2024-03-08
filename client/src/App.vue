@@ -43,6 +43,13 @@
                 <img :src="imagenUsuario" alt="Avatar" class="avatar">
                 <p class="nombre-usuario">{{ nombreUsuario }}</p>
               </div>
+                 <p style="color: transparent;">..</p>
+                 <div class="notification-container">
+                <i  class="fas fa-bell"></i>
+                <div class="notification-badge">1</div>
+              </div>
+
+
 
             </div>
           </div>
@@ -264,4 +271,22 @@ body {
         .text-dark {
             color: #333;
         }
+
+
+.notification-container {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: green;
+  color: white;
+  border-radius: 500%;
+  padding: 5px 5px;
+  font-size: 3px;
+}
+
 </style>
