@@ -214,8 +214,9 @@ export default {
     this.Galeria.negocio_id = localStorage.getItem('negocioId');
     localStorage.removeItem('idtemp')
     this.fetchGaleria()
-
+    
   },
+ 
 
 };
 </script>
