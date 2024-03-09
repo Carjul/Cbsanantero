@@ -22,6 +22,7 @@ var Recreacion *mongo.Collection
 var Bares *mongo.Collection
 var Artesanias *mongo.Collection
 var Galeria *mongo.Collection
+var Servicio *mongo.Collection
 
 func ConexionDB() error {
 	uri := os.Getenv("MONGODB_URI")
@@ -56,6 +57,7 @@ func ConexionDB() error {
 	Bares = Db.Collection("Bares")
 	Artesanias = Db.Collection("Artesanias")
 	Galeria = Db.Collection("Galeria")
+	Servicio = Db.Collection("Servicio")
 
 	return nil
 }

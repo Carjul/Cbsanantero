@@ -1,0 +1,11 @@
+[build]
+bin = "main"
+cmd = "go build -o main ."
+dir = "."
+exclude_dir = ["node_modules", "public"]
+
+[run]
+args = []
+env = []
+log_prefix = "air"
+port = "3000"

@@ -4,6 +4,20 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type ClientePeticion struct {
+	Nombre      string `json:"nombre,omitempty" bson:"nombre,omitempty"`
+	Celular     string `json:"celular,omitempty" bson:"celular,omitempty"`
+	Correo      string `json:"correo,omitempty" bson:"correo,omitempty"`
+	Description string `json:"description,omitempty" bson:"description,omitempty"`
+	Revision    bool
+	Fecha       string `json:"fecha,omitempty" bson:"fecha,omitempty"`
+	Hora        string `json:"hora,omitempty" bson:"hora,omitempty"`
+	Status      string `json:"status,omitempty" bson:"status,omitempty"`
+	ClienteId   string `json:"clienteId,omitempty" bson:"clienteId,omitempty"`
+	CustomerId  string `json:"customerId,omitempty" bson:"customerId,omitempty"`
+	NegocioId   string `json:"negocioId,omitempty" bson:"negocioId,omitempty"`
+}
+
 type Artesanias struct {
 	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	Name        string             `json:"name,omitempty" bson:"name,omitempty"`

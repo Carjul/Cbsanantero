@@ -177,6 +177,7 @@ func UpdateCustomerStatus(c *fiber.Ctx) error {
 	tour := db.Tour
 	transportes := db.Traporte
 	galeria := db.Galeria
+	servicio := db.Servicio
 
 	id := c.Params("id")
 
@@ -245,7 +246,10 @@ func UpdateCustomerStatus(c *fiber.Ctx) error {
 	_, err = galeria.UpdateMany(context.Background(), filter, update)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Cannot update galeria"})
-
+	}
+	_, err = servicio.UpdateMany(context.Background(), filter, update)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Cannot update servicio"})
 	}
 
 	if result.ModifiedCount == 0 {

@@ -58,6 +58,8 @@
               localStorage.setItem('usuarioRol', data.user.rol);
               localStorage.setItem('customerId',data.user._id);
               localStorage.setItem('nombreUsuario', data.user.name);
+              localStorage.setItem('correoUsuario', data.user.email);
+              localStorage.setItem('celularUsuario', data.user.phone);
               localStorage.setItem('imagenUsuario', data.user.image);
              
               if (data.user.rol === 'Admin'|| data.user.rol === 'Cliente' ) {
