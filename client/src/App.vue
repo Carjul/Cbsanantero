@@ -107,9 +107,9 @@
                   <router-link to="/recre" class="dropdown-item">Juegos y Recreación</router-link>
                 </div>
               </div>
-              <a href="contact.html" class="nav-item nav-link">
+              <!-- <a href="contact.html" class="nav-item nav-link">
                 <i class="fas fa-envelope"></i> Contact
-              </a>
+              </a> -->
 
             </div>
           </div>

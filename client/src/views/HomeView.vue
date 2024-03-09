@@ -412,7 +412,7 @@
 
 
     <!-- Registration Start -->
-    <div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
+    <!-- <div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
         <div class="container py-5">
             <div class="row align-items-center">
                 <div class="col-lg-7 mb-5 mb-lg-0">
@@ -459,7 +459,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Registration End -->
 
 
@@ -729,7 +729,7 @@
                
             </div>
             <div class="col-lg-6 text-center text-md-right">
-                <p class="m-0 text-white-50">Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+                <p class="m-0 text-white-50">Designed by <a href="#">CostaBrisa</a>
                 </p>
             </div>
         </div>
@@ -758,5 +758,11 @@ export default {
 
 </script>
 
-
+<style>
+ .package-item img {
+        width: 100%;
+        height: 200px; /* Puedes ajustar la altura según tus preferencias */
+        object-fit: cover; /* Ajusta la imagen manteniendo las proporciones y cubriendo completamente el contenedor */
+    }
+</style>
 
