@@ -65,7 +65,8 @@
               if (data.user.rol === 'Admin'|| data.user.rol === 'Cliente' ) {
                 // Redirige a la vista principal si el usuario es administrador
                 //this.$router.push({ name: 'home' });
-                location.href = '/home'
+                this.$router.push({ path: '/home' });
+
                 console.log("sesion iniciada")
               } else {
                 // Redirige a otra vista si no es administrador
