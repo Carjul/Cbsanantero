@@ -200,10 +200,10 @@
 export default {
   data() {
     return {
-      usuarioAutenticado: localStorage.getItem('usuarioAutenticado') === 'true',
-      usuarioRol: localStorage.getItem('usuarioRol') || '',
-      imagenUsuario: localStorage.getItem('imagenUsuario') || '',
-      nombreUsuario: localStorage.getItem('nombreUsuario') || '',
+      usuarioAutenticado: '',
+       usuarioRol: '',
+       imagenUsuario:'',
+      nombreUsuario:''
     };
   },
   methods: {
@@ -215,7 +215,7 @@ export default {
       localStorage.removeItem('nombreUsuario');
       localStorage.removeItem('customerId');
       
-
+    
 
       // Redirigir a la página de inicio de sesión u otra página
       this.$router.push('/login');
@@ -233,8 +233,14 @@ export default {
        
   mounted() {
     // Llamar a la función para obtener los datos del usuario cuando se monta el componente
-   
+
+      this.usuarioAutenticado = localStorage.getItem('usuarioAutenticado'),
+      this.usuarioRol = localStorage.getItem('usuarioRol'),
+      this.imagenUsuario = localStorage.getItem('imagenUsuario'),
+      this.nombreUsuario = localStorage.getItem('nombreUsuario')
+      console.log(this.$data)
   },
+ 
 };
 </script>
 
