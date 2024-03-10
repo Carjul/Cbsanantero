@@ -194,18 +194,26 @@
         </div>
     </div>
     <!-- Footer End -->
+    
+
    <!-- eslint-enable -->
 </template>
 <script>
+
+
 export default {
   data() {
+  
     return {
       usuarioAutenticado: '',
        usuarioRol: '',
        imagenUsuario:'',
       nombreUsuario:''
     };
+    
+    
   },
+  
   methods: {
     cerrarSesion() {
       // Limpiar la información de autenticación y del usuario
