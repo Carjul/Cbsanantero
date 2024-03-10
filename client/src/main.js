@@ -26,10 +26,10 @@ addEventListener('keypress', function(e) {
 addEventListener('DOMContentLoaded', function() {
   var x = this.localStorage.getItem('usuarioAutenticado');
 
-  for (let i = 0; i <= 199; i++) {
+  for (let i = 0; i <= 599; i++) {
     setTimeout(() => {
   
-      if (i === 199 && x) {
+      if (i === 599 && x) {
         Swal.fire({
           title: "La sesión ha expirado",
           text: "Favor iniciar sesión nuevamente",
