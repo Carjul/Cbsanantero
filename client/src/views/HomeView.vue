@@ -5,6 +5,7 @@
 
     <!-- Carousel Start -->
     <div class="container-fluid p-0">
+        
         <div id="header-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -13,7 +14,8 @@
                         <div class="p-3" style="max-width: 900px;">
                             <h4 class="text-white text-uppercase mb-md-3">Vamos</h4>
                             <h1 class="display-3 text-white mb-md-4">Descubramos el mundo juntos</h1>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Book Now</a>
+                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">Book Now</a>
+
                         </div>
                     </div>
                 </div>
@@ -23,7 +25,8 @@
                         <div class="p-3" style="max-width: 900px;">
                             <h4 class="text-white text-uppercase mb-md-3">HORA  DE CONOCER</h4>
                             <h1 class="display-3 text-white mb-md-4">Descubre Lugares Increíbles Con Nosotros</h1>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Book Now</a>
+                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">Book Now</a>
+
                         </div>
                     </div>
                 </div>
@@ -41,6 +44,10 @@
         </div>
     </div>
     <!-- Carousel End -->
+
+
+
+
 
 
    
@@ -116,7 +123,8 @@
                                 <img class="img-fluid" src="https://img.freepik.com/foto-gratis/feliz-compania-hipster-amigos-viajando-mundo_285396-3649.jpg?w=900&t=st=1702656653~exp=1702657253~hmac=afe6d425190d9e33f086828f1257ee1c7d7f29847b5390deb4b0d946840e05ae" alt="">
                             </div>
                         </div>
-                        <a href="" class="btn btn-primary mt-1">Reservar</a>
+                        <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">Book Now</a>
+
                     </div>
                 </div>
             </div>
@@ -287,8 +295,8 @@
         <div class="container pt-6 pb-3">
             
             <div class="text-center mb-3 pb-3">
-                <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Packages</h6>
-                <h1>Pefect Tour Packages</h1>
+                <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Favoritos</h6>
+                <h1>Hoteles Destacados</h1>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 mb-4">
@@ -666,76 +674,6 @@
     <!-- Blog End -->
 
 
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px;">
-        <div class="row pt-6">
-            <div class="col-lg-3 col-md-6 mb-5">
-                <a href="" class="navbar-brand">
-                    <h1 class="text-primary"><span class="text-white">COSTA</span>BRISA</h1>
-                </a>
-                <p>Sed ipsum clita tempor ipsum ipsum amet sit ipsum lorem amet labore rebum lorem ipsum dolor. No sed vero lorem dolor dolor</p>
-                <h6 class="text-white text-uppercase mt-4 mb-3" style="letter-spacing: 5px;">Follow Us</h6>
-                <div class="d-flex justify-content-start">
-                    <a class="btn btn-outline-primary btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-primary btn-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-primary btn-square mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-5">
-                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Our Services</h5>
-                <div class="d-flex flex-column justify-content-start">
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destination</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Services</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Packages</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Guides</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Testimonial</a>
-                    <a class="text-white-50" href="#"><i class="fa fa-angle-right mr-2"></i>Blog</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-5">
-                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Usefull Links</h5>
-                <div class="d-flex flex-column justify-content-start">
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destination</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Services</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Packages</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Guides</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Testimonial</a>
-                    <a class="text-white-50" href="#"><i class="fa fa-angle-right mr-2"></i>Blog</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-5">
-                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Contact Us</h5>
-                <p><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>
-                <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
-                <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
-                <h6 class="text-white text-uppercase mt-4 mb-3" style="letter-spacing: 5px;">Newsletter</h6>
-                <div class="w-100">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-light" style="padding: 25px;" placeholder="Your Email">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary px-3">Sign Up</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color: rgba(256, 256, 256, .1) !important;">
-        <div class="row">
-            <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-               
-            </div>
-            <div class="col-lg-6 text-center text-md-right">
-                <p class="m-0 text-white-50">Designed by <a href="#">CostaBrisa</a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
-
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
@@ -764,5 +702,64 @@ export default {
         height: 200px; /* Puedes ajustar la altura según tus preferencias */
         object-fit: cover; /* Ajusta la imagen manteniendo las proporciones y cubriendo completamente el contenedor */
     }
+    /* Animación de caída desde la parte superior */
+@keyframes fallIn {
+  from {
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Aplicar la animación a los elementos deseados */
+.carousel-caption h4,
+.carousel-caption h1 {
+  animation: fallIn 1s ease-out; /* Puedes ajustar la duración y la función de temporización según tus preferencias */
+}
+
+
+/* Animación de pulsación para el botón "Book Now" */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Aplicar la animación al botón "Book Now" */
+.btn-book-now {
+  animation: pulse 1s infinite; /* Puedes ajustar la duración y la función de temporización según tus preferencias */
+}
+
+
+
+
+
+/* Ajuste de tamaño para las imágenes en el carrusel */
+.carousel-inner img {
+  height: 600px; /* Establece la altura según tus necesidades */
+  width: 100%; /* Ajusta el ancho al 100% para mantener la proporción */
+  object-fit: cover;
+}
+
+/* Aplicar sombreado azul al pasar el cursor sobre las imágenes */
+.package-item img {
+  transition: filter 0.3s ease-in-out;
+}
+
+.package-item:hover img {
+  filter: brightness(80%) drop-shadow(0 0 10px rgba(0, 123, 255, 0.7));
+}
+
+
+
 </style>
 

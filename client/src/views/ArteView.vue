@@ -173,21 +173,25 @@ export default {
 
 
 <style scoped>
-  /* Ajustes generales para las tarjetas */
-  .card {
-    height: 100%;
-  }
+/* Ajustes generales para las tarjetas */
+.card {
+  height: 60%;
+  transition: box-shadow 0.3s ease;
+}
 
-  /* Ajustes específicos para las imágenes dentro de las tarjetas */
-  .card-img-top {
-    height: 200px; /* Ajusta la altura según tus necesidades */
-    object-fit: cover; /* Ajusta la forma en que la imagen se ajusta al contenedor */
-  }
+/* Ajustes específicos para las imágenes dentro de las tarjetas */
+.card-img-top {
+  height: 60%;
+  width: 100%;
+  
+}
 
-  /* Ajustes específicos para el cuerpo de la tarjeta */
-  .card-body {
-    min-height: 150px; /* Ajusta la altura mínima según tus necesidades */
-  }
+/* Sombreado al pasar el cursor sobre la tarjeta */
+.card:hover {
+  box-shadow: 0 0 30px rgba(0, 0, 255, 0.5);
+}
 
-  /* Otras personalizaciones según tus necesidades */
+
+
+
 </style>

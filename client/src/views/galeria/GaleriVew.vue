@@ -102,7 +102,7 @@ export default {
         const response = await axios.get(`http://localhost:3000/galeria/${this.Galeria.negocio_id}`);
         let data = response.data;
 
-        if (data.length !== 0) {
+        if (data.length !== 0 && data !== undefined && data !== null) {
           for (let i = 0; i < data.length; i++) {
             const element = data[i];
             for (let j = 0; j < element.photos.length; j++) {
@@ -131,15 +131,16 @@ export default {
           formData.append('negocio_id', this.Galeria.negocio_id);
           formData.append('customer_id', this.Galeria.customer_id);
 
-          const config = {
+          /* const config = {
             onUploadProgress: (progressEvent) => {
               // Calcular el progreso y actualizar la variable
               this.uploadProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             },
-          };
+          }; */
 
           // Enviar la solicitud con la configuración que incluye el progreso
-          const response = await axios.post('http://localhost:3000/galeria', formData, config);
+          console.log(formData)
+          const response = await axios.post('http://localhost:3000/galeria', formData);
           console.log(response);
 
           this.file = null;
