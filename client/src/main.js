@@ -16,34 +16,25 @@ app.use(
   );
 app.use(router)
 app.mount('#app')
-addEventListener('keypress', function(e) {
-  if(e.key == "Enter") {
-    localStorage.clear();
-    location.reload();
-  }
-});
+
 
 addEventListener('DOMContentLoaded', function() {
   var x = this.localStorage.getItem('usuarioAutenticado');
-
-  for (let i = 0; i <= 599; i++) {
-    setTimeout(() => {
-  
-      if (i === 599 && x) {
-        Swal.fire({
-          title: "La sesión ha expirado",
-          text: "Favor iniciar sesión nuevamente",
-          icon: "warning",
-        });
-  
-        setTimeout(() => {
-          localStorage.clear();
-          location.reload();
-        }, 1000);
+  setTimeout(()=>{
+    if(x == null) return;
+    Swal.fire({
+      title: "La sesión ha expirado",
+      text: "Favor iniciar sesión nuevamente",
+      icon: "warning",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        location.reload();
       }
-    }, 60000);
-  }
+    });
+
+  },600000);
+  
+  })
   
 
-
-})
