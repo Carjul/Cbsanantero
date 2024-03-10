@@ -14,7 +14,7 @@
             </div>
           </div>
           <div class="col-lg-6 text-center text-lg-right">
-            <div class="d-inline-flex align-items-center">
+            <div class="d-inline-flex align-items-center" id="res">
               <a class="text-primary px-3" href="">
                 <i class="fab fa-facebook-f"></i>
               </a>
@@ -35,7 +35,7 @@
               <router-link class="text-primary pl-3" v-if="!usuarioAutenticado"  to="/login">Iniciar</router-link>
               <a href="#" class="nav-item nav-link">
                
-                <i  v-if="usuarioAutenticado && (usuarioRol === 'Admin' || usuarioRol === 'Cliente')" @click="cerrarSesion" class="fas fa-sign-out-alt"></i> 
+                <i  v-if="usuarioAutenticado && usuarioRol !== ''" @click="cerrarSesion()" class="fas fa-sign-out-alt"></i> 
               
               </a>
 
@@ -205,6 +205,7 @@ export default {
   data() {
   
     return {
+    
       usuarioAutenticado: '',
        usuarioRol: '',
        imagenUsuario:'',
@@ -213,41 +214,45 @@ export default {
     
     
   },
+  created(){
+   
+    this.usuarioAutenticado = localStorage.getItem('usuarioAutenticado'),
+      this.usuarioRol = localStorage.getItem('usuarioRol'),
+      this.imagenUsuario = localStorage.getItem('imagenUsuario'),
+      this.nombreUsuario = localStorage.getItem('nombreUsuario')
+      
+
+
+  },
+  mounted() {
+    
+
+    // Llamar a la función para obtener los datos del usuario cuando se monta el componente
+    
+    console.log("--->: ",this.$auth0.user.value)
+  
+  },
+  
   
   methods: {
     cerrarSesion() {
       // Limpiar la información de autenticación y del usuario
-      localStorage.removeItem('usuarioAutenticado');
-      localStorage.removeItem('usuarioRol');
-      localStorage.removeItem('imagenUsuario');
-      localStorage.removeItem('nombreUsuario');
-      localStorage.removeItem('customerId');
-      
-    
-
+      localStorage.clear();
       // Redirigir a la página de inicio de sesión u otra página
-      this.$router.push('/login');
-
+      this.$router.push({ path: '/login' });
       // Otra lógica de cierre de sesión si es necesario
-      // ...
-
       // Actualizar el estado local de autenticación y del usuario
       this.usuarioAutenticado = false;
       this.usuarioRol = '';
       this.imagenUsuario = '';
       this.nombreUsuario = '';
+      this.logout()
     },
+    logout() {
+        this.$auth0.logout({ logoutParams: { returnTo: window.location.origin } });
+      }
   },
        
-  mounted() {
-    // Llamar a la función para obtener los datos del usuario cuando se monta el componente
-
-      this.usuarioAutenticado = localStorage.getItem('usuarioAutenticado'),
-      this.usuarioRol = localStorage.getItem('usuarioRol'),
-      this.imagenUsuario = localStorage.getItem('imagenUsuario'),
-      this.nombreUsuario = localStorage.getItem('nombreUsuario')
-      console.log(this.$data)
-  },
  
 };
 </script>

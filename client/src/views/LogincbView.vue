@@ -20,6 +20,9 @@
                 <button type="submit" class="btn btn-primary btn-block" @click="submitForm" :disabled="iniciandoSesion">
                   Iniciar Sesión 
                 </button>
+                <div>
+                  <button @click="login">Log in</button>
+                </div>
               </form>
             </div>
           </div>
@@ -38,6 +41,9 @@
       };
     },
     methods: {
+      login() {
+        this.$auth0.loginWithRedirect();
+      },
       submitForm() {
         if (this.iniciandoSesion) {
           return;
@@ -52,7 +58,7 @@
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
+    
             if (data.token) {
               localStorage.setItem('usuarioAutenticado', true);
               localStorage.setItem('usuarioRol', data.user.rol);
@@ -62,17 +68,18 @@
               localStorage.setItem('celularUsuario', data.user.phone);
               localStorage.setItem('imagenUsuario', data.user.image);
              
-              if (data.user.rol === 'Admin'|| data.user.rol === 'Cliente' ) {
+              if (localStorage.getItem('usuarioRol', data.user.rol) === 'Admin'||localStorage.getItem('usuarioRol', data.user.rol) === 'Cliente' ) {
                 // Redirige a la vista principal si el usuario es administrador
                 //this.$router.push({ name: 'home' });
-                this.$router.push({ path: '/' });
+                
+                location.href = '/';
 
                 console.log("sesion iniciada")
               } else {
                 // Redirige a otra vista si no es administrador
                 // Puedes personalizar esta lógica según tus necesidades
                 // Por ahora, redirigimos a la página de inicio
-                this.$router.push({ path: '/' });
+                this.$router.push({ path: '/login' });
                 
 
                 
