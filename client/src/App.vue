@@ -194,14 +194,16 @@
         </div>
     </div>
     <!-- Footer End -->
+    
+
    <!-- eslint-enable -->
 </template>
 <script>
 
 
-
 export default {
   data() {
+  
     return {
     
       usuarioAutenticado: '',
@@ -209,6 +211,8 @@ export default {
        imagenUsuario:'',
       nombreUsuario:''
     };
+    
+    
   },
   created(){
    

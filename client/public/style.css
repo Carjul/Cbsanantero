@@ -527,8 +527,10 @@
   
   .img-fluid {
     max-width: 100%;
-    height: auto;
-  }
+    height: 100%; /* Establece la altura al 100% para asegurar el ajuste con object-fit */
+    object-fit: cover;
+    display: block; /* Añade esto para corregir problemas de espacio en línea */
+}
   
   .img-thumbnail {
     padding: 0.25rem;
@@ -9639,7 +9641,7 @@
   }
   
   .bg-registration {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/carousel-1.jpg), no-repeat center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://img.freepik.com/foto-gratis/mujeres-tiro-completo-divirtiendose-playa_23-2149313157.jpg?t=st=1710037041~exp=1710040641~hmac=5bf258bbbdd2f28694af0b51faacb3614af7167f3e7358d55d652ca891b89636&w=1060'), no-repeat center center;
     background-size: cover;
   }
   
