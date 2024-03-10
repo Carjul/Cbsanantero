@@ -297,7 +297,7 @@ body {
 @media (max-width: 767px) {
   .navbar-collapse {
     animation: slideInLeftToRight 0.5s ease;
-    background-color: rgba(255, 255, 255, 0.413); /* Fondo blanco para el menú desplegable en dispositivos móviles */
+    background-color: rgb(255, 255, 255); /* Fondo blanco para el menú desplegable en dispositivos móviles */
   }
 }
 .usuario-info {
