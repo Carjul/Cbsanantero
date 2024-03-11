@@ -2,6 +2,19 @@
     <div class="home">
 
 
+    <!-- Carousel Start -->
+    <div class="container-fluid p-0">
+        
+        <div id="header-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" src="https://cdn.forbes.com.mx/2020/07/hoteles-Grand-Velas-Resorts-e1596047698604.jpg" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h4 class="text-white text-uppercase mb-md-3">Vamos</h4>
+                            <h1 class="display-3 text-white mb-md-4">Descubramos el mundo juntos</h1>
+                            
+                            <a to="/hotels" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">Solicitar Servicio</a>
 
         <!-- Carousel Start -->
         <div class="container-fluid p-0">
