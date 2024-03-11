@@ -175,13 +175,13 @@ export default {
 <style scoped>
 /* Ajustes generales para las tarjetas */
 .card {
-  height: 60%;
+  height:auto;
   transition: box-shadow 0.3s ease;
 }
 
 /* Ajustes específicos para las imágenes dentro de las tarjetas */
 .card-img-top {
-  height: 60%;
+  height: 50%;
   width: 100%;
   
 }
