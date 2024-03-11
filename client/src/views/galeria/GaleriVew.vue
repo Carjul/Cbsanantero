@@ -68,6 +68,12 @@ export default {
       Galeria: {
         photos: [],
         negocio_id: null,
+        status:'',
+        customer_id: null
+      },
+      GaleriaEnv: {
+        photos: [],
+        negocio_id: null,
         customer_id: null
       },
       modalOpen: false,
@@ -78,12 +84,11 @@ export default {
   },
   methods: {
     uploadFile(event) {
-      const arr = [];
       this.file = event.target.files;
       for (let key in this.file) {
-        arr[key] = this.file[key];
+        this.GaleriaEnv.photos[key] = this.file[key];
       }
-      this.file = arr;
+      this.file = null;
     },
 
     openModal(image) {
@@ -98,21 +103,17 @@ export default {
 
 
     async fetchGaleria() {
+      
       try {
-        const response = await axios.get(`http://localhost:3000/galeria/${this.Galeria.negocio_id}`);
+        const response = await axios.get(`http://localhost:3000/galeria/${this.GaleriaEnv.negocio_id}`);
         let data = response.data;
-
-        if (data.length !== 0 && data !== undefined && data !== null) {
-          for (let i = 0; i < data.length; i++) {
-            const element = data[i];
-            for (let j = 0; j < element.photos.length; j++) {
-              const photo = element.photos[j];
-              this.Galeria.photos.push({ id: element._id, image: photo });
-            }
-            this.Galeria.negocio_id = element.negocio_id;
-            this.Galeria.customer_id = element.customer_id;
-          }
-        }
+        this.Galeria ={
+          photos: data.photos,
+          negocio_id: data.negocio_id,
+          status: data.status,
+          customer_id: data.customer_id
+        };
+   
       } catch (error) {
         console.error('Error al obtener las artesanías', error);
       }
@@ -120,37 +121,37 @@ export default {
 
     async crearGal() {
       try {
-        if (this.Galeria.customer_id !== '') {
+        if (this.GaleriaEnv.customer_id !==null && this.GaleriaEnv.negocio_id !==null && this.GaleriaEnv.photos.length > 0) {
           const formData = new FormData();
 
-          for (let i = 0; i < this.file.length; i++) {
-            formData.append(`image${i}`, this.file[i]);
-          }
+          for (let i = 0; i < this.GaleriaEnv.photos.length; i++) {formData.append(`image${i}`, this.GaleriaEnv.photos[i]);}
+          formData.append('logitud', this.GaleriaEnv.photos.length);
+          formData.append('negocio_id', this.GaleriaEnv.negocio_id);
+          formData.append('customer_id', this.GaleriaEnv.customer_id);
 
-          formData.append('logitud', this.file.length);
-          formData.append('negocio_id', this.Galeria.negocio_id);
-          formData.append('customer_id', this.Galeria.customer_id);
-
-          /* const config = {
+          const config = {
             onUploadProgress: (progressEvent) => {
-              // Calcular el progreso y actualizar la variable
               this.uploadProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             },
-          }; */
+          };
 
-          // Enviar la solicitud con la configuración que incluye el progreso
-          console.log(formData)
-          const response = await axios.post('http://localhost:3000/galeria', formData);
+          
+          const response = await axios.post('http://localhost:3000/galeria', formData , config);
           console.log(response);
 
-          this.file = null;
-          this.Galeria.photos = [];
-          this.fetchGaleria();
+          if (response.status === 202) {
+           
+            this.GaleriaEnv.photos = [];
+            this.fetchGaleria();
+          }
+ 
+
         } else {
-          alert('No tienes permisos para crear una artesanía');
+          alert('No tienes las credenciales para subir fotos');
+          console.log(this.GaleriaEnv);
         }
       } catch (error) {
-        console.error('Error creating Artesania:', error);
+        console.error('Error creating Galeria:', error);
       } finally {
         // Restaurar la variable de progreso después de completar la solicitud
         this.uploadProgress = null;
@@ -176,7 +177,6 @@ export default {
     try {
       const response = await axios.put(`http://localhost:3000/galeria/${photo.id}`, { photo: photo.image });
       console.log(response);
-      this.Galeria.photos =[]
       this.fetchGaleria();
       Swal.fire({
         title: "Eliminada",
@@ -210,10 +210,13 @@ export default {
       this.selectedImage = this.artesanias[this.currentIndex].image;
     },
   },
+  created() {
+    this.GaleriaEnv.customer_id = localStorage.getItem('customerId');
+    this.GaleriaEnv.negocio_id = localStorage.getItem('negocioId');
+   
+  },
   mounted() {
-    this.Galeria.customer_id = localStorage.getItem('customerId');
-    this.Galeria.negocio_id = localStorage.getItem('negocioId');
-    localStorage.removeItem('idtemp')
+
     this.fetchGaleria()
     
   },

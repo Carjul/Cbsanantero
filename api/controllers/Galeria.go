@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"sync"
 
 	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db"
@@ -12,6 +13,13 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+type Galeria struct {
+	Photos     []map[string]interface{} `json:"photos,omitempty" bson:"photos,omitempty"`
+	NegocioID  string                   `json:"negocio_id,omitempty" bson:"negocio_id,omitempty"`
+	Status     string                   `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID string                   `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
+}
 
 func GetGaleria(c *fiber.Ctx) error {
 	galeria := db.Galeria
@@ -23,13 +31,26 @@ func GetGaleria(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
 	}
+
 	defer busqueda.Close(context.Background())
 
-	var galerias []bson.M
+	var galerias []models.Galeria
 	if err = busqueda.All(context.Background(), &galerias); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
 	}
-	return c.Status(fiber.StatusAccepted).JSON(galerias)
+	var result Galeria
+	if len(galerias) != 0 {
+		for i := 0; i < len(galerias); i++ {
+			for j := 0; j < len(galerias[i].Photos); j++ {
+				obj := map[string]interface{}{"image": galerias[i].Photos[j], "id": galerias[i].ID}
+				result.Photos = append(result.Photos, obj)
+			}
+			result.Status = galerias[i].Status
+			result.CustomerID = galerias[i].CustomerID
+			result.NegocioID = galerias[i].NegocioID
+		}
+	}
+	return c.Status(fiber.StatusAccepted).JSON(result)
 }
 
 func CreateGaleria(c *fiber.Ctx) error {
@@ -46,30 +67,35 @@ func CreateGaleria(c *fiber.Ctx) error {
 
 	// Obtiene los archivos subidos
 	longitud := form.Value["logitud"]
+	customerID := form.Value["customer_id"]
+	negocioID := form.Value["negocio_id"]
+
 	num, err := strconv.Atoi(longitud[0])
 
 	if err != nil {
 		fmt.Println("Error al convertir la cadena a un número:", err)
 	}
 	for i := 0; i < num; i++ {
-
 		str := strconv.Itoa(i)
 		name := "image" + str
 		files := form.File[name]
 		ImageFile := files[0]
-		if ImageFile == nil {
+
+		if ImageFile.Filename == "" {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
 		}
 
 		var UrlCloudinary string
+		var wg sync.WaitGroup
+		wg.Add(1)
 		go func() {
 			UrlCloudinary = config.UploadImage(ImageFile)
 			data.Photos = append(data.Photos, UrlCloudinary)
-		}()
-	}
+			wg.Done()
 
-	customerID := form.Value["customer_id"]
-	negocioID := form.Value["negocio_id"]
+		}()
+		wg.Wait()
+	}
 
 	data.CustomerID = customerID[0]
 	data.NegocioID = negocioID[0]
@@ -89,10 +115,14 @@ func CreateGaleria(c *fiber.Ctx) error {
 
 	if err = busqueda.Decode(&customerData); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
-
 	}
 
+	if data.Photos == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+
+	}
 	insertion, err := galeria.InsertOne(context.Background(), data)
+
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear la galeria"})
 	}

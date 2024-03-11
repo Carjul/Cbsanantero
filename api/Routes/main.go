@@ -77,5 +77,6 @@ func Rutas(app *fiber.App) {
 
 	//Rutas login
 	app.Post("/login", controllers.Login)
+	app.Post("/loginGoogle", controllers.LoginG)
 
 }

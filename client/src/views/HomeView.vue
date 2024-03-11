@@ -678,7 +678,14 @@ export default {
   components: {
     HelloWorld
   },
+  created(){
+    let c= localStorage.getItem('usuarioAutenticado')
+   if(this.$auth0.user._rawValue !== undefined && this.$auth0.user._rawValue !== null && c !== true){
+    console.log('HomeView created',this.$auth0.user)
+    this.$router.replace('/login')
+   }
   
+}
 }
 
 </script>
