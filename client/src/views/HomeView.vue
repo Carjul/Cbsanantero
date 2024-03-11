@@ -14,7 +14,8 @@
                         <div class="p-3" style="max-width: 900px;">
                             <h4 class="text-white text-uppercase mb-md-3">Vamos</h4>
                             <h1 class="display-3 text-white mb-md-4">Descubramos el mundo juntos</h1>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">Solicitar Servicio</a>
+                            
+                            <a to="/hotels" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">Solicitar Servicio</a>
 
                         </div>
                     </div>
