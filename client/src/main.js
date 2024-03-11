@@ -7,8 +7,8 @@ const app = createApp(App);
 
 app.use(
     createAuth0({
-      domain: "dev-35dy5wz22m0uql2f.us.auth0.com",
-      clientId: "iiFhow7XesbA4pFa9u6Rqiu8VKz1mgE1",
+      domain: "dev-d1d2gby4uy86jijx.us.auth0.com",
+      clientId: "wShFwTaMGgMnOdCH5kNHPmxSHIteYfcp",
       authorizationParams: {
         redirect_uri: window.location.origin
       }
@@ -16,7 +16,12 @@ app.use(
   );
 app.use(router)
 app.mount('#app')
-
+addEventListener('keypress', function(e) {
+  if(e.key == "Enter") {
+    localStorage.clear();
+    location.reload();
+  }
+});
 
 addEventListener('DOMContentLoaded', function() {
   var x = this.localStorage.getItem('usuarioAutenticado');

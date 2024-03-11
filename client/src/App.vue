@@ -224,22 +224,13 @@ export default {
 
 
   },
-  mounted() {
-    
-
-    // Llamar a la función para obtener los datos del usuario cuando se monta el componente
-    
-    console.log("--->: ",this.$auth0.user.value)
-  
-  },
   
   
   methods: {
     cerrarSesion() {
       // Limpiar la información de autenticación y del usuario
       localStorage.clear();
-      // Redirigir a la página de inicio de sesión u otra página
-      this.$router.push({ path: '/login' });
+
       // Otra lógica de cierre de sesión si es necesario
       // Actualizar el estado local de autenticación y del usuario
       this.usuarioAutenticado = false;
