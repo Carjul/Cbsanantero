@@ -4,8 +4,8 @@
     <hr>
 
     <!-- Agrega los botones que mostrarán la vista de usuario o artesanías al hacer clic -->
-    <button v-if="usuarioAutenticado && usuarioRol === 'Admin'" @click="mostrarUsuario">Usuario</button>
-    <button v-if="usuarioAutenticado && tipo_negocio === 'Artesanías'" @click="mostrarArtesanias">Artesanías</button>
+<!--     <button v-if="usuarioAutenticado && usuarioRol === 'Admin'" @click="mostrarUsuario">Usuario</button>
+ -->    <button v-if="usuarioAutenticado && tipo_negocio === 'Admin'" @click="mostrarArtesanias">Artesanías</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Hospedaje'" @click="mostrarBar">Bares</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Hospedaje'" @click="mostrarHospedaje">Hospedaje</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Hotel'" @click="mostrarHotel">Hotel</button>
