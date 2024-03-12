@@ -29,7 +29,10 @@
   
               
               <!-- Botón "Obtener Servicio" -->
-              <button v-if="true" class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal" @click="enviarcid(artesania.customer_id,artesania._id)">Obtener Servicio</button>
+              <div v-if="customerRol === 'Cliente'">
+              <button class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal"
+              @click="enviarcid(artesania.customer_id,artesania._id)">Obtener Servicio</button>
+            </div>
   
   
             </div>
@@ -93,6 +96,7 @@
 
              
               <!-- Botón de solicitar -->
+              
               <button type="button" class="btn btn-success" @click="submitForm">Solicitar</button>
             </form>
           </div>
@@ -109,6 +113,7 @@ export default {
   data() {
     return {
       artesanias: [],
+      customerRol: '',
       userRole: 'usuario', // Asume que userRole es 'usuario' por defecto. Adáptalo según la información real en tu aplicación.
       formData: {
         _id:null,
@@ -122,6 +127,7 @@ export default {
     };
   },
   mounted() {
+    this.customerRol = localStorage.getItem('usuarioRol');
     this.fetchArtesanias();
   },
   methods: {

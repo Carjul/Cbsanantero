@@ -58,7 +58,7 @@ export default {
       this.$auth0.loginWithRedirect();
     },
     async enviarUser(emaili) {
-      console.log("--->", emaili)
+     
       if (emaili !== undefined && emaili !== null && emaili !== "") {
         const response = await axios.post('http://localhost:3000/loginGoogle', {
           email: emaili,
@@ -74,23 +74,12 @@ export default {
             localStorage.setItem('correoUsuario', response.data.user.email);
             localStorage.setItem('celularUsuario', response.data.user.phone);
             localStorage.setItem('imagenUsuario', response.data.user.image);
+            localStorage.setItem('Tipo_negocio', response.user.tipo_negocio);
             if (localStorage.getItem('usuarioRol') === 'Admin' || localStorage.getItem('usuarioRol') === 'Cliente') {
-                // Redirige a la vista principal si el usuario es administrador
-                //this.$router.push({ name: 'home' });
-
                 location.href = '/';
-
                 console.log("sesion iniciada")
               } else {
-                // Redirige a otra vista si no es administrador
-                // Puedes personalizar esta lógica según tus necesidades
-                // Por ahora, redirigimos a la página de inicio
                 this.$router.push({ path: '/login' });
-
-
-
-
-
               }
           }
         }
@@ -121,24 +110,14 @@ export default {
               localStorage.setItem('correoUsuario', data.user.email);
               localStorage.setItem('celularUsuario', data.user.phone);
               localStorage.setItem('imagenUsuario', data.user.image);
+              localStorage.setItem('Tipo_negocio', data.user.tipo_negocio);
+              
 
-              if (localStorage.getItem('usuarioRol', data.user.rol) === 'Admin' || localStorage.getItem('usuarioRol', data.user.rol) === 'Cliente') {
-                // Redirige a la vista principal si el usuario es administrador
-                //this.$router.push({ name: 'home' });
-
+              if (localStorage.getItem('usuarioRol', data.user.rol) === 'Admin' || localStorage.getItem('usuarioRol', data.user.rol) === 'Cliente' || localStorage.getItem('usuarioRol', data.user.rol) === 'Vendedor'){
                 location.href = '/';
-
                 console.log("sesion iniciada")
               } else {
-                // Redirige a otra vista si no es administrador
-                // Puedes personalizar esta lógica según tus necesidades
-                // Por ahora, redirigimos a la página de inicio
                 this.$router.push({ path: '/login' });
-
-
-
-
-
               }
             }
           })
@@ -154,16 +133,19 @@ export default {
   },
   mounted() {
     let c = localStorage.getItem('usuarioAutenticado')
-    /* // Verifica si el usuario ya inició sesión
-    if (c) {
-      // Redirige a la vista principal si el usuario ya inició sesión
-      this.$router.replace('/')
-    } */
-    if (this.$auth0.user._rawValue !== undefined && this.$auth0.user._rawValue !== null && c !== true) {
-      this.enviarUser(localStorage.getItem('usuario'));
-
-
+  
+    if (c === 'true') {
+      location.href = '/';
+    }else{
+      if(localStorage.getItem('user') !== null && localStorage.getItem('user') !== undefined){
+      this.enviarUser(localStorage.getItem('user'));
+      }
     }
+  
+    
+
+
+    
   },
   beforeRouteLeave(to, from, next) {
     // Restablece los valores de usuario y contrasena al abandonar la ruta

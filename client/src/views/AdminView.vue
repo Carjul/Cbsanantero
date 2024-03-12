@@ -5,12 +5,12 @@
 
     <!-- Agrega los botones que mostrarán la vista de usuario o artesanías al hacer clic -->
     <button v-if="usuarioAutenticado && usuarioRol === 'Admin'" @click="mostrarUsuario">Usuario</button>
-    <button @click="mostrarArtesanias">Artesanías</button>
-    <button @click="mostrarBar">Bares</button>
-    <button @click="mostrarHospedaje">Hospedaje</button>
-    <button @click="mostrarHotel">Hotel</button>
-    <button @click="mostrarTrasporte">Trasporte</button>
-    <button @click="mostrarJuegos">Juegos</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Artesanías'" @click="mostrarArtesanias">Artesanías</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Hospedaje'" @click="mostrarBar">Bares</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Hospedaje'" @click="mostrarHospedaje">Hospedaje</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Hotel'" @click="mostrarHotel">Hotel</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Trasporte'" @click="mostrarTrasporte">Trasporte</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Juegos'" @click="mostrarJuegos">Juegos</button>
 
     <!-- Muestra el componente "Us" solo si la variable mostrarUsuarioComponent es verdadera -->
     <div v-if="mostrarUsuarioComponent">
@@ -80,8 +80,19 @@ export default {
       mostrarJuegosComponent: false, 
       usuarioAutenticado: localStorage.getItem('usuarioAutenticado') === 'true',
       usuarioRol: localStorage.getItem('usuarioRol') || '',
+      tipo_negocio: localStorage.getItem('Tipo_negocio') || '',
     };
   },
+  mounted(){
+    let c = localStorage.getItem('usuarioAutenticado')
+    let d = localStorage.getItem('usuarioRol')
+    
+  
+  if (c !== 'true' || (c === 'true' && d === 'Cliente') ) {
+    this.$router.push('/')
+  }
+  },
+  
   methods: {
     mostrarUsuario() {
       // Muestra el componente "Us" y oculta los componentes "Ar", "Ba", "Ho" y "Te"

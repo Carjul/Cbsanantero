@@ -49,15 +49,16 @@ type Bar struct {
 }
 
 type Customer struct {
-	ID       primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name     string             `json:"name,omitempty" bson:"name,omitempty"`
-	Image    string             `json:"image,omitempty" bson:"image,omitempty"`
-	Email    string             `json:"email,omitempty" bson:"email,omitempty"`
-	Password string             `json:"password,omitempty" bson:"password,omitempty"`
-	Phone    string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Address  string             `json:"address,omitempty" bson:"address,omitempty"`
-	Rol      string             `json:"rol,omitempty" bson:"rol,omitempty"`
-	Status   string             `json:"status,omitempty" bson:"status,omitempty"`
+	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name        string             `json:"name,omitempty" bson:"name,omitempty"`
+	Image       string             `json:"image,omitempty" bson:"image,omitempty"`
+	Email       string             `json:"email,omitempty" bson:"email,omitempty"`
+	Password    string             `json:"password,omitempty" bson:"password,omitempty"`
+	Phone       string             `json:"phone,omitempty" bson:"phone,omitempty"`
+	Address     string             `json:"address,omitempty" bson:"address,omitempty"`
+	Rol         string             `json:"rol,omitempty" bson:"rol,omitempty"`
+	TipoNegocio string             `json:"tipo_negocio,omitempty" bson:"tipo_negocio,omitempty"`
+	Status      string             `json:"status,omitempty" bson:"status,omitempty"`
 }
 
 type Hospedaje struct {

@@ -3,37 +3,35 @@
     <hr>
     <div class="row gallery">
       <div class="col-md-11">
-         
+
         <center>
-          <div class="col-md-4">
-        <form @submit.prevent="crearGal">
-          <div class="input-group mb-3">
-             
-            
-            
-           <input type="file" class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' multiple
-              id="imagenBar" ref="file" >
-              <p style="color: transparent;">+</p>
-              <input type="submit" value="enviar">
- 
+          <div class="col-md-4" v-if="customerRol === 'Admin' ">
+            <form @submit.prevent="crearGal">
+              <div class="input-group mb-3">
+
+                <input type="file" class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile'
+                  multiple id="imagenBar" ref="file">
+                <p style="color: transparent;">+</p>
+                <input type="submit" value="enviar">
+
+              </div>
+
+
+            </form>
+            <progress v-if="uploadProgress !== null" :value="uploadProgress" max="100"></progress>
           </div>
-          
-         
-
-        </form>
-        <progress v-if="uploadProgress !== null" :value="uploadProgress" max="100"></progress>
-      </div>
         </center>
-        
 
 
-   <hr>
+
+        <hr>
 
 
-   <div  class="row">
-          <div  class="col-md-4" v-for="(obj, imgIndex) in Galeria.photos" :key="imgIndex">
+        <div class="row">
+          <div class="col-md-4" v-for="(obj, imgIndex) in Galeria.photos" :key="imgIndex">
             <div class="card mb-2" @click="openModal(obj.image)">
-              <button style="height: 50px; width: 50px;" type="button" class="btn btn-danger" @click.stop="EliminarPhoto(Galeria.photos[imgIndex])">X</button>
+              <button  v-if="customerRol === 'Admin' " style="height: 50px; width: 50px;" type="button" class="btn btn-danger"
+                @click.stop="EliminarPhoto(Galeria.photos[imgIndex])">X</button>
               <img :src="obj.image" class="card-img-top gallery-image" alt="imagen" loading="lazy" />
             </div>
           </div>
@@ -41,9 +39,9 @@
       </div>
 
       <!-- Modal para la imagen agrandada con slider -->
-      
-     <!-- Modal para la imagen agrandada -->
-     <div v-if="modalOpen" class="modal-container">
+
+      <!-- Modal para la imagen agrandada -->
+      <div v-if="modalOpen" class="modal-container">
         <span class="close-modal" @click="closeModal">&times;</span>
         <img :src="selectedImage" class="modal-img" alt="Imagen agrandada" />
       </div>
@@ -53,7 +51,7 @@
 
 
 
-   
+
 </template>
 
 
@@ -65,10 +63,11 @@ export default {
   data() {
     return {
       file: null,
+      customerRol: '',
       Galeria: {
         photos: [],
         negocio_id: null,
-        status:'',
+        status: '',
         customer_id: null
       },
       GaleriaEnv: {
@@ -99,21 +98,21 @@ export default {
       this.modalOpen = false;
     },
 
-    
+
 
 
     async fetchGaleria() {
-      
+
       try {
         const response = await axios.get(`http://localhost:3000/galeria/${this.GaleriaEnv.negocio_id}`);
         let data = response.data;
-        this.Galeria ={
+        this.Galeria = {
           photos: data.photos,
           negocio_id: data.negocio_id,
           status: data.status,
           customer_id: data.customer_id
         };
-   
+
       } catch (error) {
         console.error('Error al obtener las artesanías', error);
       }
@@ -121,10 +120,10 @@ export default {
 
     async crearGal() {
       try {
-        if (this.GaleriaEnv.customer_id !==null && this.GaleriaEnv.negocio_id !==null && this.GaleriaEnv.photos.length > 0) {
+        if (this.GaleriaEnv.customer_id !== null && this.GaleriaEnv.negocio_id !== null && this.GaleriaEnv.photos.length > 0) {
           const formData = new FormData();
 
-          for (let i = 0; i < this.GaleriaEnv.photos.length; i++) {formData.append(`image${i}`, this.GaleriaEnv.photos[i]);}
+          for (let i = 0; i < this.GaleriaEnv.photos.length; i++) { formData.append(`image${i}`, this.GaleriaEnv.photos[i]); }
           formData.append('logitud', this.GaleriaEnv.photos.length);
           formData.append('negocio_id', this.GaleriaEnv.negocio_id);
           formData.append('customer_id', this.GaleriaEnv.customer_id);
@@ -135,16 +134,16 @@ export default {
             },
           };
 
-          
-          const response = await axios.post('http://localhost:3000/galeria', formData , config);
+
+          const response = await axios.post('http://localhost:3000/galeria', formData, config);
           console.log(response);
 
           if (response.status === 202) {
-           
+
             this.GaleriaEnv.photos = [];
             this.fetchGaleria();
           }
- 
+
 
         } else {
           alert('No tienes las credenciales para subir fotos');
@@ -158,38 +157,38 @@ export default {
       }
     },
     // Otras funciones del componente...
-  
+
 
 
 
     async EliminarPhoto(photo) {
-  const result = await Swal.fire({
-    title: "¿Quieres eliminar esta imagen?",
-    text: "No podrás revertir esto",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Sí, eliminar",
-  });
-
-  if (result.isConfirmed) {
-    try {
-      const response = await axios.put(`http://localhost:3000/galeria/${photo.id}`, { photo: photo.image });
-      console.log(response);
-      this.fetchGaleria();
-      Swal.fire({
-        title: "Eliminada",
-        text: "La imagen ha sido eliminada exitosamente.",
-        icon: "success"
+      const result = await Swal.fire({
+        title: "¿Quieres eliminar esta imagen?",
+        text: "No podrás revertir esto",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar",
       });
-    } catch (error) {
-      console.log(error);
-    }
-  } else {
-    console.log("Solicitud cancelada");
-  }
-},
+
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.put(`http://localhost:3000/galeria/${photo.id}`, { photo: photo.image });
+          console.log(response);
+          this.fetchGaleria();
+          Swal.fire({
+            title: "Eliminada",
+            text: "La imagen ha sido eliminada exitosamente.",
+            icon: "success"
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        console.log("Solicitud cancelada");
+      }
+    },
 
     openImage(image, index) {
       this.showModal = true;
@@ -213,14 +212,14 @@ export default {
   created() {
     this.GaleriaEnv.customer_id = localStorage.getItem('customerId');
     this.GaleriaEnv.negocio_id = localStorage.getItem('negocioId');
-   
+
   },
   mounted() {
-
+    this.customerRol = localStorage.getItem('usuarioRol');
     this.fetchGaleria()
-    
+
   },
- 
+
 
 };
 </script>
@@ -300,82 +299,89 @@ export default {
 
 /* ajustes de las impreciones como card 
  */
- .gallery-image {
-    width: 100%;
-    height: auto;
-  }
+.gallery-image {
+  width: 100%;
+  height: auto;
+}
 
-  .card {
-    margin-bottom: 20px;
-  }
+.card {
+  margin-bottom: 20px;
+}
 
-  /* Agregué algunos estilos para el modal, ajusta según tus necesidades */
-  .gallery-image {
-    width: 100%;
-    height: auto;
-    border: 1px solid #ddd; /* Añade un borde a las imágenes */
-    border-radius: 5px; /* Redondea las esquinas */
-  }
+/* Agregué algunos estilos para el modal, ajusta según tus necesidades */
+.gallery-image {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  /* Añade un borde a las imágenes */
+  border-radius: 5px;
+  /* Redondea las esquinas */
+}
 
-  .card {
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 10px 10px rgba(0, 0, 254, 0.1); /* Sombreado azul */
+.card {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 10px 10px rgba(0, 0, 254, 0.1);
+  /* Sombreado azul */
 
-    /* Animación de semi zoom al pasar el cursor */
-    transition: transform 0.3s ease-in-out;
-  }
-  .card:hover {
-    transform: scale(1.05); /* Semi zoom al pasar el cursor */
-  }
+  /* Animación de semi zoom al pasar el cursor */
+  transition: transform 0.3s ease-in-out;
+}
 
-  /* Agregué algunos estilos para el modal, ajusta según tus necesidades */
-  .gallery-image {
-    width: 100%;
-    height: 300px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
+.card:hover {
+  transform: scale(1.05);
+  /* Semi zoom al pasar el cursor */
+}
 
-  .card {
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 10px 10px rgba(0, 0, 254, 0.1); /* Sombreado azul */
-  }
+/* Agregué algunos estilos para el modal, ajusta según tus necesidades */
+.gallery-image {
+  width: 100%;
+  height: 300px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.card {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 10px 10px rgba(0, 0, 254, 0.1);
+  /* Sombreado azul */
+}
 
 
 
- /*  modal que abre imagen  */
+/*  modal que abre imagen  */
 
- 
- .modal-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
-  .close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    color: white;
-    font-size: 24px;
-  }
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .modal-img {
-    max-width: 80%;
-    max-height: 80%;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 10px 10px rgba(0, 0, 254, 0.1); /* Sombreado azul para la imagen modal */
-  }
- </style>
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+}
+
+.modal-img {
+  max-width: 80%;
+  max-height: 80%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 10px 10px rgba(0, 0, 254, 0.1);
+  /* Sombreado azul para la imagen modal */
+}
+</style>

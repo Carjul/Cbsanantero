@@ -21,8 +21,11 @@
             <p class="card-text"><strong>Celular:</strong> {{ transporte.celular }}</p>
 
             <!-- Add the button for requesting service -->
-            <button class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal" @click="enviarcid(transporte.customer_id, transporte._id)">Obtener Servicio</button>
-          </div>
+            <div v-if="customerRol === 'Cliente'">
+              <button class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal"
+              @click="enviarcid(transporte.customer_id, transporte._id)">Obtener Servicio</button>
+            </div>
+            </div>
         </div>
       </div>
     </div>
@@ -81,6 +84,7 @@ export default {
   data() {
     return {
       transportes: [],
+      customerRol: '',
       formData: {
         _id: null,
         nombre: '',
@@ -92,6 +96,7 @@ export default {
     };
   },
   mounted() {
+    this.customerRol = localStorage.getItem('usuarioRol');
     this.fetchTransportes();
   },
   methods: {

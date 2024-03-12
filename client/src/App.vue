@@ -30,7 +30,7 @@
               <a class="text-primary pl-3" href="">
                 <i class="fab fa-youtube"></i>
               </a>
-              <router-link class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin'|| usuarioRol === 'Cliente' " to="/admin">Admin</router-link>
+              <router-link class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'" to="/admin">Dashboard</router-link>
               
               <router-link class="text-primary pl-3" v-if="!usuarioAutenticado"  to="/login">Iniciar</router-link>
               <a href="#" class="nav-item nav-link">
@@ -40,7 +40,7 @@
               </a>
 
               <div v-if="usuarioAutenticado" class="usuario-info">
-                <img :src="imagenUsuario" alt="Avatar" class="avatar">
+                <img :src="imagenUsuario" alt="avatar" loading="lazy" class="avatar" >
                 <p class="nombre-usuario">{{ nombreUsuario }}</p>
               </div>
                  <p style="color: transparent;">..</p>
@@ -198,30 +198,33 @@
    <!-- eslint-enable -->
 </template>
 <script>
-
+import { ref, watchEffect } from 'vue'
 
 export default {
-  data() {
-  
+  setup() {
+    // Declara las variables reactivas usando ref()
+    const usuarioAutenticado = ref(localStorage.getItem('usuarioAutenticado'));
+    const usuarioRol = ref(localStorage.getItem('usuarioRol'));
+    const imagenUsuario = ref(localStorage.getItem('imagenUsuario'));
+    const nombreUsuario = ref(localStorage.getItem('nombreUsuario'));
+    // Observa los cambios en las variables reactivas
+    watchEffect(() => {
+      usuarioAutenticado.value = localStorage.getItem('usuarioAutenticado');
+      usuarioRol.value = localStorage.getItem('usuarioRol');
+      imagenUsuario.value = localStorage.getItem('imagenUsuario');
+      nombreUsuario.value = localStorage.getItem('nombreUsuario');
+    });
+
     return {
-    
-      usuarioAutenticado: '',
-       usuarioRol: '',
-       imagenUsuario:'',
-      nombreUsuario:''
+      usuarioAutenticado,
+      usuarioRol,
+      imagenUsuario,
+      nombreUsuario
     };
-    
-    
   },
   created(){
    
-    this.usuarioAutenticado = localStorage.getItem('usuarioAutenticado'),
-      this.usuarioRol = localStorage.getItem('usuarioRol'),
-      this.imagenUsuario = localStorage.getItem('imagenUsuario'),
-      this.nombreUsuario = localStorage.getItem('nombreUsuario')
-      
-
-
+  
   },
   
   

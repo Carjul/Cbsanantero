@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/cbsanantero/config"
@@ -64,7 +65,6 @@ func CreateCustomer(c *fiber.Ctx) error {
 	}
 
 	customer.Status = "Inactivo"
-	customer.Rol = "Cliente"
 
 	files := form.File["image"]
 
@@ -75,7 +75,7 @@ func CreateCustomer(c *fiber.Ctx) error {
 	}
 	UrlCloudinary := config.UploadImage(ImageFile)
 	customer.Image = UrlCloudinary
-
+	customer.TipoNegocio = form.Value["tipo_negocio"][0]
 	result, err := customers.InsertOne(context.Background(), customer)
 	if err != nil {
 		log.Println(err)
@@ -120,7 +120,7 @@ func UpdateCustomer(c *fiber.Ctx) error {
 	update := bson.M{
 		"$set": customer,
 	}
-
+	fmt.Println(update)
 	result, err := customers.UpdateOne(context.Background(), bson.M{"_id": objID}, update)
 	if err != nil {
 		log.Println(err)

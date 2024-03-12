@@ -3,17 +3,17 @@
     <div class="container">
       <br>
       <div class="card">
-  <h5 class="card-header">Panel de Clientes</h5>
-  <div class="card-body">
-    <h5 class="card-title">Creacion de Usuario</h5>
-    <p class="card-text">En este espacio creamos nuevos usuarorios para COSTA BRISA</p>
-    <button class="btn btn-success mb-4" @click="abrirModalCrear">Crear</button>
-  </div>
-</div>
+        <h5 class="card-header">Panel de Clientes</h5>
+        <div class="card-body">
+          <h5 class="card-title">Creacion de Usuario</h5>
+          <p class="card-text">En este espacio creamos nuevos usuarorios para COSTA BRISA</p>
+          <button class="btn btn-success mb-4" @click="abrirModalCrear">Crear</button>
+        </div>
+      </div>
 
-      
-     
-     
+
+
+
       <hr>
       <strong>Todos los clientes</strong>
       <hr>
@@ -28,14 +28,17 @@
               <p class="card-text">Address: {{ customer.address }}</p>
               <p class="card-text">Phone: {{ customer.phone }}</p>
               <p class="card-text">Role: {{ customer.rol }}</p>
-                <!-- Switch -->
-                <!-- Lever Toggle Switch -->
-                <div class="form-check form-switch">
-                  <input type="checkbox" :checked="customer.status === 'Activo' ? true : false" class="form-check-input position-relative"  id="leverSwitch" @change="statusCustomer($event, customer)">
-                  <label class="form-check-label position-absolute" for="leverSwitch" >
-                    {{ customer.status === 'Activo'? 'Active' : 'Inactive' }}
-                  </label>
-                </div>
+              <p v-if="customer.rol === 'Vendedor'" class="card-text">Tipo Negocio: {{ customer.tipo_negocio }}</p>
+              <!-- Switch -->
+              <!-- Lever Toggle Switch -->
+              <div class="form-check form-switch">
+                <input type="checkbox" :checked="customer.status === 'Activo' ? true : false"
+                  class="form-check-input position-relative" id="leverSwitch"
+                  @change="statusCustomer($event, customer)">
+                <label class="form-check-label position-absolute" for="leverSwitch">
+                  {{ customer.status === 'Activo' ? 'Active' : 'Inactive' }}
+                </label>
+              </div>
 
               <button class="btn btn-danger" @click="eliminarCliente(customer._id)">Eliminar</button>
               <button class="btn btn-primary" @click="abrirModalActualizar(customer)">Actualizar</button>
@@ -46,7 +49,8 @@
     </div>
 
     <!-- Modal Crear -->
-    <div ref="modalCrear" class="modal fade" id="modalCrear" tabindex="" role="dialog" aria-labelledby="modalCrearLabel" aria-hidden="true">
+    <div ref="modalCrear" class="modal fade" id="modalCrear" tabindex="" role="dialog" aria-labelledby="modalCrearLabel"
+      aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -57,58 +61,71 @@
           </div>
           <div class="modal-body">
             <form @submit.prevent="crearCliente">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="newName">Nombre:</label>
-        <input type="text" v-model="nuevoCliente.name" class="form-control" id="newName" required>
-      </div>
-      <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="newName">Nombre:</label>
+                    <input type="text" v-model="nuevoCliente.name" class="form-control" id="newName" required>
+                  </div>
+                  <div class="form-group">
 
-        <input class="form-control"  accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="file" ref="file" type="file" s
-                tyle="display:none">
-        
-      </div>
-      <div class="form-group">
-        <label for="newEmail">Email:</label>
-        <input type="email" v-model="nuevoCliente.email" class="form-control" id="newEmail" required>
-      </div>
-      <div class="form-group">
-        <label for="newEmail">Contraseña:</label>
-        <input type="text" v-model="nuevoCliente.password" class="form-control" id="newEmail" required>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="newAddress">Dirección:</label>
-        <input type="text" v-model="nuevoCliente.address" class="form-control" id="newAddress" required>
-      </div>
-      <div class="form-group">
-        <label for="newPhone">Teléfono:</label>
-        <input type="text" v-model="nuevoCliente.phone" class="form-control" id="newPhone" required>
-      </div>
+                    <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="file"
+                      ref="file" type="file" s tyle="display:none">
 
-      <div class="form-group">
-  <label for="newRol">
-    <span>Rol:</span>
-  </label>
-  <select v-model="nuevoCliente.rol" class="form-control" id="newRol" required>
-    <option value="Transporte">Transporte</option>
-    <option value="Hospedaje">Hospedaje</option>
-    <option value="Tour">Tour</option>
-    <option value="Hoteles">Hoteles</option>
-    <option value="Restaurantes">Restaurantes</option>
-    <option value="Recreación">Recreación</option>
-    <option value="Bares y discotecas">Bares y discotecas</option>
-    <option value="Artesanías">Artesanías</option>
-  </select>
-</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="newEmail">Email:</label>
+                    <input type="email" v-model="nuevoCliente.email" class="form-control" id="newEmail" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="newEmail">Contraseña:</label>
+                    <input type="text" v-model="nuevoCliente.password" class="form-control" id="newEmail" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="newAddress">Dirección:</label>
+                    <input type="text" v-model="nuevoCliente.address" class="form-control" id="newAddress" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="newPhone">Teléfono:</label>
+                    <input type="text" v-model="nuevoCliente.phone" class="form-control" id="newPhone" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="newRol">
+                      <span>Rol:</span>
+                    </label>
+                    <select v-model="nuevoCliente.rol" class="form-control" id="newRol" required>
+                      <option value="Admin">Admin</option>
+                      <option value="Cliente">Cliente</option>
+                      <option value="Vendedor">Vendedor</option>
+                    
+                    </select>
+                  </div>
+                  <div class="form-group" v-if="nuevoCliente.rol === 'Vendedor'">
+                    <label for="newRol">
+                      <span>Tipo Negocio</span>
+                    </label>
+                    <select v-model="nuevoCliente.tipo_negocio" class="form-control" id="newRol" required>
+                      <option value="Transporte">Transporte</option>
+                      <option value="Hospedaje">Hospedaje</option>
+                      <option value="Tour">Tour</option>
+                      <option value="Hoteles">Hoteles</option>
+                      <option value="Restaurantes">Restaurantes</option>
+                      <option value="Recreación">Recreación</option>
+                      <option value="Bares y discotecas">Bares y discotecas</option>
+                      <option value="Artesanías">Artesanías</option>
+                    </select>
+                  </div>
+
+                  
 
 
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Crear Cliente</button>
-</form>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Crear Cliente</button>
+            </form>
 
           </div>
         </div>
@@ -117,7 +134,8 @@
 
 
     <!-- Modal Actualizar -->
-    <div ref="modalActualizar" class="modal fade" id="modalActualizar" tabindex="-1" role="dialog" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+    <div ref="modalActualizar" class="modal fade" id="modalActualizar" tabindex="-1" role="dialog"
+      aria-labelledby="modalActualizarLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -149,10 +167,33 @@
                 <input type="text" v-model="clienteActualizado.phone" class="form-control" id="phone" required>
               </div>
               <div class="form-group">
-                <label for="role">Role:</label>
-                <input type="text" v-model="clienteActualizado.rol" class="form-control" id="role" required>
-              </div>
-              <button type="submit" @click="ActualizarCustomer(clienteActualizado,clienteActualizado._id)"  class="btn btn-primary">Guardar Cambios</button>
+                    <label for="newRol">
+                      <span>Rol:</span>
+                    </label>
+                    <select v-model="clienteActualizado.rol" class="form-control" id="newRol" required>
+                      <option value="Admin">Admin</option>
+                      <option value="Cliente">Cliente</option>
+                      <option value="Vendedor">Vendedor</option>
+                    
+                    </select>
+                  </div>
+                  <div class="form-group" v-if="clienteActualizado.rol === 'Vendedor'">
+                    <label for="newRol">
+                      <span>Tipo Negocio</span>
+                    </label>
+                    <select v-model="clienteActualizado.tipo_negocio" class="form-control" id="newRol" required>
+                      <option value="Transporte">Transporte</option>
+                      <option value="Hospedaje">Hospedaje</option>
+                      <option value="Tour">Tour</option>
+                      <option value="Hoteles">Hoteles</option>
+                      <option value="Restaurantes">Restaurantes</option>
+                      <option value="Recreación">Recreación</option>
+                      <option value="Bares y discotecas">Bares y discotecas</option>
+                      <option value="Artesanías">Artesanías</option>
+                    </select>
+                  </div>
+              <button type="submit" @click="ActualizarCustomer(clienteActualizado, clienteActualizado._id)"
+                class="btn btn-primary">Guardar Cambios</button>
             </form>
           </div>
           <div class="modal-footer">
@@ -161,7 +202,7 @@
         </div>
       </div>
     </div>
-  
+
 
 
   </div>
@@ -184,6 +225,8 @@ export default {
         address: '',
         phone: '',
         rol: '',
+        tipo_negocio:''
+        
       },
       file: null,
       nuevoCliente: {
@@ -194,6 +237,7 @@ export default {
         address: '',
         phone: '',
         rol: null,
+        tipo_negocio:null
       },
     };
   },
@@ -256,7 +300,7 @@ export default {
         console.error('Error updating customer:', error);
       }
     },
-     uploadFile(event) {
+    uploadFile(event) {
       this.file = event.target.files[0];
     },
     cerrarModalActualizar() {
@@ -282,7 +326,7 @@ export default {
     },
     async crearCliente() {
       try {
-       /*  console.log('Nuevo Cliente antes de enviar:', this.nuevoCliente); */
+        /*  console.log('Nuevo Cliente antes de enviar:', this.nuevoCliente); */
         const formData = new FormData();
         formData.append('name', this.nuevoCliente.name);
         formData.append('image', this.file);
@@ -291,8 +335,10 @@ export default {
         formData.append('address', this.nuevoCliente.address);
         formData.append('phone', this.nuevoCliente.phone);
         formData.append('rol', this.nuevoCliente.rol);
+        formData.append('tipo_negocio', this.nuevoCliente.tipo_negocio);
+        console.log('Nuevo Cliente:',this.nuevoCliente);
         const response = await axios.post('http://localhost:3000/Customer', formData);
-        
+
         console.log(response.data);
         this.fetchCustomers();
 

@@ -22,7 +22,11 @@
             <p class="card-text"><strong>Precio:</strong> {{ hotel.price }}</p>
 
             <!-- Add the button for requesting service -->
-            <button class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal" @click="enviarcid(hotel.customer_id, hotel._id)">Obtener Servicio</button>
+
+            <div v-if="customerRol === 'Cliente'">
+              <button class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal"
+              @click="enviarcid(hotel.customer_id, hotel._id)">Obtener Servicio</button>
+            </div>
           </div>
         </div>
       </div>
@@ -82,6 +86,7 @@ export default {
   data() {
     return {
       hoteles: [],
+      customerRol: '',
       formData: {
         _id: null,
         nombre: '',
@@ -93,6 +98,7 @@ export default {
     };
   },
   mounted() {
+    this.customerRol = localStorage.getItem('usuarioRol');
     this.fetchHoteles();
   },
   methods: {
