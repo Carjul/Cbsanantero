@@ -296,6 +296,7 @@ export default {
         const response = await axios.put(`http://localhost:3000/Customer/${id}`, customer);
         console.log(response);
         this.fetchCustomers();
+        this.cerrarModalActualizar();
       } catch (error) {
         console.error('Error updating customer:', error);
       }

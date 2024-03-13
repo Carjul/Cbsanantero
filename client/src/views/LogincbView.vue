@@ -57,36 +57,7 @@ export default {
     login() {
       this.$auth0.loginWithRedirect();
     },
-    async enviarUser(emaili) {
-     
-      if (emaili !== undefined && emaili !== null && emaili !== "") {
-        const response = await axios.post('http://localhost:3000/loginGoogle', {
-          email: emaili,
-        })
-        
-        if (response.data) {
-
-          if (response.data.token) {
-            localStorage.setItem('usuarioAutenticado', true);
-            localStorage.setItem('usuarioRol', response.data.user.rol);
-            localStorage.setItem('customerId', response.data.user._id);
-            localStorage.setItem('nombreUsuario', response.data.user.name);
-            localStorage.setItem('correoUsuario', response.data.user.email);
-            localStorage.setItem('celularUsuario', response.data.user.phone);
-            localStorage.setItem('imagenUsuario', response.data.user.image);
-            localStorage.setItem('Tipo_negocio', response.user.tipo_negocio);
-            if (localStorage.getItem('usuarioRol') === 'Admin' || localStorage.getItem('usuarioRol') === 'Cliente') {
-                location.href = '/';
-                console.log("sesion iniciada")
-              } else {
-                this.$router.push({ path: '/login' });
-              }
-          }
-        }
-      } else {
-        console.log("no hay datos")
-      }
-    },
+   
     submitForm() {
       if (this.iniciandoSesion) {
         return;
@@ -135,15 +106,9 @@ export default {
     let c = localStorage.getItem('usuarioAutenticado')
   
     if (c === 'true') {
-      location.href = '/';
-    }else{
-      if(localStorage.getItem('user') !== null && localStorage.getItem('user') !== undefined){
-      this.enviarUser(localStorage.getItem('user'));
-      }
+      this.$router.push({ path: '/' });
     }
   
-    
-
 
     
   },

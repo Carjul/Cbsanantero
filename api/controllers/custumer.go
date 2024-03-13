@@ -104,7 +104,7 @@ func UpdateCustomer(c *fiber.Ctx) error {
 	if err := c.BodyParser(customer); err != nil {
 		log.Println(err)
 	}
-	form, err := c.MultipartForm()
+	/* form, err := c.MultipartForm()
 	if err != nil {
 		return err
 	}
@@ -115,7 +115,7 @@ func UpdateCustomer(c *fiber.Ctx) error {
 	if ImageFile != nil {
 		UrlCloudinary := config.UploadImage(ImageFile)
 		customer.Image = UrlCloudinary
-	}
+	} */
 
 	update := bson.M{
 		"$set": customer,

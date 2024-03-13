@@ -353,7 +353,8 @@
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small></h6>
+                                            <small>(250)</small>
+                                        </h6>
                                         <h5 class="m-0">$350</h5>
                                     </div>
                                 </div>
@@ -378,7 +379,8 @@
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small></h6>
+                                            <small>(250)</small>
+                                        </h6>
                                         <h5 class="m-0">$350</h5>
                                     </div>
                                 </div>
@@ -403,7 +405,8 @@
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small></h6>
+                                            <small>(250)</small>
+                                        </h6>
                                         <h5 class="m-0">$350</h5>
                                     </div>
                                 </div>
@@ -428,7 +431,8 @@
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small></h6>
+                                            <small>(250)</small>
+                                        </h6>
                                         <h5 class="m-0">$350</h5>
                                     </div>
                                 </div>
@@ -453,7 +457,8 @@
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small></h6>
+                                            <small>(250)</small>
+                                        </h6>
                                         <h5 class="m-0">$350</h5>
                                     </div>
                                 </div>
@@ -478,7 +483,8 @@
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small></h6>
+                                            <small>(250)</small>
+                                        </h6>
                                         <h5 class="m-0">$350</h5>
                                     </div>
                                 </div>
@@ -750,7 +756,7 @@
 import { watchEffect } from 'vue'
 import HelloWorld from '@/components/HelloWorld.vue'
 import { useAuth0 } from '@auth0/auth0-vue';
-import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export default {
     name: 'HomeView',
@@ -759,19 +765,46 @@ export default {
     },
     setup() {
         const { user, isAuthenticated } = useAuth0();
-        const router = useRouter();
-        watchEffect(() => {
+        const session = localStorage.getItem('usuarioAutenticado');
+        const enviarUser = async (emaili) => {
 
-            if (isAuthenticated.value) {
-                localStorage.setItem('user', user.value.email)
 
-                if (localStorage.getItem('user') !== null && localStorage.getItem('user') !== undefined) {
-                    console.log('user', localStorage.getItem('user'))
-                    router.push('/login');
+            if (emaili !== undefined && emaili !== null && emaili !== "") {
+                const response = await axios.post('http://localhost:3000/loginGoogle', {
+                    email: emaili,
+                })
+
+                if (response.data) {
+
+                    if (response.data.token) {
+                        localStorage.setItem('usuarioAutenticado', true);
+                        localStorage.setItem('usuarioRol', response.data.user.rol);
+                        localStorage.setItem('customerId', response.data.user._id);
+                        localStorage.setItem('nombreUsuario', response.data.user.name);
+                        localStorage.setItem('correoUsuario', response.data.user.email);
+                        localStorage.setItem('celularUsuario', response.data.user.phone);
+                        localStorage.setItem('imagenUsuario', response.data.user.image);
+                        if (response.data.user.tipo_negocio !== undefined){
+                            localStorage.setItem('Tipo_negocio', response.data.user.tipo_negocio);
+                        }
+                        if (localStorage.getItem('usuarioRol', response.data.user.rol) === 'Admin' || localStorage.getItem('usuarioRol', response.data.user.rol) === 'Cliente' || localStorage.getItem('usuarioRol', response.data.user.rol) === 'Vendedor') {
+                            location.href = '/';
+                            console.log("sesion iniciada")
+                        } else {
+                            this.$router.push({ path: '/login' });
+                        }
+                    }
                 }
+            } else {
+                console.log("no hay datos")
             }
 
+        };
+        watchEffect(() => {
 
+            if (!session && isAuthenticated.value && user.value.email) {
+                enviarUser(user.value.email);
+            }
 
         })
 
