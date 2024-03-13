@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/cbsanantero/config"
@@ -120,7 +119,7 @@ func UpdateCustomer(c *fiber.Ctx) error {
 	update := bson.M{
 		"$set": customer,
 	}
-	fmt.Println(update)
+
 	result, err := customers.UpdateOne(context.Background(), bson.M{"_id": objID}, update)
 	if err != nil {
 		log.Println(err)
