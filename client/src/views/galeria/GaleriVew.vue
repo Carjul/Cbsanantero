@@ -5,7 +5,7 @@
       <div class="col-md-11">
 
         <center>
-          <div class="col-md-4" v-if="customerRol === 'Admin' ">
+          <div class="col-md-4" v-if="customerRol === 'Vendedor' && customerID === GaleriaEnv.negocio_id">
             <form @submit.prevent="crearGal">
               <div class="input-group mb-3">
 
@@ -30,7 +30,7 @@
         <div class="row">
           <div class="col-md-4" v-for="(obj, imgIndex) in Galeria.photos" :key="imgIndex">
             <div class="card mb-2" @click="openModal(obj.image)">
-              <button  v-if="customerRol === 'Admin' " style="height: 50px; width: 50px;" type="button" class="btn btn-danger"
+              <button  v-if="customerRol === 'Admin'" style="height: 50px; width: 50px;" type="button" class="btn btn-danger"
                 @click.stop="EliminarPhoto(Galeria.photos[imgIndex])">X</button>
               <img :src="obj.image" class="card-img-top gallery-image" alt="imagen" loading="lazy" />
             </div>
@@ -64,6 +64,7 @@ export default {
     return {
       file: null,
       customerRol: '',
+      customerID:'',
       Galeria: {
         photos: [],
         negocio_id: null,
@@ -212,10 +213,11 @@ export default {
   created() {
     this.GaleriaEnv.customer_id = localStorage.getItem('customerId');
     this.GaleriaEnv.negocio_id = localStorage.getItem('negocioId');
+    this.customerRol = localStorage.getItem('usuarioRol');
+    this.customerID= localStorage.getItem('dueñoId');
 
   },
   mounted() {
-    this.customerRol = localStorage.getItem('usuarioRol');
     this.fetchGaleria()
 
   },
