@@ -4,9 +4,10 @@
     <hr>
 
     <!-- Agrega los botones que mostrarán la vista de usuario o artesanías al hacer clic -->
-<!--     <button v-if="usuarioAutenticado && usuarioRol === 'Admin'" @click="mostrarUsuario">Usuario</button>
- -->    <button v-if="usuarioAutenticado && tipo_negocio === 'Admin'" @click="mostrarArtesanias">Artesanías</button>
-    <button v-if="usuarioAutenticado && tipo_negocio === 'Hospedaje'" @click="mostrarBar">Bares</button>
+    <button v-if="usuarioAutenticado && usuarioRol === 'Admin'" @click="mostrarUsuario">Usuario</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Artesanías'" @click="mostrarArtesanias">Artesanías</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Tour'" @click="mostrarTures">Tour</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Bares'" @click="mostrarBar">Bares</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Hospedaje'" @click="mostrarHospedaje">Hospedaje</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Hotel'" @click="mostrarHotel">Hotel</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Trasporte'" @click="mostrarTrasporte">Trasporte</button>
@@ -47,6 +48,12 @@
       <Jue></Jue>
     </div>
 
+    
+     <!-- Muestra el componente " Tures" solo si la variable mostrarHotelComponent es verdadera -->
+ <div v-if="mostrarTuresComponent">
+      <Tures></Tures>
+    </div>
+
   </div>
 
 </template>
@@ -59,6 +66,7 @@ import Ho from "@/views/listar/ListarHospedaje.vue";
 import Te from "@/views/listar/ListarHotel.vue";
 import Tra from "@/views/listar/ListarTrasporte.vue"
 import Jue from "@/views/listar/ListarJuegos.vue"
+import Tures from "@/views/listar/ListarTures.vue"
 export default {
   components: {
     Us,
@@ -68,6 +76,7 @@ export default {
     Te, 
     Tra,
     Jue,
+    Tures
   },
   data() {
     return {
@@ -78,6 +87,7 @@ export default {
       mostrarHotelComponent: false, 
       mostrarTrasporteComponent: false,
       mostrarJuegosComponent: false, 
+      mostrarTuresComponent:false,
       usuarioAutenticado: localStorage.getItem('usuarioAutenticado') === 'true',
       usuarioRol: localStorage.getItem('usuarioRol') || '',
       tipo_negocio: localStorage.getItem('Tipo_negocio') || '',
@@ -162,6 +172,16 @@ export default {
       this.mostrarHotelComponent = false;
       this.mostrarTrasporteComponent = false;
       this.mostrarJuegosComponent = true;  
+    },
+    mostrarTures(){
+      this.mostrarUsuarioComponent = false;
+      this.mostrarArtesaniasComponent = false;
+      this.mostrarBarComponet = false;
+      this.mostrarHospedajeComponent = false;
+      this.mostrarHotelComponent = false;
+      this.mostrarTrasporteComponent = false;
+      this.mostrarJuegosComponent = false; 
+      this.mostrarTuresComponent = true; 
     }
   },
 };

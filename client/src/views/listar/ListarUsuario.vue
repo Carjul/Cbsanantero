@@ -114,7 +114,7 @@
                       <option value="Hoteles">Hoteles</option>
                       <option value="Restaurantes">Restaurantes</option>
                       <option value="Recreación">Recreación</option>
-                      <option value="Bares y discotecas">Bares y discotecas</option>
+                      <option value="Bares">Bares y discotecas</option>
                       <option value="Artesanías">Artesanías</option>
                     </select>
                   </div>

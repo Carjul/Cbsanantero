@@ -108,7 +108,13 @@ const routes = [
     path: '/artegaleria',
     name: 'Galeri',
     component: () => import('../views/galeria/GaleriVew.vue')
+  },
+  {
+    path: '/resgister',
+    name: 'Res',
+    component: () => import('../views/RestroVew.vue')
   }
+  
   
 ];
 
