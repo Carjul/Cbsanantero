@@ -9,7 +9,7 @@
       >
         <div class="card mb-4">
           <img
-            @click="enviarIdGaleria(hotel._id)"
+            @click="enviarIdGaleria(hotel._id, hotel.customer_id)"
             :src="hotel.image"
             class="card-img-top"
             alt="Hotel"
@@ -110,8 +110,9 @@ export default {
         console.error('Error al obtener los hoteles', error);
       }
     },
-    enviarIdGaleria(id) {
-      localStorage.setItem('negocioId', id);
+    enviarIdGaleria(id,cid) {
+      localStorage.setItem('negocioId',id);
+      localStorage.setItem('dueñoId',cid);
       this.$router.push({ path: '/artegaleria' });
     },
     enviarcid(cid, id) {

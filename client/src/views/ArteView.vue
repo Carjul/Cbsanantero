@@ -12,7 +12,7 @@
         <div class="card mb-4">
          
           <img
-          @click="enviarIdGaleria(artesania._id)"
+          @click="enviarIdGaleria(artesania._id,artesania.customer_id)"
             :src="artesania.image"
             class="card-img-top"
             alt="Artesanía"
@@ -140,8 +140,9 @@ export default {
         console.error('Error al obtener las artesanías', error);
       }
     },
-    enviarIdGaleria(id) {
+    enviarIdGaleria(id,cid) {
       localStorage.setItem('negocioId',id);
+      localStorage.setItem('dueñoId',cid);
       this.$router.push({ path: '/artegaleria' });
     },
     enviarcid(cid,id){
