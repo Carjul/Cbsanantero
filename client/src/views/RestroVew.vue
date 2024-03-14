@@ -68,7 +68,7 @@ export default {
         contraseña: '',
         direccion: '',
         celular: '',
-        rol: '',
+        rol: 'cliente',
         tipoNegocio: ''
       }
     };
