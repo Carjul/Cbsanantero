@@ -5,50 +5,32 @@
         <h2>Registro de Usuario</h2>
         <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="nombres">Nombres</label>
-            <input v-model="formData.nombres" type="text" class="form-control" id="nombres" placeholder="Ingrese sus nombres">
+            <label for="name">Nombres</label>
+            <input v-model="formData.name" type="text" class="form-control" id="name" placeholder="Ingrese sus nombres" required>
           </div>
           <div class="form-group">
-            <label for="imagen">Imagen</label>
-            <input type="file" class="form-control-file" id="imagen">
+            <label for="file">Imagen</label>
+            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change="uploadFile($event)" id="file"
+                      ref="file" type="file" style="display:none">
           </div>
           <div class="form-group">
-            <label for="correo">Correo Electrónico</label>
-            <input v-model="formData.correo" type="email" class="form-control" id="correo" placeholder="Ingrese su correo electrónico">
+            <label for="email">Correo Electrónico</label>
+            <input v-model="formData.email" type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico" required>
           </div>
           <div class="form-group">
-            <label for="contraseña">Contraseña</label>
-            <input v-model="formData.contraseña" type="password" class="form-control" id="contraseña" placeholder="Ingrese su contraseña">
+            <label for="password">Contraseña</label>
+            <input v-model="formData.password" type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required>
           </div>
           <div class="form-group">
-            <label for="direccion">Dirección</label>
-            <input v-model="formData.direccion" type="text" class="form-control" id="direccion" placeholder="Ingrese su dirección">
+            <label for="address">Dirección</label>
+            <input v-model="formData.address" type="text" class="form-control" id="address" placeholder="Ingrese su dirección" required>
           </div>
           <div class="form-group">
-            <label for="celular">Celular</label>
-            <input v-model="formData.celular" type="text" class="form-control" id="celular" placeholder="Ingrese su número de celular">
+            <label for="phone">Celular</label>
+            <input v-model="formData.phone" type="text" class="form-control" id="phone" placeholder="Ingrese su número de celular" required>
           </div>
-          <div class="form-group">
-            <label for="rol">Rol</label>
-            <select v-model="formData.rol" class="form-control" id="rol">
-              <option value="cliente">Cliente</option>
-              <option value="vendedor">Vendedor</option>
-            </select>
-          </div>
-          <!-- Mostrar el campo "Tipo de negocio" solo cuando el rol seleccionado sea "Vendedor" -->
-          <div v-if="formData.rol === 'vendedor'" class="form-group">
-            <label for="tipoNegocio">Tipo de Negocio</label>
-            <select v-model="formData.tipoNegocio" class="form-control" id="tipoNegocio">
-              <option value="Transporte">Transporte</option>
-              <option value="Hospedaje">Hospedaje</option>
-              <option value="Tour">Tour</option>
-              <option value="Hoteles">Hoteles</option>
-              <option value="Restaurantes">Restaurantes</option>
-              <option value="Recreación">Recreación</option>
-              <option value="Bares">Bares y discotecas</option>
-              <option value="Artesanías">Artesanías</option>
-            </select>
-          </div>
+          <!-- Agregar control para el campo de rol si es necesario -->
+          
           <button type="submit" class="btn btn-primary">Registrarse</button>
         </form>
       </div>
@@ -62,28 +44,49 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      file: null,
       formData: {
-        nombres: '',
-        correo: '',
-        contraseña: '',
-        direccion: '',
-        celular: '',
-        rol: 'cliente',
-        tipoNegocio: ''
+        name: '',
+        image: '', // Make sure this matches the key used for file in uploadFile method
+        email: '',
+        password: '',
+        address: '',
+        phone: '',
+        
+      
       }
     };
   },
   methods: {
+    uploadFile(event) {
+      if (event.target.files.length > 0) {
+        this.formData.image = event.target.files[0]; // Assign to formData.image
+      }
+    },
     submitForm() {
-      axios.post('http://localhost:3000/Customer', this.formData)
-        .then(response => {
-          console.log('Respuesta del servidor:', response.data);
-          // Aquí puedes manejar la respuesta del servidor si lo deseas
-        })
-        .catch(error => {
-          console.error('Error al enviar datos:', error);
-          // Aquí puedes manejar el error si ocurre alguno
-        });
+      const formData = new FormData();
+      formData.append('name', this.formData.name);
+      formData.append('image', this.formData.image);
+      formData.append('email', this.formData.email);
+      formData.append('password', this.formData.password);
+      formData.append('address', this.formData.address);
+      formData.append('phone', this.formData.phone);
+    
+      
+      axios.post('http://localhost:3000/Customer', formData)
+  .then(response => {
+    if (response && response.data) {
+      console.log('Respuesta del servidor:', response.data);
+      // Aquí puedes manejar la respuesta del servidor si lo deseas
+    } else {
+      console.error('Error: No se recibió una respuesta válida del servidor.');
+    }
+  })
+  .catch(error => {
+    console.error('Error al enviar datos:', error);
+    // Aquí puedes manejar el error si ocurre alguno
+  });
+
     }
   }
 }
