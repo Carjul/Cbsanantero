@@ -2,9 +2,10 @@ package controllers
 
 import (
 	"context"
+	"sync"
 
 	"github.com/cbsanantero/config"
-	"github.com/cbsanantero/db"
+	. "github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,7 +13,7 @@ import (
 )
 
 func GetRecreacion(c *fiber.Ctx) error {
-	recreacion := db.Recreacion
+	recreacion := Instance.Database.Collection("Recreacion")
 
 	busqueda, err := recreacion.Find(context.TODO(), bson.M{"status": "Activo"})
 	if err != nil {
@@ -28,7 +29,7 @@ func GetRecreacion(c *fiber.Ctx) error {
 }
 
 func GetRecreacionById(c *fiber.Ctx) error {
-	recreacion := db.Recreacion
+	recreacion := Instance.Database.Collection("Recreacion")
 
 	id := c.Params("id")
 
@@ -48,8 +49,8 @@ func GetRecreacionById(c *fiber.Ctx) error {
 }
 
 func CreateRecreacion(c *fiber.Ctx) error {
-	recreacion := db.Recreacion
-	customer := db.Customer
+	recreacion := Instance.Database.Collection("Recreacion")
+	customer := Instance.Database.Collection("Customer")
 
 	data := new(models.Recreacion)
 
@@ -81,12 +82,27 @@ func CreateRecreacion(c *fiber.Ctx) error {
 	data.Status = "Activo"
 
 	files := form.File["image"]
-
-	ImageFile := files[0]
-	if ImageFile == nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+	if len(files) == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "La imagen es requerida",
+		})
 	}
-	UrlCloudinary := config.UploadImage(ImageFile)
+	ImageFile := files[0]
+	var UrlCloudinary string
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		UrlCloudinary = config.UploadImage(ImageFile)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if UrlCloudinary == "error al subir la imagen a cloudinary" {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error al subir la imagen",
+		})
+	}
+
 	data.Image = UrlCloudinary
 
 	insertion, err := recreacion.InsertOne(context.Background(), data)
@@ -102,7 +118,7 @@ func CreateRecreacion(c *fiber.Ctx) error {
 }
 
 func UpdateRecreacion(c *fiber.Ctx) error {
-	recreacion := db.Recreacion
+	recreacion := Instance.Database.Collection("Recreacion")
 
 	id := c.Params("id")
 
@@ -138,7 +154,7 @@ func UpdateRecreacion(c *fiber.Ctx) error {
 }
 
 func DeleteRecreacion(c *fiber.Ctx) error {
-	recreacion := db.Recreacion
+	recreacion := Instance.Database.Collection("Recreacion")
 
 	id := c.Params("id")
 

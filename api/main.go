@@ -14,7 +14,7 @@ import (
 	pasetoware "github.com/gofiber/contrib/paseto"
 )
 
-const secretSymmetricKey = "symmetric-secret-key (size = 32)"
+const secretSymmetricKey = "symmetric-secret-key (size = 32)" 
 
 func main() {
 	// Load environment variables from .env file, where API keys and passwords are stored
@@ -27,8 +27,9 @@ func main() {
 		log.Fatal("You must set your 'PORT' environment variable.")
 	}
 
-	// Connect to MongoDB
-	db.ConexionDB()
+	if err := db.ConexionDB(); err != nil {
+		log.Fatalf("Error connecting to MongoDB: %v", err)
+	}
 	defer db.DesconectarDB()
 
 	//instancea

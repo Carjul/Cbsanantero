@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"sync"
+
 	"github.com/cbsanantero/config"
 	"github.com/cbsanantero/db/models"
 	"github.com/cbsanantero/services"
@@ -35,15 +37,29 @@ func CreateArtesanias(c *fiber.Ctx) error {
 	}
 
 	// Obtiene los archivos subidos
-	files := form.File["image"]
 	customerID := form.Value["customer_id"]
-
-	ImageFile := files[0]
-	if ImageFile == nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
-
+	files := form.File["image"]
+	if len(files) == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "La imagen es requerida",
+		})
 	}
-	UrlCloudinary := config.UploadImage(ImageFile)
+	ImageFile := files[0]
+	var UrlCloudinary string
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		UrlCloudinary = config.UploadImage(ImageFile)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if UrlCloudinary == "error al subir la imagen a cloudinary" {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error al subir la imagen",
+		})
+	}
+
 
 	argumen := models.Artesanias{
 		Name:        data.Name,

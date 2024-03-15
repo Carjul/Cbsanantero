@@ -5,12 +5,12 @@
 
     <!-- Agrega los botones que mostrarán la vista de usuario o artesanías al hacer clic -->
     <button v-if="usuarioAutenticado && usuarioRol === 'Admin'" @click="mostrarUsuario">Usuario</button>
-    <button v-if="usuarioAutenticado && tipo_negocio === 'Artesanías'" @click="mostrarArtesanias">Artesanías</button>
-    <button v-if="usuarioAutenticado && tipo_negocio === 'Tour'" @click="mostrarTures">Tour</button>
-    <button v-if="usuarioAutenticado && tipo_negocio === 'Bares'" @click="mostrarBar">Bares</button>
-    <button v-if="usuarioAutenticado && tipo_negocio === 'Hospedaje'" @click="mostrarHospedaje">Hospedaje</button>
-    <button v-if="usuarioAutenticado && tipo_negocio === 'Hotel'" @click="mostrarHotel">Hotel</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Trasporte'" @click="mostrarTrasporte">Trasporte</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Hospedaje'" @click="mostrarHospedaje">Hospedaje</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Tour'" @click="mostrarTures">Tour</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Hoteles'" @click="mostrarHotel">Hotel</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Artesanías'" @click="mostrarArtesanias">Artesanías</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Bares'" @click="mostrarBar">Bares</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Juegos'" @click="mostrarJuegos">Juegos</button>
 
     <!-- Muestra el componente "Us" solo si la variable mostrarUsuarioComponent es verdadera -->

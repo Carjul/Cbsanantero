@@ -7,7 +7,7 @@ import (
 	"sync"
 
 	"github.com/cbsanantero/config"
-	"github.com/cbsanantero/db"
+	. "github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -22,7 +22,7 @@ type Galeria struct {
 }
 
 func GetGaleria(c *fiber.Ctx) error {
-	galeria := db.Galeria
+	galeria := Instance.Database.Collection("Galeria")
 	id := c.Params("id")
 
 	galeria.DeleteMany(context.Background(), bson.M{"photos": bson.M{"$exists": true, "$size": 0}})
@@ -54,8 +54,8 @@ func GetGaleria(c *fiber.Ctx) error {
 }
 
 func CreateGaleria(c *fiber.Ctx) error {
-	galeria := db.Galeria
-	customer := db.Customer
+	galeria := Instance.Database.Collection("Galeria")
+	customer := Instance.Database.Collection("Customer")
 
 	data := new(models.Galeria)
 
@@ -135,7 +135,7 @@ func CreateGaleria(c *fiber.Ctx) error {
 }
 
 func UpdateGaleria(c *fiber.Ctx) error {
-	galeria := db.Galeria
+	galeria := Instance.Database.Collection("Galeria")
 	type UrlImage struct {
 		Url string `json:"photo"`
 	}

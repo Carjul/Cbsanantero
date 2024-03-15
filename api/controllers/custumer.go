@@ -3,9 +3,10 @@ package controllers
 import (
 	"context"
 	"log"
+	"sync"
 
 	"github.com/cbsanantero/config"
-	"github.com/cbsanantero/db"
+	. "github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -13,7 +14,7 @@ import (
 )
 
 func GetCustumer(c *fiber.Ctx) error {
-	customer := db.Customer
+	customer := Instance.Database.Collection("Customer")
 
 	busqueda, err := customer.Find(context.TODO(), bson.M{})
 	if err != nil {
@@ -31,7 +32,7 @@ func GetCustumer(c *fiber.Ctx) error {
 }
 
 func GetCustumerById(c *fiber.Ctx) error {
-	customers := db.Customer
+	customers := Instance.Database.Collection("Customer")
 
 	id := c.Params("id")
 
@@ -51,7 +52,7 @@ func GetCustumerById(c *fiber.Ctx) error {
 }
 
 func CreateCustomer(c *fiber.Ctx) error {
-	customers := db.Customer
+	customers := Instance.Database.Collection("Customer")
 
 	customer := new(models.Customer)
 
@@ -66,15 +67,30 @@ func CreateCustomer(c *fiber.Ctx) error {
 	customer.Status = "Inactivo"
 
 	files := form.File["image"]
-
-	ImageFile := files[0]
-	if ImageFile == nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
-
+	if len(files) == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "La imagen es requerida",
+		})
 	}
-	UrlCloudinary := config.UploadImage(ImageFile)
+	ImageFile := files[0]
+	var UrlCloudinary string
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		UrlCloudinary = config.UploadImage(ImageFile)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if UrlCloudinary == "error al subir la imagen a cloudinary" {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error al subir la imagen",
+		})
+	}
+
 	customer.Image = UrlCloudinary
 	customer.TipoNegocio = form.Value["tipo_negocio"][0]
+
 	result, err := customers.InsertOne(context.Background(), customer)
 	if err != nil {
 		log.Println(err)
@@ -89,7 +105,7 @@ func CreateCustomer(c *fiber.Ctx) error {
 }
 
 func UpdateCustomer(c *fiber.Ctx) error {
-	customers := db.Customer
+	customers := Instance.Database.Collection("Customer")
 
 	id := c.Params("id")
 
@@ -103,18 +119,27 @@ func UpdateCustomer(c *fiber.Ctx) error {
 	if err := c.BodyParser(customer); err != nil {
 		log.Println(err)
 	}
+
 	/* form, err := c.MultipartForm()
 	if err != nil {
 		return err
 	}
-
-	// Obtiene los archivos subidos
 	files := form.File["image"]
+	if len(files) == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "La imagen es requerida",
+		})
+	}
 	ImageFile := files[0]
-	if ImageFile != nil {
-		UrlCloudinary := config.UploadImage(ImageFile)
-		customer.Image = UrlCloudinary
-	} */
+	UrlCloudinary := config.UploadImage(ImageFile)
+	if UrlCloudinary == "error al subir la imagen a cloudinary" {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error al subir la imagen",
+		})
+	}
+
+	customer.Image = UrlCloudinary
+	*/
 
 	update := bson.M{
 		"$set": customer,
@@ -133,7 +158,7 @@ func UpdateCustomer(c *fiber.Ctx) error {
 }
 
 func DeleteCustomer(c *fiber.Ctx) error {
-	customers := db.Customer
+	customers := Instance.Database.Collection("Customer")
 
 	id := c.Params("id")
 
@@ -166,17 +191,17 @@ func UpdateCustomerStatus(c *fiber.Ctx) error {
 		Status bool `json:"status,omitempty" bson:"status,omitempty"`
 	}
 
-	customers := db.Customer
-	artesanias := db.Artesanias
-	bares := db.Bares
-	hospedaje := db.Hospedaje
-	hoteles := db.Hoteles
-	recreacion := db.Recreacion
-	restaurantes := db.Restaurantes
-	tour := db.Tour
-	transportes := db.Traporte
-	galeria := db.Galeria
-	servicio := db.Servicio
+	customers := Instance.Database.Collection("Customer")
+	artesanias := Instance.Database.Collection("Artesanias")
+	bares := Instance.Database.Collection("Bares")
+	hospedaje := Instance.Database.Collection("Hospedaje")
+	hoteles := Instance.Database.Collection("Hoteles")
+	recreacion := Instance.Database.Collection("Recreacion")
+	restaurantes := Instance.Database.Collection("Restaurantes")
+	tour := Instance.Database.Collection("Tour")
+	transportes := Instance.Database.Collection("Traporte")
+	galeria := Instance.Database.Collection("Galeria")
+	servicio := Instance.Database.Collection("Servicio")
 
 	id := c.Params("id")
 
@@ -267,7 +292,7 @@ func UpdateCustomerRol(c *fiber.Ctx) error {
 		Rol string `json:"rol,omitempty" bson:"rol,omitempty"`
 	}
 
-	customers := db.Customer
+	customers := Instance.Database.Collection("Customer")
 
 	id := c.Params("id")
 

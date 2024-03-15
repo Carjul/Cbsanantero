@@ -2,9 +2,10 @@ package controllers
 
 import (
 	"context"
+	"sync"
 
 	"github.com/cbsanantero/config"
-	"github.com/cbsanantero/db"
+	. "github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,7 +13,7 @@ import (
 )
 
 func GetBar(c *fiber.Ctx) error {
-	bar := db.Bares
+	bar := Instance.Database.Collection("Bares")
 
 	busqueda, err := bar.Find(context.TODO(), bson.M{"status": "Activo"})
 	if err != nil {
@@ -28,7 +29,7 @@ func GetBar(c *fiber.Ctx) error {
 }
 
 func GetBarById(c *fiber.Ctx) error {
-	bar := db.Bares
+	bar := Instance.Database.Collection("Bar")
 
 	id := c.Params("id")
 
@@ -47,8 +48,8 @@ func GetBarById(c *fiber.Ctx) error {
 }
 
 func CreateBar(c *fiber.Ctx) error {
-	bar := db.Bares
-	customer := db.Customer
+	bar := Instance.Database.Collection("Bar")
+	customer := Instance.Database.Collection("Customer")
 
 	data := new(models.Bar)
 
@@ -62,14 +63,29 @@ func CreateBar(c *fiber.Ctx) error {
 	}
 
 	// Obtiene los archivos subidos
-	files := form.File["image"]
 	customerID := form.Value["customer_id"]
-
-	ImageFile := files[0]
-	if ImageFile == nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+	files := form.File["image"]
+	if len(files) == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "La imagen es requerida",
+		})
 	}
-	UrlCloudinary := config.UploadImage(ImageFile)
+	ImageFile := files[0]
+	var UrlCloudinary string
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		UrlCloudinary = config.UploadImage(ImageFile)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if UrlCloudinary == "error al subir la imagen a cloudinary" {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error al subir la imagen",
+		})
+	}
+
 	data.Image = UrlCloudinary
 	data.CustomerID = customerID[0]
 
@@ -104,7 +120,7 @@ func CreateBar(c *fiber.Ctx) error {
 }
 
 func UpdateBar(c *fiber.Ctx) error {
-	bar := db.Bares
+	bar := Instance.Database.Collection("Bar")
 
 	data := new(models.Bar)
 	if err := c.BodyParser(data); err != nil {
@@ -140,7 +156,7 @@ func UpdateBar(c *fiber.Ctx) error {
 }
 
 func DeleteBar(c *fiber.Ctx) error {
-	bar := db.Bares
+	bar := Instance.Database.Collection("Bar")
 
 	id := c.Params("id")
 

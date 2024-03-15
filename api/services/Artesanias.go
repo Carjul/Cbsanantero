@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/cbsanantero/config"
-	"github.com/cbsanantero/db"
+	. "github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -15,7 +15,7 @@ type Message struct {
 }
 
 func GetArtesanias() interface{} {
-	artesanias := db.Artesanias
+	artesanias := Instance.Database.Collection("Artesanias")
 	busqueda, err := artesanias.Find(context.TODO(), bson.M{"status": "Activo"})
 	if err != nil {
 		return "error al buscar artesania"
@@ -30,7 +30,7 @@ func GetArtesanias() interface{} {
 }
 
 func GetArtesaniasById(id string) interface{} {
-	artesanias := db.Artesanias
+	artesanias := Instance.Database.Collection("Artesanias")
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return Message{Msg: "No existe el ID de la artesania"}
@@ -44,8 +44,8 @@ func GetArtesaniasById(id string) interface{} {
 }
 
 func CreateArtesanias(data *models.Artesanias) interface{} {
-	artesanias := db.Artesanias
-	customer := db.Customer
+	artesanias := Instance.Database.Collection("Artesanias")
+	customer := Instance.Database.Collection("Customer")
 	idc := data.CustomerID
 	objID, err := primitive.ObjectIDFromHex(idc)
 
@@ -66,7 +66,7 @@ func CreateArtesanias(data *models.Artesanias) interface{} {
 }
 
 func UpdateArtesanias(data *models.Artesanias, id string) interface{} {
-	artesanias := db.Artesanias
+	artesanias := Instance.Database.Collection("Artesanias")
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return Message{Msg: "No se pudo encontrar la artesania"}
@@ -83,7 +83,7 @@ func UpdateArtesanias(data *models.Artesanias, id string) interface{} {
 }
 
 func DeleteArtesanias(id string) interface{} {
-	artesanias := db.Artesanias
+	artesanias := Instance.Database.Collection("Artesanias")
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return Message{Msg: "_id de la artesania no valido"}

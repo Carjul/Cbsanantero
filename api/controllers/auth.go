@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/cbsanantero/db"
+	. "github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -15,6 +15,7 @@ import (
 const secretSymmetricKey = "symmetric-secret-key (size = 32)"
 
 func Login(c *fiber.Ctx) error {
+	customer := Instance.Database.Collection("Customer")
 	type Request struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -29,7 +30,8 @@ func Login(c *fiber.Ctx) error {
 
 	var userdb models.Customer
 	// Check if user credentials are correct
-	db.Customer.FindOne(context.TODO(), bson.M{"email": user.Email, "password": user.Password}).Decode(&userdb)
+	
+	customer.FindOne(context.TODO(), bson.M{"email": user.Email, "password": user.Password}).Decode(&userdb)
 	if userdb == (models.Customer{}) {
 		return c.Status(fiber.StatusUnauthorized).JSON(Message{Msg: "Credenciales incorrectas"})
 	}
@@ -54,6 +56,7 @@ func Restricted(c *fiber.Ctx) error {
 }
 
 func LoginG(c *fiber.Ctx) error {
+	Customer := Instance.Database.Collection("Customer")
 	type Request struct {
 		Email string `json:"email"`
 	}
@@ -67,7 +70,7 @@ func LoginG(c *fiber.Ctx) error {
 
 	var customer models.Customer
 	// Check if user credentials are correct
-	db.Customer.FindOne(context.TODO(), bson.M{"email": user.Email}).Decode(&customer)
+	Customer.FindOne(context.TODO(), bson.M{"email": user.Email}).Decode(&customer)
 	if customer == (models.Customer{}) {
 		return c.Status(fiber.StatusUnauthorized).JSON(Message{Msg: "Credenciales incorrectas"})
 	}

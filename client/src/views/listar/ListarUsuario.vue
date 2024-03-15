@@ -186,10 +186,10 @@
                       <option value="Hospedaje">Hospedaje</option>
                       <option value="Tour">Tour</option>
                       <option value="Hoteles">Hoteles</option>
-                      <option value="Restaurantes">Restaurantes</option>
-                      <option value="Recreación">Recreación</option>
-                      <option value="Bares y discotecas">Bares y discotecas</option>
                       <option value="Artesanías">Artesanías</option>
+                      <option value="Bares">Bares y discotecas</option>
+                      <option value="Restaurantes">Restaurantes</option>
+                      <option value="Juegos">Recreación</option>
                     </select>
                   </div>
               <button type="submit" @click="ActualizarCustomer(clienteActualizado, clienteActualizado._id)"
@@ -293,7 +293,16 @@ export default {
     },
     async ActualizarCustomer(customer, id) {
       try {
-        const response = await axios.put(`http://localhost:3000/Customer/${id}`, customer);
+        const formData = new FormData();
+        formData.append('name', this.clienteActualizado.name);
+        formData.append('email', this.clienteActualizado.email);
+        formData.append('password', this.clienteActualizado.password);
+        formData.append('address', this.clienteActualizado.address);
+        formData.append('phone', this.clienteActualizado.phone);
+        formData.append('rol', this.clienteActualizado.rol);
+        formData.append('tipo_negocio', this.clienteActualizado.tipo_negocio);
+        console.log('Nuevo Cliente:',this.clienteActualizado);
+        const response = await axios.put(`http://localhost:3000/Customer/${id}`, formData);
         console.log(response);
         this.fetchCustomers();
         this.cerrarModalActualizar();

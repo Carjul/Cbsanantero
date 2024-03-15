@@ -2,9 +2,10 @@ package controllers
 
 import (
 	"context"
+	"sync"
 
 	"github.com/cbsanantero/config"
-	"github.com/cbsanantero/db"
+	. "github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,7 +13,7 @@ import (
 )
 
 func GetRestaurante(c *fiber.Ctx) error {
-	restaurante := db.Restaurantes
+	restaurante := Instance.Database.Collection("Restaurantes")
 
 	busqueda, err := restaurante.Find(context.TODO(), bson.M{"status": "Activo"})
 	if err != nil {
@@ -28,7 +29,7 @@ func GetRestaurante(c *fiber.Ctx) error {
 }
 
 func GetRestauranteById(c *fiber.Ctx) error {
-	restaurantes := db.Restaurantes
+	restaurantes := Instance.Database.Collection("Restaurantes")
 
 	id := c.Params("id")
 
@@ -48,8 +49,8 @@ func GetRestauranteById(c *fiber.Ctx) error {
 }
 
 func CreateRestaurante(c *fiber.Ctx) error {
-	restaurante := db.Restaurantes
-	customer := db.Customer
+	restaurante := Instance.Database.Collection("Restaurantes")
+	customer := Instance.Database.Collection("Customer")
 
 	data := new(models.Restaurante)
 
@@ -82,12 +83,27 @@ func CreateRestaurante(c *fiber.Ctx) error {
 
 	// Obtiene los archivos subidos
 	files := form.File["image"]
-
-	ImageFile := files[0]
-	if ImageFile == nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+	if len(files) == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "La imagen es requerida",
+		})
 	}
-	UrlCloudinary := config.UploadImage(ImageFile)
+	ImageFile := files[0]
+	var UrlCloudinary string
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		UrlCloudinary = config.UploadImage(ImageFile)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if UrlCloudinary == "error al subir la imagen a cloudinary" {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error al subir la imagen",
+		})
+	}
+
 	data.Image = UrlCloudinary
 
 	insertion, err := restaurante.InsertOne(context.Background(), data)
@@ -103,7 +119,7 @@ func CreateRestaurante(c *fiber.Ctx) error {
 }
 
 func UpdateRestaurante(c *fiber.Ctx) error {
-	restaurantes := db.Restaurantes
+	restaurantes := Instance.Database.Collection("Restaurantes")
 
 	id := c.Params("id")
 
@@ -138,7 +154,7 @@ func UpdateRestaurante(c *fiber.Ctx) error {
 }
 
 func DeleteRestaurante(c *fiber.Ctx) error {
-	restaurantes := db.Restaurantes
+	restaurantes := Instance.Database.Collection("Restaurantes")
 
 	id := c.Params("id")
 

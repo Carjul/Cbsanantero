@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/cbsanantero/config"
-	"github.com/cbsanantero/db"
+	. "github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,7 +12,7 @@ import (
 )
 
 func GetPedirServicionegocio(c *fiber.Ctx) error {
-	service := db.Servicio
+	service := Instance.Database.Collection("Servicio")
 
 	id := c.Params("id")
 
@@ -35,7 +35,7 @@ func GetPedirServicionegocio(c *fiber.Ctx) error {
 
 }
 func GetPedirServicioClient(c *fiber.Ctx) error {
-	service := db.Servicio
+	service := Instance.Database.Collection("Servicio")
 
 	id := c.Params("id")
 
@@ -61,7 +61,7 @@ func UpdateRevision(c *fiber.Ctx) error {
 	type RevisionStatus struct {
 		Revision bool `json:"revision,omitempty" bson:"revision,omitempty"`
 	}
-	service := db.Servicio
+	service := Instance.Database.Collection("Servicio")
 
 	id := c.Params("id")
 	ObjID, errid := primitive.ObjectIDFromHex(id)
@@ -84,9 +84,10 @@ func UpdateRevision(c *fiber.Ctx) error {
 }
 
 func CreatePedirServicio(c *fiber.Ctx) error {
-	service := db.Servicio
-	customer := db.Customer
-	artesanias := db.Artesanias
+	service := Instance.Database.Collection("Servicio")
+	customer := Instance.Database.Collection("Customer")
+	artesanias := Instance.Database.Collection("Artesanias")
+	db := Instance.Database
 	type n struct {
 		Name    string `json:"name,omitempty" bson:"name,omitempty"`
 		Address string `json:"address,omitempty" bson:"address,omitempty"`
@@ -134,39 +135,39 @@ func CreatePedirServicio(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el negocio"})
 		}
 	case "Bar":
-		err = db.Bares.FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
+		err = db.Collection("Bares").FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
 		if err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el negocio"})
 		}
 	case "Hospedaje":
-		err = db.Hospedaje.FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
+		err = db.Collection("Hospedaje").FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
 		if err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el negocio"})
 
 		}
 	case "Hotel":
-		err = db.Hoteles.FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
+		err = db.Collection("Hoteles").FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
 		if err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el negocio"})
 		}
 	case "Recreacion":
-		err = db.Recreacion.FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
+		err = db.Collection("Recreacion").FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
 		if err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el negocio"})
 		}
 	case "Restaurante":
-		err = db.Restaurantes.FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
+		err = db.Collection("Restaurantes").FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
 		if err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el negocio"})
 		}
 	case "Tour":
-		err = db.Tour.FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
+		err = db.Collection("Tour").FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
 		if err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el negocio"})
 		}
 
 	case "Transporte":
-		err = db.Traporte.FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
+		err = db.Collection("Traporte").FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
 		if err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el negocio"})
 		}
@@ -248,7 +249,7 @@ func CreatePedirServicio(c *fiber.Ctx) error {
 
 }
 func DeleteServicio(c *fiber.Ctx) error {
-	service := db.Servicio
+	service := Instance.Database.Collection("Servicio")
 
 	id := c.Params("id")
 	ObjID, err := primitive.ObjectIDFromHex(id)

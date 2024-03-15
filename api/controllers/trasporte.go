@@ -2,9 +2,10 @@ package controllers
 
 import (
 	"context"
+	"sync"
 
 	"github.com/cbsanantero/config"
-	"github.com/cbsanantero/db"
+	. "github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,7 +13,7 @@ import (
 )
 
 func GetTrasporte(c *fiber.Ctx) error {
-	trasporte := db.Traporte
+	trasporte := Instance.Database.Collection("Trasporte")
 
 	busqueda, err := trasporte.Find(context.TODO(), bson.M{"status": "Activo"})
 	if err != nil {
@@ -28,7 +29,7 @@ func GetTrasporte(c *fiber.Ctx) error {
 }
 
 func GetTrasporteById(c *fiber.Ctx) error {
-	trasportes := db.Traporte
+	trasportes := Instance.Database.Collection("Trasporte")
 
 	id := c.Params("id")
 
@@ -48,8 +49,8 @@ func GetTrasporteById(c *fiber.Ctx) error {
 }
 
 func CreateTrasporte(c *fiber.Ctx) error {
-	trasporte := db.Traporte
-	customer := db.Customer
+	trasporte := Instance.Database.Collection("Trasporte")
+	customer := Instance.Database.Collection("Customer")
 
 	data := new(models.Trasporte)
 	if err := c.BodyParser(data); err != nil {
@@ -81,12 +82,27 @@ func CreateTrasporte(c *fiber.Ctx) error {
 	data.Status = "Activo"
 
 	files := form.File["image"]
-	ImageFile := files[0]
-
-	if ImageFile == nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+	if len(files) == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "La imagen es requerida",
+		})
 	}
-	UrlCloudinary := config.UploadImage(ImageFile)
+	ImageFile := files[0]
+	var UrlCloudinary string
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		UrlCloudinary = config.UploadImage(ImageFile)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if UrlCloudinary == "error al subir la imagen a cloudinary" {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error al subir la imagen",
+		})
+	}
+
 	data.Image = UrlCloudinary
 
 	insertion, err := trasporte.InsertOne(context.Background(), data)
@@ -102,7 +118,7 @@ func CreateTrasporte(c *fiber.Ctx) error {
 }
 
 func UpdateTrasporte(c *fiber.Ctx) error {
-	trasporte := db.Traporte
+	trasporte := Instance.Database.Collection("Trasporte")
 
 	id := c.Params("id")
 
@@ -139,7 +155,7 @@ func UpdateTrasporte(c *fiber.Ctx) error {
 }
 
 func DeleteTrasporte(c *fiber.Ctx) error {
-	trasportes := db.Traporte
+	trasportes := Instance.Database.Collection("Trasporte")
 
 	id := c.Params("id")
 

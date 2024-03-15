@@ -2,9 +2,10 @@ package controllers
 
 import (
 	"context"
+	"sync"
 
 	"github.com/cbsanantero/config"
-	"github.com/cbsanantero/db"
+	. "github.com/cbsanantero/db"
 	"github.com/cbsanantero/db/models"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,7 +13,7 @@ import (
 )
 
 func GetHoteles(c *fiber.Ctx) error {
-	hoteles := db.Hoteles
+	hoteles := Instance.Database.Collection("Hoteles")
 
 	busqueda, err := hoteles.Find(context.TODO(), bson.M{"status": "Activo"})
 	if err != nil {
@@ -28,7 +29,7 @@ func GetHoteles(c *fiber.Ctx) error {
 }
 
 func GetHotelesById(c *fiber.Ctx) error {
-	hoteles := db.Hoteles
+	hoteles := Instance.Database.Collection("Hoteles")
 
 	id := c.Params("id")
 
@@ -48,8 +49,8 @@ func GetHotelesById(c *fiber.Ctx) error {
 }
 
 func CreateHoteles(c *fiber.Ctx) error {
-	hoteles := db.Hoteles
-	customer := db.Customer
+	hoteles := Instance.Database.Collection("Hoteles")
+	customer := Instance.Database.Collection("Customer")
 
 	data := new(models.Hoteles)
 	if err := c.BodyParser(data); err != nil {
@@ -81,12 +82,27 @@ func CreateHoteles(c *fiber.Ctx) error {
 
 	// Obtiene los archivos subidos
 	files := form.File["image"]
-
-	ImageFile := files[0]
-	if ImageFile == nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la imagen"})
+	if len(files) == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "La imagen es requerida",
+		})
 	}
-	UrlCloudinary := config.UploadImage(ImageFile)
+	ImageFile := files[0]
+	var UrlCloudinary string
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		UrlCloudinary = config.UploadImage(ImageFile)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if UrlCloudinary == "error al subir la imagen a cloudinary" {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error al subir la imagen",
+		})
+	}
+
 	data.Image = UrlCloudinary
 
 	insertion, err := hoteles.InsertOne(context.Background(), data)
@@ -102,7 +118,7 @@ func CreateHoteles(c *fiber.Ctx) error {
 }
 
 func UpdateHoteles(c *fiber.Ctx) error {
-	hoteles := db.Hoteles
+	hoteles := Instance.Database.Collection("Hoteles")
 
 	id := c.Params("id")
 
@@ -138,7 +154,7 @@ func UpdateHoteles(c *fiber.Ctx) error {
 }
 
 func DeleteHoteles(c *fiber.Ctx) error {
-	hoteles := db.Hoteles
+	hoteles := Instance.Database.Collection("Hoteles")
 
 	id := c.Params("id")
 
