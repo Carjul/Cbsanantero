@@ -42,32 +42,35 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      file:null,
       formData: {
         name: '',
-        image: null,
         email: '',
         password: '',
         address: '',
-        phone: ''
+        phone: '',
+        rol: 'Cliente',
+        tipo_negocio:''
       }
     };
   },
   methods: {
     uploadFile(event) {
-      if (event.target.files.length > 0) {
-        this.formData.image = event.target.files[0];
-      }
+      this.file = event.target.files[0];
     },
+   
     submitForm() {
-      const formData = new FormData();
-      formData.append('name', this.formData.name);
-      formData.append('image', this.formData.image);
-      formData.append('email', this.formData.email);
-      formData.append('password', this.formData.password);
-      formData.append('address', this.formData.address);
-      formData.append('phone', this.formData.phone);
+      const Form = new FormData();
+        Form.append('name', this.formData.name);
+        Form.append('image', this.file);
+        Form.append('email', this.formData.email);
+        Form.append('password', this.formData.password);
+        Form.append('address', this.formData.address);
+        Form.append('phone', this.formData.phone);
+        Form.append('rol', this.formData.rol);
+        Form.append('tipo_negocio', this.formData.tipo_negocio);
 
-      axios.post('http://localhost:3000/Customer', formData)
+      axios.post('http://localhost:3000/Customer', Form)
         .then(response => {
           if (response && response.data) {
             console.log('Respuesta del servidor:', response.data);

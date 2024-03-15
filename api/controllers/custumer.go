@@ -119,7 +119,7 @@ func UpdateCustomer(c *fiber.Ctx) error {
 	if err := c.BodyParser(customer); err != nil {
 		log.Println(err)
 	}
-
+	log.Println(customer)
 	/* form, err := c.MultipartForm()
 	if err != nil {
 		return err

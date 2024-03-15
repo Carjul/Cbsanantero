@@ -5,7 +5,7 @@
       <div class="col-md-11">
 
         <center>
-          <div class="col-md-4" v-if="customerRol === 'Vendedor' && customerID === GaleriaEnv.negocio_id">
+          <div class="col-md-4" v-if="customerRol === 'Vendedor' && customerID === GaleriaEnv.customer_id">
             <form @submit.prevent="crearGal">
               <div class="input-group mb-3">
 
@@ -30,7 +30,7 @@
         <div class="row">
           <div class="col-md-4" v-for="(obj, imgIndex) in Galeria.photos" :key="imgIndex">
             <div class="card mb-2" @click="openModal(obj.image)">
-              <button  v-if="customerRol === 'Admin'" style="height: 50px; width: 50px;" type="button" class="btn btn-danger"
+              <button  v-if="customerRol === 'Vendedor' && customerID === GaleriaEnv.customer_id" style="height: 50px; width: 50px;" type="button" class="btn btn-danger"
                 @click.stop="EliminarPhoto(Galeria.photos[imgIndex])">X</button>
               <img :src="obj.image" class="card-img-top gallery-image" alt="imagen" loading="lazy" />
             </div>

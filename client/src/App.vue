@@ -33,11 +33,11 @@
               <router-link class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'" to="/admin">Dashboard</router-link>
               
               <router-link class="text-primary pl-3" v-if="!usuarioAutenticado"  to="/login">Iniciar</router-link>
-              <a href="#" class="nav-item nav-link">
+              <div  class="nav-item nav-link">
                
                 <i  v-if="usuarioAutenticado && usuarioRol !== ''" @click="cerrarSesion()" class="fas fa-sign-out-alt"></i> 
               
-              </a>
+              </div>
 
               <div v-if="usuarioAutenticado" class="usuario-info">
                 <img :src="imagenUsuario" alt="avatar" loading="lazy" class="avatar" >
