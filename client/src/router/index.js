@@ -44,11 +44,12 @@ const routes = [
     name: 'recrat',
     component: () => import('../views/RecreaView.vue'),
   },
-  {
-    path: '/restau',
-    name: 'restaur',
+  
+  /*   path: '/restau',
+    name: 'rest',
     component: () => import('../views/RestourView.vue'),
-  },
+  }, */
+  
   {
     path: '/tourn',
     name: 'tures',
@@ -103,6 +104,11 @@ const routes = [
     path: '/listjuegos',
     name: 'jue',
     component: () => import('../views/listar/ListarJuegos.vue')
+  },
+  {
+    path: '/listtaurant',
+    name: 'Rest',
+    component: () => import('../views/listar/ListarRestaurant.vue'),
   },
   {
     path: '/artegaleria',

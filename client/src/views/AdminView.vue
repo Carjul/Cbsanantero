@@ -5,10 +5,11 @@
 
     <!-- Agrega los botones que mostrarán la vista de usuario o artesanías al hacer clic -->
     <button v-if="usuarioAutenticado && usuarioRol === 'Admin'" @click="mostrarUsuario">Usuario</button>
-    <button v-if="usuarioAutenticado && tipo_negocio === 'Trasporte'" @click="mostrarTrasporte">Trasporte</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Trasporte'" @click="mostrarTrasporte">Transporte</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Hospedaje'" @click="mostrarHospedaje">Hospedaje</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Tour'" @click="mostrarTures">Tour</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Hoteles'" @click="mostrarHotel">Hotel</button>
+    <button v-if="usuarioAutenticado && tipo_negocio === 'Restaurantes'" @click="mostrarRestaurantes">Restaurantes</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Artesanías'" @click="mostrarArtesanias">Artesanías</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Bares'" @click="mostrarBar">Bares</button>
     <button v-if="usuarioAutenticado && tipo_negocio === 'Juegos'" @click="mostrarJuegos">Juegos</button>
@@ -37,21 +38,25 @@
     <div v-if="mostrarHotelComponent">
       <Te></Te>
     </div>
-    
- <!-- Muestra el componente "Te" solo si la variable mostrarHotelComponent es verdadera -->
- <div v-if="mostrarTrasporteComponent">
+
+    <!-- Muestra el componente "Tra" solo si la variable mostrarTrasporteComponent es verdadera -->
+    <div v-if="mostrarTrasporteComponent">
       <Tra></Tra>
     </div>
 
-     <!-- Muestra el componente "Jue" solo si la variable mostrarHotelComponent es verdadera -->
- <div v-if="mostrarJuegosComponent">
+    <!-- Muestra el componente "Jue" solo si la variable mostrarJuegosComponent es verdadera -->
+    <div v-if="mostrarJuegosComponent">
       <Jue></Jue>
     </div>
 
-    
-     <!-- Muestra el componente " Tures" solo si la variable mostrarHotelComponent es verdadera -->
- <div v-if="mostrarTuresComponent">
+    <!-- Muestra el componente "Tures" solo si la variable mostrarTuresComponent es verdadera -->
+    <div v-if="mostrarTuresComponent">
       <Tures></Tures>
+    </div>
+
+    <!-- Muestra el componente "Rest" solo si la variable mostrarRestaurantesComponent es verdadera -->
+    <div v-if="mostrarRestaurantesComponent">
+      <Rest></Rest>
     </div>
 
   </div>
@@ -67,6 +72,8 @@ import Te from "@/views/listar/ListarHotel.vue";
 import Tra from "@/views/listar/ListarTrasporte.vue"
 import Jue from "@/views/listar/ListarJuegos.vue"
 import Tures from "@/views/listar/ListarTures.vue"
+import Rest from "@/views/listar/ListarRestaurant.vue"
+
 export default {
   components: {
     Us,
@@ -76,7 +83,8 @@ export default {
     Te, 
     Tra,
     Jue,
-    Tures
+    Tures,
+    Rest
   },
   data() {
     return {
@@ -87,7 +95,8 @@ export default {
       mostrarHotelComponent: false, 
       mostrarTrasporteComponent: false,
       mostrarJuegosComponent: false, 
-      mostrarTuresComponent:false,
+      mostrarTuresComponent: false,
+      mostrarRestaurantesComponent: false,
       usuarioAutenticado: localStorage.getItem('usuarioAutenticado') === 'true',
       usuarioRol: localStorage.getItem('usuarioRol') || '',
       tipo_negocio: localStorage.getItem('Tipo_negocio') || '',
@@ -98,14 +107,13 @@ export default {
     let d = localStorage.getItem('usuarioRol')
     
   
-  if (c !== 'true' || (c === 'true' && d === 'Cliente') ) {
-    this.$router.push('/')
-  }
+    if (c !== 'true' || (c === 'true' && d === 'Cliente') ) {
+      this.$router.push('/')
+    }
   },
   
   methods: {
     mostrarUsuario() {
-      // Muestra el componente "Us" y oculta los componentes "Ar", "Ba", "Ho" y "Te"
       this.mostrarUsuarioComponent = true;
       this.mostrarArtesaniasComponent = false;
       this.mostrarBarComponet = false;
@@ -113,9 +121,9 @@ export default {
       this.mostrarHotelComponent = false;
       this.mostrarTrasporteComponent = false;
       this.mostrarJuegosComponent = false; 
+      this.mostrarRestaurantesComponent = false; 
     },
     mostrarArtesanias() {
-      // Muestra el componente "Ar" y oculta los componentes "Us", "Ba", "Ho" y "Te"
       this.mostrarArtesaniasComponent = true;
       this.mostrarUsuarioComponent = false;
       this.mostrarBarComponet = false;
@@ -123,9 +131,9 @@ export default {
       this.mostrarHotelComponent = false;
       this.mostrarTrasporteComponent = false;
       this.mostrarJuegosComponent = false; 
+      this.mostrarRestaurantesComponent = false; 
     },
     mostrarBar() {
-      // Muestra el componente "Ba" y oculta los componentes "Us", "Ar", "Ho" y "Te"
       this.mostrarUsuarioComponent = false;
       this.mostrarArtesaniasComponent = false;
       this.mostrarBarComponet = true;
@@ -133,9 +141,9 @@ export default {
       this.mostrarHotelComponent = false;
       this.mostrarTrasporteComponent = false;
       this.mostrarJuegosComponent = false; 
+      this.mostrarRestaurantesComponent = false;
     },
     mostrarHospedaje() {
-      // Muestra el componente "Ho" y oculta los componentes "Us", "Ar", "Ba" y "Te"
       this.mostrarUsuarioComponent = false;
       this.mostrarArtesaniasComponent = false;
       this.mostrarBarComponet = false;
@@ -143,9 +151,9 @@ export default {
       this.mostrarHotelComponent = false;
       this.mostrarTrasporteComponent = false;
       this.mostrarJuegosComponent = false; 
+      this.mostrarRestaurantesComponent = false;
     },
     mostrarHotel() {
-      // Muestra el componente "Te" y oculta los componentes "Us", "Ar", "Ba" y "Ho"
       this.mostrarUsuarioComponent = false;
       this.mostrarArtesaniasComponent = false;
       this.mostrarBarComponet = false;
@@ -153,8 +161,8 @@ export default {
       this.mostrarHotelComponent = true;
       this.mostrarTrasporteComponent = false;
       this.mostrarJuegosComponent = false; 
+      this.mostrarRestaurantesComponent = false;
     },
-
     mostrarTrasporte(){
       this.mostrarUsuarioComponent = false;
       this.mostrarArtesaniasComponent = false;
@@ -163,6 +171,7 @@ export default {
       this.mostrarHotelComponent = false;
       this.mostrarTrasporteComponent = true;
       this.mostrarJuegosComponent = false; 
+      this.mostrarRestaurantesComponent = false; 
     },
     mostrarJuegos(){
       this.mostrarUsuarioComponent = false;
@@ -172,6 +181,8 @@ export default {
       this.mostrarHotelComponent = false;
       this.mostrarTrasporteComponent = false;
       this.mostrarJuegosComponent = true;  
+      this.mostrarRestaurantesComponent = false; 
+      this.mostrarTuresComponent = false; 
     },
     mostrarTures(){
       this.mostrarUsuarioComponent = false;
@@ -181,7 +192,19 @@ export default {
       this.mostrarHotelComponent = false;
       this.mostrarTrasporteComponent = false;
       this.mostrarJuegosComponent = false; 
+      this.mostrarRestaurantesComponent = false; 
       this.mostrarTuresComponent = true; 
+    },
+    mostrarRestaurantes(){
+      this.mostrarUsuarioComponent = false;
+      this.mostrarArtesaniasComponent = false;
+      this.mostrarBarComponet = false;
+      this.mostrarHospedajeComponent = false;
+      this.mostrarHotelComponent = false;
+      this.mostrarTrasporteComponent = false;
+      this.mostrarJuegosComponent = false; 
+      this.mostrarRestaurantesComponent = true; 
+      this.mostrarTuresComponent = false; 
     }
   },
 };

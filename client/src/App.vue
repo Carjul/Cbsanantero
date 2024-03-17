@@ -80,7 +80,7 @@
                   <i class="fas fa-home"></i> Inicio
                 </router-link>
               </a>
-              <router-link to="/resgister" class="nav-item nav-link">
+              <router-link to="#" class="nav-item nav-link">
                Acerca de
               </router-link>
               <a href="service.html" class="nav-item nav-link">

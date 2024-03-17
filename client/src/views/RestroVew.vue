@@ -10,7 +10,7 @@
           </div>
           <div class="form-group animated">
             <label for="file">Imagen</label>
-            <input class="form-control falling-animation" accept="image/jpeg, image/jpg, image/png" @change="uploadFile($event)" id="file" ref="file" type="file" style="display:none">
+            <input class="form-control falling-animation" accept="image/jpeg, image/jpg, image/png" @change="uploadFile($event)" id="file" ref="file" type="file">
           </div>
           <div class="form-group animated">
             <label for="email">Correo Electrónico</label>

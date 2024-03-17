@@ -19,21 +19,24 @@
                   placeholder="Ingrese su contraseña">
               </div>
               <button type="submit" class="btn btn-primary btn-block" @click="submitForm" :disabled="iniciandoSesion">
-                Iniciar Sesión
+                Iniciar Sesión  
               </button>
+              <!-- Mensaje de alerta -->
+              <div v-if="mostrarAlerta" class="alert alert-danger mt-3" role="alert">
+                {{ alertaMensaje }}
+              </div>
               <div>
                 <hr>
-                <label> Inicio de sececion con Google</label>
+                <a @click="login" >Inicio de sesión con Google</a>
+                <router-link class="text-primary pl-3" v-if="!usuarioAutenticado"  to="/resgister">Registrarse</router-link>
+                 
                 <br>
+                <!-- Botón de inicio de sesión con Google -->
                 <svg style="width:100px;color: brown;" @click="login" xmlns="http://www.w3.org/2000/svg" width="16"
                   height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
-
                   <path
                     d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z" />
                 </svg>
-
-
-
               </div>
             </form>
           </div>
@@ -44,20 +47,20 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       usuario: '',
       contrasena: '',
       iniciandoSesion: false,
+      mostrarAlerta: false,
+      alertaMensaje: ''
     };
   },
   methods: {
     login() {
       this.$auth0.loginWithRedirect();
     },
-   
     submitForm() {
       if (this.iniciandoSesion) {
         return;
@@ -70,9 +73,13 @@ export default {
           },
           body: JSON.stringify({ email: this.usuario, password: this.contrasena }),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Credenciales incorrectas');
+            }
+            return response.json();
+          })
           .then((data) => {
-
             if (data.token) {
               localStorage.setItem('usuarioAutenticado', true);
               localStorage.setItem('usuarioRol', data.user.rol);
@@ -82,8 +89,6 @@ export default {
               localStorage.setItem('celularUsuario', data.user.phone);
               localStorage.setItem('imagenUsuario', data.user.image);
               localStorage.setItem('Tipo_negocio', data.user.tipo_negocio);
-              
-
               if (localStorage.getItem('usuarioRol', data.user.rol) === 'Admin' || localStorage.getItem('usuarioRol', data.user.rol) === 'Cliente' || localStorage.getItem('usuarioRol', data.user.rol) === 'Vendedor'){
                 location.href = '/';
                 console.log("sesion iniciada")
@@ -94,29 +99,27 @@ export default {
           })
           .catch((error) => {
             console.error('Error en la solicitud:', error);
+            this.mostrarAlerta = true;
+            this.alertaMensaje = 'Credenciales incorrectas. Verifique su correo electrónico y contraseña.';
           })
           .finally(() => {
             this.iniciandoSesion = false;
           });
       }
-
     },
   },
   mounted() {
-    let c = localStorage.getItem('usuarioAutenticado')
-  
+    let c = localStorage.getItem('usuarioAutenticado');
     if (c === 'true') {
       this.$router.push({ path: '/' });
     }
-  
-
-    
   },
   beforeRouteLeave(to, from, next) {
-    // Restablece los valores de usuario y contrasena al abandonar la ruta
+    // Restablece los valores de usuario y contraseña al abandonar la ruta
     this.usuario = '';
     this.contrasena = '';
     next();
   },
 };
 </script>
+ 
