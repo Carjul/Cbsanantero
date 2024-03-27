@@ -1,5 +1,9 @@
 <template>
     <div class="home">
+      <!--   <video autoplay muted loop id="video-background">
+            <source src="https://videocdn.cdnpk.net/joy/content/video/free/video0467/large_preview/_import_61501399ee3f05.37978127.mp4?filename=1109422_1080p_4k_2k_3840x2160.mp4" type="video/mp4">
+            Tu navegador no soporta video HTML5.
+            </video> -->
 
 
 
@@ -899,6 +903,17 @@ export default {
     filter: brightness(80%) drop-shadow(0 0 10px rgba(0, 123, 255, 0.7));
 }
 
+/* #video-background {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  background-size: cover;
+} */
 
 /* destinos  */
 </style>

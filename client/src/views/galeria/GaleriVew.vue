@@ -38,13 +38,17 @@
         </div>
       </div>
 
-      <!-- Modal para la imagen agrandada con slider -->
-
-      <!-- Modal para la imagen agrandada -->
       <div v-if="modalOpen" class="modal-container">
-        <span class="close-modal" @click="closeModal">&times;</span>
-        <img :src="selectedImage" class="modal-img" alt="Imagen agrandada" />
-      </div>
+      <span class="close-modal" @click="closeModal">&times;</span>
+      <img :src="selectedImage" class="modal-img" alt="Imagen agrandada" />
+
+      <!-- Botones de navegación -->
+      <input type="radio" id="prev" name="nav" class="modal-nav-input" @click="preImage" />
+      <label for="prev" class="modal-nav-btn prev">&#10094;</label>
+      <input type="radio" id="next" name="nav" class="modal-nav-input" @click="nexImage" />
+      <label for="next" class="modal-nav-btn next">&#10095;</label>
+    </div>
+    
     </div>
   </div>
 
@@ -64,7 +68,7 @@ export default {
     return {
       file: null,
       customerRol: '',
-      customerID:'',
+      customerID: '',
       Galeria: {
         photos: [],
         negocio_id: null,
@@ -90,7 +94,6 @@ export default {
       }
       this.file = null;
     },
-
     openModal(image) {
       this.selectedImage = image;
       this.modalOpen = true;
@@ -98,12 +101,18 @@ export default {
     closeModal() {
       this.modalOpen = false;
     },
-
-
-
+    preImage() {
+  const currentIndex = this.Galeria.photos.findIndex(photo => photo.image === this.selectedImage);
+  const prevIndex = (currentIndex - 1 + this.Galeria.photos.length) % this.Galeria.photos.length;
+  this.selectedImage = this.Galeria.photos[prevIndex].image;
+},
+nexImage() {
+  const currentIndex = this.Galeria.photos.findIndex(photo => photo.image === this.selectedImage);
+  const nextIndex = (currentIndex + 1) % this.Galeria.photos.length;
+  this.selectedImage = this.Galeria.photos[nextIndex].image;
+},
 
     async fetchGaleria() {
-
       try {
         const response = await axios.get(`http://localhost:3000/galeria/${this.GaleriaEnv.negocio_id}`);
         let data = response.data;
@@ -113,39 +122,29 @@ export default {
           status: data.status,
           customer_id: data.customer_id
         };
-
       } catch (error) {
         console.error('Error al obtener las artesanías', error);
       }
     },
-
     async crearGal() {
       try {
         if (this.GaleriaEnv.customer_id !== null && this.GaleriaEnv.negocio_id !== null && this.GaleriaEnv.photos.length > 0) {
           const formData = new FormData();
-
           for (let i = 0; i < this.GaleriaEnv.photos.length; i++) { formData.append(`image${i}`, this.GaleriaEnv.photos[i]); }
           formData.append('logitud', this.GaleriaEnv.photos.length);
           formData.append('negocio_id', this.GaleriaEnv.negocio_id);
           formData.append('customer_id', this.GaleriaEnv.customer_id);
-
           const config = {
             onUploadProgress: (progressEvent) => {
               this.uploadProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             },
           };
-
-
           const response = await axios.post('http://localhost:3000/galeria', formData, config);
           console.log(response);
-
           if (response.status === 202) {
-
             this.GaleriaEnv.photos = [];
             this.fetchGaleria();
           }
-
-
         } else {
           alert('No tienes las credenciales para subir fotos');
           console.log(this.GaleriaEnv);
@@ -157,11 +156,6 @@ export default {
         this.uploadProgress = null;
       }
     },
-    // Otras funciones del componente...
-
-
-
-
     async EliminarPhoto(photo) {
       const result = await Swal.fire({
         title: "¿Quieres eliminar esta imagen?",
@@ -172,7 +166,6 @@ export default {
         cancelButtonColor: "#d33",
         confirmButtonText: "Sí, eliminar",
       });
-
       if (result.isConfirmed) {
         try {
           const response = await axios.put(`http://localhost:3000/galeria/${photo.id}`, { photo: photo.image });
@@ -190,7 +183,6 @@ export default {
         console.log("Solicitud cancelada");
       }
     },
-
     openImage(image, index) {
       this.showModal = true;
       this.selectedImage = image;
@@ -214,16 +206,13 @@ export default {
     this.GaleriaEnv.customer_id = localStorage.getItem('customerId');
     this.GaleriaEnv.negocio_id = localStorage.getItem('negocioId');
     this.customerRol = localStorage.getItem('usuarioRol');
-    this.customerID= localStorage.getItem('dueñoId');
-
+    this.customerID = localStorage.getItem('dueñoId');
   },
   mounted() {
     this.fetchGaleria()
-
   },
-
-
 };
+
 </script>
 
 
@@ -259,7 +248,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.945);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -385,5 +374,32 @@ export default {
   border-radius: 5px;
   box-shadow: 0 10px 10px rgba(0, 0, 254, 0.1);
   /* Sombreado azul para la imagen modal */
+}
+
+
+
+
+/* Estilos para los botones de navegación del modal */
+.modal-nav-input {
+  display: none;
+}
+
+.modal-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.modal-nav-btn.prev {
+  left: 10px;
+}
+
+.modal-nav-btn.next {
+  right: 10px;
 }
 </style>
