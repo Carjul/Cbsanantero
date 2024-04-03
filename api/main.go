@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"os"
 
 	"github.com/cbsanantero/Routes"
 	"github.com/cbsanantero/controllers"
@@ -14,17 +13,12 @@ import (
 	pasetoware "github.com/gofiber/contrib/paseto"
 )
 
-const secretSymmetricKey = "symmetric-secret-key (size = 32)" 
+const secretSymmetricKey = "symmetric-secret-key (size = 32)"
 
 func main() {
 	// Load environment variables from .env file, where API keys and passwords are stored
 	if err := godotenv.Load(); err != nil {
 		log.Fatalln(".env file err:", err)
-	}
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		log.Fatal("You must set your 'PORT' environment variable.")
 	}
 
 	if err := db.ConexionDB(); err != nil {
@@ -34,7 +28,6 @@ func main() {
 
 	//instancea
 	app := fiber.New()
-
 	//cors
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "*",
@@ -42,7 +35,8 @@ func main() {
 		AllowHeaders:     "Origin, Content-Type, Accept",
 		AllowCredentials: true,
 	}))
-
+	
+	app.Static("/", "./dist")
 	//rutas
 	Routes.Rutas(app)
 
@@ -56,5 +50,5 @@ func main() {
 	apiGroup.Get("/restricted", controllers.Restricted)
 
 	//Puerto de escucha
-	app.Listen(":" + port)
+	app.Listen(":3000")
 }

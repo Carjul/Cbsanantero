@@ -9,8 +9,5 @@ type Message struct {
 }
 
 func Init(c *fiber.Ctx) error {
-
-	return c.Status(fiber.StatusOK).JSON(Message{
-		Msg: "Bienvenido a la API de Costa Brisa",
-	})
+    return c.SendFile("./dist/index.html")
 }
