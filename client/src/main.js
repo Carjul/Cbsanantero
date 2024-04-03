@@ -29,7 +29,7 @@ addEventListener('DOMContentLoaded', function() {
     if(x == null) return;
     Swal.fire({
       title: "La sesión ha expirado",
-      text: "Favor iniciar sesión nuevamente",
+      text: "Por favor iniciar sesión nuevamente",
       icon: "warning",
     }).then((result) => {
       if (result.isConfirmed) {

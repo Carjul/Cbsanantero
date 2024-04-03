@@ -8,6 +8,7 @@
             <h5 class="card-title">Creacion de Artesania</h5>
             <p class="card-text">En este espacio creamos nuevas artesanías para COSTA BRISA</p>
             <button class="btn btn-success mb-4" @click="abrirModalCrear">Crear</button>
+            <router-link to="/artegaleria">Galeria</router-link>
           </div>
         </div>
         
