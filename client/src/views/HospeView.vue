@@ -148,3 +148,21 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 </style>
+
+<style scoped>
+.card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: blue; /* Color del borde al pasar el cursor */
+}
+
+.card-img-top {
+  width:auto; /* Ancho deseado */
+  height:300px; /* Altura deseada */
+  object-fit: cover; /* Para asegurar que la imagen se ajuste correctamente sin distorsión */
+}
+</style>
