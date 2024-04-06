@@ -102,7 +102,7 @@
                   <router-link to="/tranport" class="dropdown-item">Transporte</router-link>
                   <router-link to="/hospe" class="dropdown-item">Hospedaje</router-link>
                   <router-link to="/hotels" class="dropdown-item">Hoteles</router-link>
-                  <router-link to="/bard" class="dropdown-item">Bares y Discotecas</router-link>
+                  <router-link to="/bard" class="dropdown-item">Pescadores</router-link>
                   <router-link to="/recre" class="dropdown-item">Juegos y Recreación</router-link>
                 </div>
               </div>
