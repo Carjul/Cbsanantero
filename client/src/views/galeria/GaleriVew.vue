@@ -114,7 +114,7 @@ nexImage() {
 
     async fetchGaleria() {
       try {
-        const response = await axios.get(`http://localhost:3000/galeria/${this.GaleriaEnv.negocio_id}`);
+        const response = await axios.get(`${process.env.API}/galeria/${this.GaleriaEnv.negocio_id}`);
         let data = response.data;
         this.Galeria = {
           photos: data.photos,
@@ -139,7 +139,7 @@ nexImage() {
               this.uploadProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             },
           };
-          const response = await axios.post('http://localhost:3000/galeria', formData, config);
+          const response = await axios.post(`${process.env.API}/galeria`, formData, config);
           console.log(response);
           if (response.status === 202) {
             this.GaleriaEnv.photos = [];
@@ -168,7 +168,7 @@ nexImage() {
       });
       if (result.isConfirmed) {
         try {
-          const response = await axios.put(`http://localhost:3000/galeria/${photo.id}`, { photo: photo.image });
+          const response = await axios.put(`${process.env.API}/galeria/${photo.id}`, { photo: photo.image });
           console.log(response);
           this.fetchGaleria();
           Swal.fire({

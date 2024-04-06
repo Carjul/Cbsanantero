@@ -84,7 +84,7 @@ export default {
   methods: {
     async fetchArtesanias() {
       try {
-        const response = await axios.get('http://localhost:3000/Artesania');
+        const response = await axios.get(`${process.env.API}/Artesania`);
         this.artesanias = response.data;
         console.log(this.artesanias)
       } catch (error) {

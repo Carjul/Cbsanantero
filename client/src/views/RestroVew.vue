@@ -70,7 +70,7 @@ export default {
         Form.append('rol', this.formData.rol);
         Form.append('tipo_negocio', this.formData.tipo_negocio);
 
-      axios.post('http://localhost:3000/Customer', Form)
+      axios.post(`${process.env.API}/Customer`, Form)
         .then(response => {
           if (response && response.data) {
             console.log('Respuesta del servidor:', response.data);

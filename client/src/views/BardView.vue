@@ -104,7 +104,7 @@ export default {
   methods: {
     async fetchBares() {
       try {
-        const response = await axios.get('http://localhost:3000/Bar');
+        const response = await axios.get(`${process.env.API}/Bar`);
         this.bares = response.data;
       } catch (error) {
         console.error('Error al obtener los bares', error);
@@ -122,7 +122,7 @@ export default {
 
     async submitForm() {
       try {
-        const response = await axios.post(`http://localhost:3000/pedirServicio?tipo=${this.tipo}`, this.formData);
+        const response = await axios.post(`${process.env.API}/pedirServicio?tipo=${this.tipo}`, this.formData);
         console.log(response);
         this.formData.customerId = null;
         this.formData.negocioId = null;

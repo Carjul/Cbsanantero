@@ -774,7 +774,7 @@ export default {
 
 
             if (emaili !== undefined && emaili !== null && emaili !== "") {
-                const response = await axios.post('http://localhost:3000/loginGoogle', {
+                const response = await axios.post(`${process.env.API}/loginGoogle`, {
                     email: emaili,
                 })
 

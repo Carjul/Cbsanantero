@@ -147,7 +147,7 @@
    methods: {
      async fetchArtesanias() {
        try {
-         const response = await axios.get('http://localhost:3000/Artesania');
+         const response = await axios.get(`${process.env.API}/Artesania`);
          this.artesanias = response.data;
        } catch (error) {
          console.error('Error fetching artesanias:', error);
@@ -155,7 +155,7 @@
      },
      async eliminarArtesania(id) {
        try {
-         await axios.delete(`http://localhost:3000/Artesania/${id}`);
+         await axios.delete(`${process.env.API}/Artesania/${id}`);
          this.fetchArtesanias();
        } catch (error) {
          console.error('Error deleting artesania:', error);
@@ -207,7 +207,7 @@
          
   
          
-        const response = await axios.post('http://localhost:3000/Artesania', formData);
+        const response = await axios.post(`${process.env.API}/Artesania`, formData);
          console.log(response);
  
           
@@ -232,7 +232,7 @@
      },
      async actualizarArtesania() {
        try {
-         const response = await axios.put(`http://localhost:3000/Artesania/${this.artesaniaActualizada._id}`, this.artesaniaActualizada);
+         const response = await axios.put(`${process.env.API}/Artesania/${this.artesaniaActualizada._id}`, this.artesaniaActualizada);
          console.log(response);
          this.fetchArtesanias();
          // Close the modal

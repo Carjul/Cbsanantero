@@ -148,7 +148,7 @@
     methods: {
       async fetchTransportes() {
         try {
-          const response = await axios.get('http://localhost:3000/Trasporte');
+          const response = await axios.get(`${process.env.API}/Trasporte`);
           this.transportes = response.data;
         } catch (error) {
           console.error('Error fetching transportes:', error);
@@ -156,7 +156,7 @@
       },
       async eliminarTransporte(id) {
         try {
-          await axios.delete(`http://localhost:3000/Trasporte/${id}`);
+          await axios.delete(`${process.env.API}/Trasporte/${id}`);
           this.fetchTransportes();
         } catch (error) {
           console.error('Error deleting transporte:', error);
@@ -203,7 +203,7 @@
           formData.append('conductor', this.nuevoTransporte.conductor);
           formData.append('celular', this.nuevoTransporte.celular);
           formData.append('customer_id', this.nuevoTransporte.customer_id);
-          const response = await axios.post('http://localhost:3000/Trasporte', formData);
+          const response = await axios.post(`${process.env.API}/Trasporte`, formData);
       
           console.log(response);
   
@@ -227,7 +227,7 @@
       },
       async actualizarTransporte() {
         try {
-          const response = await axios.put(`http://localhost:3000/Trasporte/${this.transporteActualizado._id}`, this.transporteActualizado);
+          const response = await axios.put(`${process.env.API}/Trasporte/${this.transporteActualizado._id}`, this.transporteActualizado);
           console.log(response);
           this.fetchTransportes();
           // Close the modal

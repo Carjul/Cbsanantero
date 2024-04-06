@@ -213,7 +213,7 @@
     methods: {
       async fetchHoteles() {
         try {
-          const response = await axios.get('http://localhost:3000/Hotel');
+          const response = await axios.get(`${process.env.AP}/Hotel`);
           this.hoteles = response.data;
         } catch (error) {
           console.error('Error fetching hoteles:', error);
@@ -221,7 +221,7 @@
       },
       async eliminarHotel(id) {
         try {
-          await axios.delete(`http://localhost:3000/Hotel/${id}`);
+          await axios.delete(`${process.env.API}/Hotel/${id}`);
           this.fetchHoteles();
         } catch (error) {
           console.error('Error deleting hotel:', error);
@@ -274,7 +274,7 @@
           formData.append('address', this.nuevoHotel.address);
           formData.append('phone', this.nuevoHotel.phone);
           formData.append('customer_id', this.nuevoHotel.customer_id);
-          const response = await axios.post('http://localhost:3000/Hotel', formData);
+          const response = await axios.post(`${process.env.API}/Hotel`, formData);
           
           console.log(response);
   
@@ -297,7 +297,7 @@
       },
       async actualizarHotel() {
         try {
-          const response = await axios.put(`http://localhost:3000/Hotel/${this.hotelActualizado._id}`, this.hotelActualizado);
+          const response = await axios.put(`${process.env.API}/Hotel/${this.hotelActualizado._id}`, this.hotelActualizado);
           console.log(response);
           this.fetchHoteles();
           // Close the modal

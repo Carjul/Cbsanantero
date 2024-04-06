@@ -153,7 +153,7 @@ export default {
   methods: {
     async fetchBares() {
       try {
-        const response = await axios.get('http://localhost:3000/Bar');
+        const response = await axios.get(`${process.env.API}/Bar`);
         this.bares = response.data;
       } catch (error) {
         console.error('Error fetching bares:', error);
@@ -161,7 +161,7 @@ export default {
     },
     async eliminarBar(id) {
       try {
-        await axios.delete(`http://localhost:3000/Bar/${id}`);
+        await axios.delete(`${process.env.API}/Bar/${id}`);
         this.fetchBares();
       } catch (error) {
         console.error('Error deleting bar:', error);
@@ -209,7 +209,7 @@ export default {
         formData.append('phone', this.nuevoBar.phone);
         formData.append('description', this.nuevoBar.description);
         formData.append('customer_id', this.nuevoBar.customer_id);
-        const response = await axios.post('http://localhost:3000/Bar', formData);
+        const response = await axios.post(`${process.env.API}/Bar`, formData);
        
         console.log(response);
 
@@ -234,7 +234,7 @@ export default {
     },
     async actualizarBar() {
       try {
-        const response = await axios.put(`http://localhost:3000/Bar/${this.barActualizado._id}`, this.barActualizado);
+        const response = await axios.put(`${process.env.API}/Bar/${this.barActualizado._id}`, this.barActualizado);
         console.log(response);
         this.fetchBares();
         // Close the modal

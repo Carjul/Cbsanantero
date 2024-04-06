@@ -248,7 +248,7 @@ export default {
     async fetchCustomers() {
       let id = localStorage.getItem('customerId');
       try {
-        const response = await axios.get('http://localhost:3000/Customer');
+        const response = await axios.get(`${process.env.API}/Customer`);
         const Filtro = response.data.filter((e) => e._id !== id);
         console.log(response.data);
         console.log(Filtro);
@@ -259,7 +259,7 @@ export default {
     },
     async statusCustomer(e, c) {
       try {
-        const res = await axios.put(`http://localhost:3000/customerStatus/${c._id}`, {
+        const res = await axios.put(`${process.env.API}/customerStatus/${c._id}`, {
           status: e.target.checked,
         });
         console.log(res.data);
@@ -277,7 +277,7 @@ export default {
     },
     async eliminarCliente(id) {
       try {
-        await axios.delete(`http://localhost:3000/Customer/${id}`);
+        await axios.delete(`${process.env.API}/Customer/${id}`);
         this.fetchCustomers();
       } catch (error) {
         console.error('Error deleting customer:', error);
@@ -294,7 +294,7 @@ export default {
     async ActualizarCustomer(customer, id) {
       try {
        
-        const response = await axios.put(`http://localhost:3000/Customer/${id}`, customer);
+        const response = await axios.put(`${process.env.API}/Customer/${id}`, customer);
         console.log(response);
         this.fetchCustomers();
         this.cerrarModalActualizar();
@@ -339,7 +339,7 @@ export default {
         formData.append('rol', this.nuevoCliente.rol);
         formData.append('tipo_negocio', this.nuevoCliente.tipo_negocio);
         console.log('Nuevo Cliente:',this.nuevoCliente);
-        const response = await axios.post('http://localhost:3000/Customer', formData);
+        const response = await axios.post(`${process.env.API}/Customer`, formData);
 
         console.log(response.data);
         this.fetchCustomers();

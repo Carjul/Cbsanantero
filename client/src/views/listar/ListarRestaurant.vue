@@ -157,7 +157,7 @@
     methods: {
       async fetchRestaurantes() {
         try {
-          const response = await axios.get('http://localhost:3000/Restaurante');
+          const response = await axios.get(`${process.env.API}/Restaurante`);
           this.restaurantes = response.data;
         } catch (error) {
           console.error('Error fetching restaurantes:', error);
@@ -165,7 +165,7 @@
       },
       async eliminarRestaurante(id) {
         try {
-          await axios.delete(`http://localhost:3000/Restaurante/${id}`);
+          await axios.delete(`${process.env.API}/Restaurante/${id}`);
           this.fetchRestaurantes();
         } catch (error) {
           console.error('Error deleting restaurante:', error);
@@ -212,7 +212,7 @@
         formData.append('services', this.nuevoRestaurante.services);
         formData.append('price', this.nuevoRestaurante.price);
         formData.append('customer_id', this.nuevoRestaurante.customer_id);
-        const response = await axios.post('http://localhost:3000/Restaurante', formData);
+        const response = await axios.post(`${process.env.API}/Restaurante`, formData);
           console.log(response);
   
           // Reset the form and close the modal
@@ -236,7 +236,7 @@
       },
       async actualizarRestaurante() {
         try {
-          const response = await axios.put(`http://localhost:3000/Restaurante/${this.restauranteActualizado._id}`, this.restauranteActualizado);
+          const response = await axios.put(`${process.env.API}/Restaurante/${this.restauranteActualizado._id}`, this.restauranteActualizado);
           console.log(response);
           this.fetchRestaurantes();
           // Close the modal

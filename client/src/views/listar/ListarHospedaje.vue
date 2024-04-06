@@ -145,7 +145,7 @@ export default {
   methods: {
     async fetchHospedajes() {
       try {
-        const response = await axios.get('http://localhost:3000/Hospedaje');
+        const response = await axios.get(`${process.env.API}/Hospedaje`);
         this.hospedajes = response.data;
       } catch (error) {
         console.error('Error fetching hospedajes:', error);
@@ -153,7 +153,7 @@ export default {
     },
     async eliminarHospedaje(id) {
       try {
-        await axios.delete(`http://localhost:3000/Hospedaje/${id}`);
+        await axios.delete(`${process.env.API}/Hospedaje/${id}`);
         this.fetchHospedajes();
       } catch (error) {
         console.error('Error deleting hospedaje:', error);
@@ -199,7 +199,7 @@ export default {
           formData.append('address', this.nuevoHospedaje.address);
           formData.append('phone', this.nuevoHospedaje.phone);
           formData.append('customer_id', this.nuevoHospedaje.customer_id);
-          const response = await axios.post('http://localhost:3000/Hospedaje', formData);
+          const response = await axios.post(`${process.env.API}/Hospedaje`, formData);
         
         console.log(response);
 
@@ -222,7 +222,7 @@ export default {
     },
     async actualizarHospedaje() {
       try {
-        const response = await axios.put(`http://localhost:3000/Hospedaje/${this.hospedajeActualizado._id}`, this.hospedajeActualizado);
+        const response = await axios.put(`${process.env.API}/Hospedaje/${this.hospedajeActualizado._id}`, this.hospedajeActualizado);
         console.log(response);
         this.fetchHospedajes();
         // Close the modal

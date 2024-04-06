@@ -53,7 +53,7 @@ export default {
   methods: {
     async fetchTours() {
       try {
-        const response = await axios.get('http://localhost:3000/Tour');
+        const response = await axios.get(`${process.env.API}/Tour`);
         this.tours = response.data;
       } catch (error) {
         console.error('Error al obtener los tours y transporte', error);
@@ -137,7 +137,7 @@ export default {
   methods: {
     async fetchTours() {
       try {
-        const response = await axios.get('http://localhost:3000/Tour');
+        const response = await axios.get(`${process.env.API}/Tour`);
         this.tours = response.data;
       } catch (error) {
         console.error('Error al obtener los tours y transporte', error);

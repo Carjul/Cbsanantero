@@ -156,7 +156,7 @@ export default {
   methods: {
     async fetchRecreaciones() {
       try {
-        const response = await axios.get('http://localhost:3000/Recreacion');
+        const response = await axios.get(`${process.env.API}/Recreacion`);
         this.recreaciones = response.data;
       } catch (error) {
         console.error('Error fetching recreaciones:', error);
@@ -164,7 +164,7 @@ export default {
     },
     async eliminarRecreacion(id) {
       try {
-        await axios.delete(`http://localhost:3000/Recreacion/${id}`);
+        await axios.delete(`${process.env.API}/Recreacion/${id}`);
         this.fetchRecreaciones();
       } catch (error) {
         console.error('Error deleting recreacion:', error);
@@ -211,7 +211,7 @@ export default {
       formData.append('services', this.nuevaRecreacion.services);
       formData.append('price', this.nuevaRecreacion.price);
       formData.append('customer_id', this.nuevaRecreacion.customer_id);
-      const response = await axios.post('http://localhost:3000/Recreacion', formData);
+      const response = await axios.post(`${process.env.API}/Recreacion`, formData);
         console.log(response);
 
         // Reset the form and close the modal
@@ -235,7 +235,7 @@ export default {
     },
     async actualizarRecreacion() {
       try {
-        const response = await axios.put(`http://localhost:3000/Recreacion/${this.recreacionActualizada._id}`, this.recreacionActualizada);
+        const response = await axios.put(`${process.env.API}/Recreacion/${this.recreacionActualizada._id}`, this.recreacionActualizada);
         console.log(response);
         this.fetchRecreaciones();
         // Close the modal

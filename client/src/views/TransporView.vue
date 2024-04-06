@@ -102,7 +102,7 @@ export default {
   methods: {
     async fetchTransportes() {
       try {
-        const response = await axios.get('http://localhost:3000/Trasporte');
+        const response = await axios.get(`${process.env.API}/Trasporte`);
         this.transportes = response.data;
       } catch (error) {
         console.error('Error al obtener la información de transporte', error);

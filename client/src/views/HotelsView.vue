@@ -104,7 +104,7 @@ export default {
   methods: {
     async fetchHoteles() {
       try {
-        const response = await axios.get('http://localhost:3000/Hotel');
+        const response = await axios.get(`${process.env.API}/Hotel`);
         this.hoteles = response.data;
       } catch (error) {
         console.error('Error al obtener los hoteles', error);

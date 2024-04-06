@@ -103,7 +103,7 @@ export default {
   methods: {
     async fetchHospedajes() {
       try {
-        const response = await axios.get('http://localhost:3000/Hospedaje');
+        const response = await axios.get(`${process.env.API}/Hospedaje`);
         this.hospedajes = response.data;
       } catch (error) {
         console.error('Error al obtener los hospedajes', error);

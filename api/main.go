@@ -36,7 +36,7 @@ func main() {
 		AllowCredentials: true,
 	}))
 	
-	app.Static("/", "./dist")
+	app.Static("/", "./public")
 	//rutas
 	Routes.Rutas(app)
 
