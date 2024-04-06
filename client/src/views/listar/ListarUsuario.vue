@@ -132,70 +132,63 @@
       </div>
     </div>
 
-
-    <!-- Modal Actualizar -->
-    <div ref="modalActualizar" class="modal fade" id="modalActualizar" tabindex="-1" role="dialog"
-      aria-labelledby="modalActualizarLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+    <div ref="modalActualizar" class="modal fade" id="modalActualizar" tabindex="-1" role="dialog" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalActualizarLabel">Actualizar Cliente</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModalActualizar">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="actualizarCliente">
-              <div class="form-group">
-                <label for="name">Nombre:</label>
-                <input type="text" v-model="clienteActualizado.name" class="form-control" id="name" required>
-              </div>
-              <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" v-model="clienteActualizado.email" class="form-control" id="email" required>
-              </div>
-              <div class="form-group">
-                <label for="email">Contraseña:</label>
-                <input type="text" v-model="clienteActualizado.password" class="form-control" id="email" required>
-              </div>
-              <div class="form-group">
-                <label for="address">Address:</label>
-                <input type="text" v-model="clienteActualizado.address" class="form-control" id="address" required>
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone:</label>
-                <input type="text" v-model="clienteActualizado.phone" class="form-control" id="phone" required>
-              </div>
-              <div class="form-group">
-                    <label for="newRol">
-                      <span>Rol:</span>
-                    </label>
-                    <select v-model="clienteActualizado.rol" class="form-control" id="newRol" required>
-                      <option value="Admin">Admin</option>
-                      <option value="Cliente">Cliente</option>
-                      <option value="Vendedor">Vendedor</option>
-                    
-                    </select>
-                  </div>
-                  <div class="form-group" v-if="clienteActualizado.rol === 'Vendedor'">
-                    <label for="newRol">
-                      <span>Tipo Negocio</span>
-                    </label>
-                    <select v-model="clienteActualizado.tipo_negocio" class="form-control" id="newRol" required>
-                      <option value="Transporte">Transporte</option>
-                      <option value="Hospedaje">Hospedaje</option>
-                      <option value="Tour">Tour</option>
-                      <option value="Hoteles">Hoteles</option>
-                      <option value="Artesanías">Artesanías</option>
-                      <option value="Bares">Bares y discotecas</option>
-                      <option value="Restaurantes">Restaurantes</option>
-                      <option value="Juegos">Recreación</option>
-                    </select>
-                  </div>
-              <button type="submit" @click="ActualizarCustomer(clienteActualizado, clienteActualizado._id)"
-                class="btn btn-primary">Guardar Cambios</button>
-            </form>
-          </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalActualizarLabel">Actualizar Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModalActualizar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form @submit.prevent="actualizarCliente" class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name">Nombre:</label>
+                        <input type="text" v-model="clienteActualizado.name" class="form-control" id="name" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="email">Email:</label>
+                        <input type="email" v-model="clienteActualizado.email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="password">Contraseña:</label>
+                        <input type="password" v-model="clienteActualizado.password" class="form-control" id="password" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="address">Address:</label>
+                        <input type="text" v-model="clienteActualizado.address" class="form-control" id="address" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="phone">Phone:</label>
+                        <input type="text" v-model="clienteActualizado.phone" class="form-control" id="phone" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="newRol">Rol:</label>
+                        <select v-model="clienteActualizado.rol" class="form-control" id="newRol" required>
+                            <option value="Admin">Admin</option>
+                            <option value="Cliente">Cliente</option>
+                            <option value="Vendedor">Vendedor</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6" v-if="clienteActualizado.rol === 'Vendedor'">
+                        <label for="tipo_negocio">Tipo Negocio</label>
+                        <select v-model="clienteActualizado.tipo_negocio" class="form-control" id="tipo_negocio" required>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Hospedaje">Hospedaje</option>
+                            <option value="Tour">Tour</option>
+                            <option value="Hoteles">Hoteles</option>
+                            <option value="Artesanías">Artesanías</option>
+                            <option value="Bares">Bares y discotecas</option>
+                            <option value="Restaurantes">Restaurantes</option>
+                            <option value="Juegos">Recreación</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-12">
+                        <button type="submit" @click="ActualizarCustomer(clienteActualizado, clienteActualizado._id)" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
           <div class="modal-footer">
             <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
           </div>

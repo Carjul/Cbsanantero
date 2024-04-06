@@ -1,325 +1,319 @@
 <template>
-      <div id="app">
-	<main>
-		<nav class="main-menu">
-			<h1>Costa Brisa</h1>
-        <span>PANEL ADMINISTRADOR</span>
-			<ul>
-				
-				<!-- <li class="nav-item">
-					<b></b>
-					<b></b>
-					<a href="#">
-						<i class="fa fa-user nav-icon"></i>
-						<span class="nav-text">Profile</span>
-					</a>
-				</li>
- -->
-				<!-- <li class="nav-item">
-					<b></b>
-					<b></b>
-					<a href="#">
-						<i class="fa fa-calendar-check nav-icon"></i>
-						<span class="nav-text">Schedule</span>
-					</a>
-				</li> -->
+  <div id="app">
+<main>
+<nav class="main-menu">
+  <h1>Costa Brisa</h1>
+  <ul>
+    <li class="nav-item active">
+      <b></b>
+      <b></b>
+      
+    </li>
 
-				<!-- <li class="nav-item">
-					<b></b>
-					<b></b>
-					<a href="#">
-						<i class="fa fa-person-running nav-icon"></i>
-						<span class="nav-text">Activities</span>
-					</a>
-				</li> -->
+    <!-- <li class="nav-item">
+      <b></b>
+      <b></b>
+      <a href="#">
+        <i class="fa fa-user nav-icon"></i>
+        <span class="nav-text">Profile</span>
+      </a>
+    </li>
+-->
+    <!-- <li class="nav-item">
+      <b></b>
+      <b></b>
+      <a href="#">
+        <i class="fa fa-calendar-check nav-icon"></i>
+        <span class="nav-text">Schedule</span>
+      </a>
+    </li> -->
 
-				<!-- <li class="nav-item">
-					<b></b>
-					<b></b>
-					<a href="#">
-						<i class="fa fa-sliders nav-icon"></i>
-           
-            <span @click="hotel && enviarIdGaleria(hotel._id, hotel.customer_id)" class="nav-text">Galeria</span>
-					
+    <!-- <li class="nav-item">
+      <b></b>
+      <b></b>
+      <a href="#">
+        <i class="fa fa-person-running nav-icon"></i>
+        <span class="nav-text">Activities</span>
+      </a>
+    </li> -->
 
-					</a>
-				</li> -->
-			</ul>
-		</nav>
+    
+     
+  </ul>
+</nav>
 
-		<section class="content">
+<section class="content">
 
-   <!--    Panel de crear negocio -->
-			<div class="left-content">
-				
-        <div class="card">
-        <br>
-          <div class="card-body">
-            <h5 class="card-title">Creación de Hotel</h5>
-            <p class="card-text">En este espacio creamos nuevos hoteles para COSTA BRISA</p>
-            <button class="btn btn-success mb-4" @click="abrirModalCrear">Crear</button>
-          </div>
+<!--    Panel de crear negocio -->
+  <div class="left-content">
+    
+    <div class="card">
+    <br>
+      <div class="card-body">
+        <h5 class="card-title">Creación de Hotel</h5>
+        <p class="card-text">En este espacio creamos nuevos hoteles para COSTA BRISA</p>
+        <button class="btn btn-success mb-4" @click="abrirModalCrear">Crear</button>
+      </div>
+    </div>
+    <div class="card">
+    <br>
+      <div class="card-body">
+        <h5 class="card-title">Creación de Hotel</h5>
+        <p class="card-text">En este espacio creamos nuevos hoteles para COSTA BRISA</p>
+        <button class="btn btn-success mb-4" @click="abrirModalCrear">Crear</button>
+      </div>
+    </div>
+
+
+
+    <!-- Modal Crear -->
+    <div ref="modalCrear" class="modal fade" id="modalCrear" tabindex="" role="dialog" aria-labelledby="modalCrearLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCrearLabel">Crear Hotel</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModalCrear">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-
-      <!--   crear galeria  -->
-      <div class="card">
-        <br>
-          <div class="card-body">
-            <h5 class="card-title">Creación de Galeria</h5>
-            <p class="card-text">En este espacio subes imagenes de tu negocio</p>
-            <button class="btn btn-success mb-4" @click="abrirModalCrear">Acceder</button>
-          </div>
-        </div>
-
-
-        <!-- Modal Crear -->
-        <div ref="modalCrear" class="modal fade" id="modalCrear" tabindex="" role="dialog" aria-labelledby="modalCrearLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalCrearLabel">Crear Hotel</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModalCrear">
-                <span aria-hidden="true">&times;</span>
-              </button>
+        <div class="modal-body">
+          <form @submit.prevent="crearHotel">
+            <div class="form-group">
+              <label for="nombreHotel">Nombre:</label>
+              <input type="text" v-model="nuevoHotel.name" class="form-control" id="nombreHotel" required>
             </div>
-            <div class="modal-body">
-              <form @submit.prevent="crearHotel">
-                <div class="form-group">
-                  <label for="nombreHotel">Nombre:</label>
-                  <input type="text" v-model="nuevoHotel.name" class="form-control" id="nombreHotel" required>
-                </div>
-                <div class="form-group">
-                  <label for="direccionHotel">Dirección:</label>
-                  <input type="text" v-model="nuevoHotel.address" class="form-control" id="direccionHotel" required>
-                </div>
-                <div class="form-group">
-                  <label for="imagenHotel">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenHotel" ref="fileCrear" type="file">
-                </div>
-                <div class="form-group">
-                  <label for="telefonoHotel">Teléfono:</label>
-                  <input type="text" v-model="nuevoHotel.phone" class="form-control" id="telefonoHotel" required>
-                </div>
-  
-                <button type="submit" class="btn btn-primary">Crear Hotel</button>
-              </form>
+            <div class="form-group">
+              <label for="direccionHotel">Dirección:</label>
+              <input type="text" v-model="nuevoHotel.address" class="form-control" id="direccionHotel" required>
             </div>
-          </div>
+            <div class="form-group">
+              <label for="imagenHotel">Imagen:</label>
+              <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenHotel" ref="fileCrear" type="file">
+            </div>
+            <div class="form-group">
+              <label for="telefonoHotel">Teléfono:</label>
+              <input type="text" v-model="nuevoHotel.phone" class="form-control" id="telefonoHotel" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Crear Hotel</button>
+          </form>
         </div>
       </div>
-  
+    </div>
+  </div>
 
 
-
-			</div>
-      
-
-      <!-- Todos los negocios -->
-			<div class="right-content">
-        <b>Tu Negocio</b>
-				<div class="row">
-          <div v-for="hotel in hoteles" :key="hotel._id" class="col-md-12 mb-6">
-            <div class="card">
-              <img :src="hotel.image" class="card-img-top" alt="Hotel Image">
-              <div class="card-body">
-                <h5 class="card-title">{{ hotel.name }}</h5>
-                <p class="card-text">Dirección: {{ hotel.address }}</p>
-                <p class="card-text">Descripción: {{ hotel.description }}</p>
-                <p class="card-text">Teléfono: {{ hotel.phone }}</p>
-  
-                <button class="btn btn-danger" @click="eliminarHotel(hotel._id)">Eliminar</button>
-                <button class="btn btn-primary" @click="abrirModalActualizar(hotel)">Actualizar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      
-
-        
-      <!-- Modal Actualizar -->
-      <div ref="modalActualizar" class="modal fade" id="modalActualizar" tabindex="-1" role="dialog" aria-labelledby="modalActualizarLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalActualizarLabel">Actualizar Hotel</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModalActualizar">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form @submit.prevent="actualizarHotel">
-                <div class="form-group">
-                  <label for="nombreHotelActualizar">Nombre:</label>
-                  <input type="text" v-model="hotelActualizado.name" class="form-control" id="nombreHotelActualizar" required>
-                </div>
-                <div class="form-group">
-                  <label for="direccionHotelActualizar">Dirección:</label>
-                  <input type="text" v-model="hotelActualizado.address" class="form-control" id="direccionHotelActualizar" required>
-                </div>
-                <div class="form-group">
-                  <label for="imagenHotelActualizar">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar()' id="imagenHotelActualizar" ref="fileActualizar" type="file">
-                </div>
-                <div class="form-group">
-                  <label for="telefonoHotelActualizar">Teléfono:</label>
-                  <input type="text" v-model="hotelActualizado.phone" class="form-control" id="telefonoHotelActualizar" required>
-                </div>
-  
-                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-   
  
 
-			</div>
-		</section>
-	</main>
+
+  </div>
+  
+
+  <!-- Todos los negocios -->
+  <div class="right-content">
+    <div class="row">
+      <div v-for="hotel in hoteles" :key="hotel._id" class="col-md-12 mb-6">
+        <div class="card">
+          <img :src="hotel.image" class="card-img-top" alt="Hotel Image">
+          <div class="card-body">
+            <h5 class="card-title">{{ hotel.name }}</h5>
+            <p class="card-text">Dirección: {{ hotel.address }}</p>
+            <p class="card-text">Descripción: {{ hotel.description }}</p>
+            <p class="card-text">Teléfono: {{ hotel.phone }}</p>
+
+            <button class="btn btn-danger" @click="eliminarHotel(hotel._id)">Eliminar</button>
+            <button class="btn btn-primary" @click="abrirModalActualizar(hotel)">Actualizar</button>
+          </div>
+        </div>
       </div>
+    </div>
+  
+
+    
+  <!-- Modal Actualizar -->
+  <div ref="modalActualizar" class="modal fade" id="modalActualizar" tabindex="-1" role="dialog" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalActualizarLabel">Actualizar Hotel</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModalActualizar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form @submit.prevent="actualizarHotel">
+            <div class="form-group">
+              <label for="nombreHotelActualizar">Nombre:</label>
+              <input type="text" v-model="hotelActualizado.name" class="form-control" id="nombreHotelActualizar" required>
+            </div>
+            <div class="form-group">
+              <label for="direccionHotelActualizar">Dirección:</label>
+              <input type="text" v-model="hotelActualizado.address" class="form-control" id="direccionHotelActualizar" required>
+            </div>
+            <div class="form-group">
+              <label for="imagenHotelActualizar">Imagen:</label>
+              <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar()' id="imagenHotelActualizar" ref="fileActualizar" type="file">
+            </div>
+            <div class="form-group">
+              <label for="telefonoHotelActualizar">Teléfono:</label>
+              <input type="text" v-model="hotelActualizado.phone" class="form-control" id="telefonoHotelActualizar" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="main-menu"></nav>
+
+
+  </div>
+</section>
+</main>
+  </div>
 </template>
 
 <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        hoteles: [],
-        hotelActualizado: {
-          _id: null,
-          name: '',
-          address: '',
-          image: '',
-          phone: '',
-        },
-        file:null,
-        nuevoHotel: {
-          name: '',
-          address: '',
-          image: '',
-          phone: '',
-          customer_id: '',
-        },
-      };
-    },
-    mounted() {
-      this.fetchHoteles();
-    },
-    methods: {
-      async fetchHoteles() {
-        try {
-          const response = await axios.get(`${process.env.AP}/Hotel`);
-          this.hoteles = response.data;
-        } catch (error) {
-          console.error('Error fetching hoteles:', error);
-        }
-      },
-      async eliminarHotel(id) {
-        try {
-          await axios.delete(`${process.env.API}/Hotel/${id}`);
-          this.fetchHoteles();
-        } catch (error) {
-          console.error('Error deleting hotel:', error);
-        }
-      },
-      
-      enviarIdGaleria(id, cid) {
-  localStorage.setItem('negocioId', id);
-  localStorage.setItem('dueñoId', cid);
-  this.$router.push({ path: '/artegaleria' });
-},
+import axios from 'axios';
 
-      abrirModalActualizar(hotel) {
-        this.hotelActualizado = { ...hotel };
-        const modalElement = this.$refs.modalActualizar;
-        if (modalElement) {
-          modalElement.classList.add('show');
-          modalElement.style.display = 'block';
-        }
-      },
-      cerrarModalActualizar() {
-        const modalElement = this.$refs.modalActualizar;
-        if (modalElement) {
-          modalElement.classList.remove('show');
-          modalElement.style.display = 'none';
-        }
-      },
-      abrirModalCrear() {
-        const modalElement = this.$refs.modalCrear;
-        if (modalElement) {
-          modalElement.classList.add('show');
-          modalElement.style.display = 'block';
-        }
-      },
-      cerrarModalCrear() {
-        const modalElement = this.$refs.modalCrear;
-        if (modalElement) {
-          modalElement.classList.remove('show');
-          modalElement.style.display = 'none';
-        }
-      },
-      async crearHotel() {
-        let id = localStorage.getItem('customerId');
-        try {
-          if (id) {
-            this.nuevoHotel.customer_id = id;
-          var formData = new FormData();
-          formData.append('image', this.file);
-          formData.append('name', this.nuevoHotel.name);
-          formData.append('address', this.nuevoHotel.address);
-          formData.append('phone', this.nuevoHotel.phone);
-          formData.append('customer_id', this.nuevoHotel.customer_id);
-          const response = await axios.post(`${process.env.API}/Hotel`, formData);
-          
-          console.log(response);
-  
-          // Reset the form and close the modal
-          this.nuevoHotel = {
-            name: '',
-            address: '',
-            image: '',
-            phone: '',
-            customer_id: '',
-          };
-  
-          // Close the modal
-          this.cerrarModalCrear();
-          this.fetchHoteles();
-        }
-        } catch (error) {
-          console.error('Error creating Hotel:', error);
-        }
-      },
-      async actualizarHotel() {
-        try {
-          const response = await axios.put(`${process.env.API}/Hotel/${this.hotelActualizado._id}`, this.hotelActualizado);
-          console.log(response);
-          this.fetchHoteles();
-          // Close the modal
-          this.cerrarModalActualizar();
-        } catch (error) {
-          console.error('Error updating Hotel:', error);
-        }
-      },
-      uploadFileCrear(event) {
-      this.file = event.target.files[0];
-      },
-      uploadFileActualizar() {
-        this.uploadFile('fileActualizar', 'hotelActualizado');
-      },
-
-   
-     
-  
+export default {
+data() {
+  return {
+    hoteles: [],
+    hotelActualizado: {
+      _id: null,
+      name: '',
+      address: '',
+      image: '',
+      phone: '',
+    },
+    file:null,
+    nuevoHotel: {
+      name: '',
+      address: '',
+      image: '',
+      phone: '',
+      customer_id: '',
     },
   };
-  </script>
+},
+mounted() {
+  this.fetchHoteles();
+},
+methods: {
+  async fetchHoteles() {
+    try {
+      const response = await axios.get('http://localhost:3000/Hotel');
+      this.hoteles = response.data;
+    } catch (error) {
+      console.error('Error fetching hoteles:', error);
+    }
+  },
+  async eliminarHotel(id) {
+    try {
+      await axios.delete(`http://localhost:3000/Hotel/${id}`);
+      this.fetchHoteles();
+    } catch (error) {
+      console.error('Error deleting hotel:', error);
+    }
+  },
   
+  enviarIdGaleria(id, cid) {
+localStorage.setItem('negocioId', id);
+localStorage.setItem('dueñoId', cid);
+this.$router.push({ path: '/artegaleria' });
+},
+
+  abrirModalActualizar(hotel) {
+    this.hotelActualizado = { ...hotel };
+    const modalElement = this.$refs.modalActualizar;
+    if (modalElement) {
+      modalElement.classList.add('show');
+      modalElement.style.display = 'block';
+    }
+  },
+  cerrarModalActualizar() {
+    const modalElement = this.$refs.modalActualizar;
+    if (modalElement) {
+      modalElement.classList.remove('show');
+      modalElement.style.display = 'none';
+    }
+  },
+  abrirModalCrear() {
+    const modalElement = this.$refs.modalCrear;
+    if (modalElement) {
+      modalElement.classList.add('show');
+      modalElement.style.display = 'block';
+    }
+  },
+  cerrarModalCrear() {
+    const modalElement = this.$refs.modalCrear;
+    if (modalElement) {
+      modalElement.classList.remove('show');
+      modalElement.style.display = 'none';
+    }
+  },
+  async crearHotel() {
+    let id = localStorage.getItem('customerId');
+    try {
+      if (id) {
+        this.nuevoHotel.customer_id = id;
+      var formData = new FormData();
+      formData.append('image', this.file);
+      formData.append('name', this.nuevoHotel.name);
+      formData.append('address', this.nuevoHotel.address);
+      formData.append('phone', this.nuevoHotel.phone);
+      formData.append('customer_id', this.nuevoHotel.customer_id);
+      const response = await axios.post('http://localhost:3000/Hotel', formData);
+      
+      console.log(response);
+
+      // Reset the form and close the modal
+      this.nuevoHotel = {
+        name: '',
+        address: '',
+        image: '',
+        phone: '',
+        customer_id: '',
+      };
+
+      // Close the modal
+      this.cerrarModalCrear();
+      this.fetchHoteles();
+    }
+    } catch (error) {
+      console.error('Error creating Hotel:', error);
+    }
+  },
+  async actualizarHotel() {
+    try {
+      const response = await axios.put(`http://localhost:3000/Hotel/${this.hotelActualizado._id}`, this.hotelActualizado);
+      console.log(response);
+      this.fetchHoteles();
+      // Close the modal
+      this.cerrarModalActualizar();
+    } catch (error) {
+      console.error('Error updating Hotel:', error);
+    }
+  },
+  uploadFileCrear(event) {
+  this.file = event.target.files[0];
+  },
+  uploadFileActualizar() {
+    this.uploadFile('fileActualizar', 'hotelActualizado');
+  },
+
+
+ 
+
+},
+};
+</script>
   <style scoped>
   @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Roboto:wght@300;400;500;700&display=swap");
   
