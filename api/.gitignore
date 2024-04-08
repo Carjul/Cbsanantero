@@ -13,7 +13,7 @@
 *.test
 *.out
 .env
-go.sum
+
 # Archivos de dependencias
 vendor/
 /tmp
