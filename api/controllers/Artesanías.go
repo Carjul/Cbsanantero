@@ -9,13 +9,12 @@ import (
 	"github.com/cbsanantero/db/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"github.com/cbsanantero/config"
 	"github.com/gofiber/fiber/v2"
 )
 
 
 
-func GetArtesanias() interface{} {
+func GetArtesania() interface{} {
 	artesanias := Instance.Database.Collection("Artesanias")
 	busqueda, err := artesanias.Find(context.TODO(), bson.M{"status": "Activo"})
 	if err != nil {
@@ -30,7 +29,7 @@ func GetArtesanias() interface{} {
 	return artesania
 }
 
-func GetArtesaniasById(id string) interface{} {
+func GetArtesaniaById(id string) interface{} {
 	artesanias := Instance.Database.Collection("Artesanias")
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -44,7 +43,7 @@ func GetArtesaniasById(id string) interface{} {
 	return artesania
 }
 
-func CreateArtesanias(data *models.Artesanias) interface{} {
+func CreateArtesania(data *models.Artesanias) interface{} {
 	artesanias := Instance.Database.Collection("Artesanias")
 	customer := Instance.Database.Collection("Customer")
 	idc := data.CustomerID
@@ -66,7 +65,7 @@ func CreateArtesanias(data *models.Artesanias) interface{} {
 
 }
 
-func UpdateArtesanias(data *models.Artesanias, id string) interface{} {
+func UpdateArtesania(data *models.Artesanias, id string) interface{} {
 	artesanias := Instance.Database.Collection("Artesanias")
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -83,7 +82,7 @@ func UpdateArtesanias(data *models.Artesanias, id string) interface{} {
 	return Message{Msg: "Artesania actualizada"}
 }
 
-func DeleteArtesanias(id string) interface{} {
+func DeleteArtesania(id string) interface{} {
 	artesanias := Instance.Database.Collection("Artesanias")
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -109,14 +108,14 @@ func DeleteArtesanias(id string) interface{} {
 
 
 func GetArtesanias(c *fiber.Ctx) error {
-	artesanias := GetArtesanias()
+	artesanias := GetArtesania()
 	return c.Status(fiber.StatusAccepted).JSON(artesanias)
 
 }
 
 func GetArtesaniasById(c *fiber.Ctx) error {
 	id := c.Params("id")
-	artesania := GetArtesaniasById(id)
+	artesania := GetArtesaniaById(id)
 	if artesania == "error al buscar artesania" {
 		return c.Status(fiber.StatusNotFound).JSON(Message{Msg: "Error al buscar artesanias"})
 
@@ -170,7 +169,7 @@ func CreateArtesanias(c *fiber.Ctx) error {
 		CustomerID:  customerID[0],
 	}
 
-	artesania := CreateArtesanias((*models.Artesanias)(&argumen))
+	artesania := CreateArtesania((*models.Artesanias)(&argumen))
 
 	return c.Status(fiber.StatusCreated).JSON(artesania)
 }
@@ -222,7 +221,7 @@ func UpdateArtesanias(c *fiber.Ctx) error {
 		Status:      data.Status,
 		CustomerID:  customerID[0],
 	}
-	artesania := UpdateArtesanias((*models.Artesanias)(&argument), id)
+	artesania := UpdateArtesania((*models.Artesanias)(&argument), id)
 
 	return c.Status(fiber.StatusAccepted).JSON(artesania)
 }
@@ -231,7 +230,7 @@ func DeleteArtesanias(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
-	artesania := DeleteArtesanias(id)
+	artesania := DeleteArtesania(id)
 
 	return c.Status(fiber.StatusAccepted).JSON(artesania)
 }
