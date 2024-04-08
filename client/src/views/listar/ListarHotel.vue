@@ -89,43 +89,44 @@
         </div>
 
         <!-- Modal Actualizar -->
-        <div ref="modalActualizar" class="modal fade" id="modalActualizar" tabindex="-1" role="dialog" aria-labelledby="modalActualizarLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalActualizarLabel">Actualizar Hotel</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModalActualizar">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form @submit.prevent="actualizarHotel">
-                  <div class="form-group">
-                    <label for="nombreHotelActualizar">Nombre:</label>
-                    <input type="text" v-model="hotelActualizado.name" class="form-control" id="nombreHotelActualizar" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="direccionHotelActualizar">Dirección:</label>
-                    <input type="text" v-model="hotelActualizado.address" class="form-control" id="direccionHotelActualizar" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="imagenHotelActualizar">Imagen:</label>
-                    <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar()' id="imagenHotelActualizar" ref="fileActualizar" type="file">
-                  </div>
-                  <div class="form-group">
-                    <label for="telefonoHotelActualizar">Teléfono:</label>
-                    <input type="text" v-model="hotelActualizado.phone" class="form-control" id="telefonoHotelActualizar" required>
-                  </div>
-
-                  <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
-              </div>
-            </div>
+       <!-- Modal Actualizar -->
+<div ref="modalActualizar" class="modal fade" id="modalActualizar" tabindex="-1" role="dialog" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalActualizarLabel">Actualizar Hotel</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModalActualizar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form @submit.prevent="actualizarHotel">
+          <div class="form-group">
+            <label for="nombreHotelActualizar">Nombre:</label>
+            <input type="text" v-model="hotelActualizado.name" class="form-control" id="nombreHotelActualizar" required>
           </div>
-        </div>
+          <div class="form-group">
+            <label for="direccionHotelActualizar">Dirección:</label>
+            <input type="text" v-model="hotelActualizado.address" class="form-control" id="direccionHotelActualizar" required>
+          </div>
+          <div class="form-group">
+            <label for="imagenHotelActualizar">Imagen:</label>
+            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar()' id="imagenHotelActualizar" ref="fileActualizar" type="file">
+          </div>
+          <div class="form-group">
+            <label for="telefonoHotelActualizar">Teléfono:</label>
+            <input type="text" v-model="hotelActualizado.phone" class="form-control" id="telefonoHotelActualizar" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
+      </div>
+    </div>
+  </div>
+</div>
       </section>
     </main>
   </div>
@@ -245,16 +246,19 @@ this.$router.push({ path: '/artegaleria' });
     }
   },
   async actualizarHotel() {
-    try {
-      const response = await axios.put(`http://localhost:3000/Hotel/${this.hotelActualizado._id}`, this.hotelActualizado);
-      console.log(response);
-      this.fetchHoteles();
-      // Close the modal
-      this.cerrarModalActualizar();
-    } catch (error) {
-      console.error('Error updating Hotel:', error);
-    }
-  },
+  try {
+    const response = await axios.put(`http://localhost:3000/Hotel/${this.hotelActualizado._id}`, this.hotelActualizado);
+    console.log(response);
+    // Si la solicitud se realizó con éxito, actualizamos la lista de hoteles
+    this.fetchHoteles();
+    // Cerramos el modal de actualización
+    this.cerrarModalActualizar();
+  } catch (error) {
+    console.error('Error updating Hotel:', error);
+    // Aquí puedes agregar cualquier lógica adicional para manejar el error, como mostrar un mensaje de error al usuario.
+  }
+},
+
   uploadFileCrear(event) {
   this.file = event.target.files[0];
   },
