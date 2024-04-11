@@ -92,7 +92,7 @@
           </div>
           <div class="form-group">
             <label for="imagenHospedajeActualizar">Imagen:</label>
-            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar()' id="imagenHospedajeActualizar" ref="fileActualizar" type="file" style="display:none">
+            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar' id="imagenHospedajeActualizar" ref="fileActualizar" type="file" style="display:none">
           </div>
           <div class="form-group">
             <label for="telefonoHospedajeActualizar">Teléfono:</label>
@@ -130,6 +130,7 @@ export default {
     
       },
       file: null,
+      fileActualizar: null,
       nuevoHospedaje: {
         name: '',
         address: '',
@@ -221,6 +222,25 @@ export default {
       }
     },
     async actualizarHospedaje() {
+      if (this.fileActualizar) {
+        const formData = new FormData();
+        formData.append('name', this.hospedajeActualizado.name);
+        formData.append('address', this.hospedajeActualizado.address);
+        formData.append('phone', this.hospedajeActualizado.phone);
+        formData.append('customer_id', this.hospedajeActualizado.customer_id);
+        formData.append('imagen', this.fileActualizar);
+        formData.append('image', "");
+        try {
+          const response = await axios.put(`${process.env.API}/Hospedaje/${this.hospedajeActualizado._id}`, formData);
+          console.log(response);
+          this.fetchHospedajes();
+          this.cerrarModalActualizar();
+          this.fileActualizar = null;
+          
+        } catch (error) {
+          console.error('Error updating Hospedaje:', error);
+        }
+      }else{
       try {
         const response = await axios.put(`${process.env.API}/Hospedaje/${this.hospedajeActualizado._id}`, this.hospedajeActualizado);
         console.log(response);
@@ -230,14 +250,15 @@ export default {
       } catch (error) {
         console.error('Error updating Hospedaje:', error);
       }
+    }
     },
     uploadFileCrear(event){
       this.file = event.target.files[0];
     },
-    uploadFileActualizar() {
-      this.uploadFile('fileActualizar', 'hospedajeActualizado');
+    uploadFileActualizar(event) {
+      this.fileActualizar = event.target.files[0];
     },
-    
+  
   },
 };
 </script>

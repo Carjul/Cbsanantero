@@ -111,7 +111,7 @@
           </div>
           <div class="form-group">
             <label for="imagenHotelActualizar">Imagen:</label>
-            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar()' id="imagenHotelActualizar" ref="fileActualizar" type="file">
+            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar' id="imagenHotelActualizar" ref="fileActualizar" type="file">
           </div>
           <div class="form-group">
             <label for="telefonoHotelActualizar">Teléfono:</label>
@@ -148,6 +148,7 @@ data() {
       phone: '',
     },
     file:null,
+    fileA:null,
     nuevoHotel: {
       name: '',
       address: '',
@@ -163,7 +164,7 @@ mounted() {
 methods: {
   async fetchHoteles() {
     try {
-      const response = await axios.get('http://localhost:3000/Hotel');
+      const response = await axios.get(`${process.env.API}/Hotel`);
       this.hoteles = response.data;
     } catch (error) {
       console.error('Error fetching hoteles:', error);
@@ -171,7 +172,7 @@ methods: {
   },
   async eliminarHotel(id) {
     try {
-      await axios.delete(`http://localhost:3000/Hotel/${id}`);
+      await axios.delete(`${process.env.API}/Hotel/${id}`);
       this.fetchHoteles();
     } catch (error) {
       console.error('Error deleting hotel:', error);
@@ -224,7 +225,7 @@ this.$router.push({ path: '/artegaleria' });
       formData.append('address', this.nuevoHotel.address);
       formData.append('phone', this.nuevoHotel.phone);
       formData.append('customer_id', this.nuevoHotel.customer_id);
-      const response = await axios.post('http://localhost:3000/Hotel', formData);
+      const response = await axios.post(`${process.env.API}/Hotel`, formData);
       
       console.log(response);
 
@@ -246,8 +247,25 @@ this.$router.push({ path: '/artegaleria' });
     }
   },
   async actualizarHotel() {
+    if (this.fileA){
+      var formData = new FormData();
+      formData.append('name', this.hotelActualizado.name);
+      formData.append('address', this.hotelActualizado.address);
+      formData.append('phone', this.hotelActualizado.phone);
+      formData.append('customer_id', this.hotelActualizado.customer_id);
+      formData.append('imagen', this.fileA);
+      formData.append('image', "");
+      const response = await axios.put(`${process.env.API}/Hotel/${this.hotelActualizado._id}`, formData);
+      console.log(response);
+      // Si la solicitud se realizó con éxito, actualizamos la lista de hoteles
+      this.fetchHoteles();
+      this.cerrarModalActualizar();
+      this.fileA = null;
+    }else{
+
+    
   try {
-    const response = await axios.put(`http://localhost:3000/Hotel/${this.hotelActualizado._id}`, this.hotelActualizado);
+    const response = await axios.put(`${process.env.API}/Hotel/${this.hotelActualizado._id}`, this.hotelActualizado);
     console.log(response);
     // Si la solicitud se realizó con éxito, actualizamos la lista de hoteles
     this.fetchHoteles();
@@ -257,13 +275,15 @@ this.$router.push({ path: '/artegaleria' });
     console.error('Error updating Hotel:', error);
     // Aquí puedes agregar cualquier lógica adicional para manejar el error, como mostrar un mensaje de error al usuario.
   }
+    }  
 },
 
   uploadFileCrear(event) {
   this.file = event.target.files[0];
   },
-  uploadFileActualizar() {
-    this.uploadFile('fileActualizar', 'hotelActualizado');
+  uploadFileActualizar(event) {
+  this.fileA = event.target.files[0];
+    
   },
 
 

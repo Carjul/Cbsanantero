@@ -183,13 +183,15 @@ func UpdateArtesanias(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo decodificar la artesania"})
 	}
 
+	if data.Image == ""{	
+	
 	form, err := c.MultipartForm()
+
 	if err != nil {
 		return err
 	}
 
-	customerID := form.Value["customer_id"]
-	files := form.File["image"]
+	files := form.File["imagen"]
 	if len(files) == 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "La imagen es requerida",
@@ -210,8 +212,6 @@ func UpdateArtesanias(c *fiber.Ctx) error {
 			"message": "Error al subir la imagen",
 		})
 	}
-
-
 	argument := models.Artesanias{
 		Name:        data.Name,
 		Address:     data.Address,
@@ -219,7 +219,21 @@ func UpdateArtesanias(c *fiber.Ctx) error {
 		Phone:       data.Phone,
 		Description: data.Description,
 		Status:      data.Status,
-		CustomerID:  customerID[0],
+		CustomerID:  data.CustomerID,
+	}
+
+	artesania := UpdateArtesania((*models.Artesanias)(&argument), id)
+
+	return c.Status(fiber.StatusAccepted).JSON(artesania)
+	}
+	argument := models.Artesanias{
+		Name:        data.Name,
+		Address:     data.Address,
+		Image:       data.Image,
+		Phone:       data.Phone,
+		Description: data.Description,
+		Status:      data.Status,
+		CustomerID:  data.CustomerID,
 	}
 	artesania := UpdateArtesania((*models.Artesanias)(&argument), id)
 

@@ -133,8 +133,10 @@ export default {
         image: '',
         phone: '',
         description: '',
+        customer_id: '',
       },
       file: null,
+      fileActualizar: null,
       nuevoBar: {
         name: '',
         address: '',
@@ -147,6 +149,8 @@ export default {
   },
   mounted() {
     this.fetchBares();
+    this.nuevoBar.customer_id = localStorage.getItem('customerId');
+
   },
   methods: {
     async fetchBares() {
@@ -197,6 +201,14 @@ export default {
     async crearBar() {
       try {
         const formData = new FormData();
+
+        formData.append('name', this.nuevoBar.name);
+        formData.append('address', this.nuevoBar.address);
+        formData.append('phone', this.nuevoBar.phone);
+        formData.append('description', this.nuevoBar.description);
+        formData.append('customer_id', this.nuevoBar.customer_id);
+        formData.append('image', this.file);
+    
         // Agregar datos del nuevo Bar al FormData
         const response = await axios.post(`${process.env.API}/Bar`, formData);
         console.log(response);
@@ -210,6 +222,7 @@ export default {
           description: '',
           customer_id: '',
         };
+        this.file= null;
         this.cerrarModalCrear();
 
         // Actualizar la lista de bares
@@ -219,6 +232,30 @@ export default {
       }
     },
     async actualizarBar() {
+      if (this.fileActualizar) {
+        const formData = new FormData();
+        formData.append('name', this.barActualizado.name);
+        formData.append('address', this.barActualizado.address);
+        formData.append('phone', this.barActualizado.phone);
+        formData.append('description', this.barActualizado.description);
+        formData.append('customer_id', this.barActualizado.customer_id);
+        formData.append('imagen', this.fileActualizar);
+        formData.append('image', "");
+
+
+        try {
+          const response = await axios.put(`${process.env.API}/Bar/${this.barActualizado._id}`, formData);
+          console.log(response);
+
+          // Actualizar la lista de bares y cerrar modal
+          this.fetchBares();
+          this.cerrarModalActualizar();
+          this.fileActualizar = null;
+        } catch (error) {
+          console.error('Error updating Bar:', error);
+        }
+        return;
+      }
       try {
         const response = await axios.put(`${process.env.API}/Bar/${this.barActualizado._id}`, this.barActualizado);
         console.log(response);
@@ -232,6 +269,9 @@ export default {
     },
     uploadFile(event) {
       this.file = event.target.files[0];
+    },
+    uploadFileActualizar(event) {
+      this.fileActualizar = event.target.files[0];
     },
   },
 };

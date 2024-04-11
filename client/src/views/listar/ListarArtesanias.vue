@@ -94,7 +94,7 @@
                 </div>
                 <div class="form-group">
                   <label for="imagenArtesaniaActualizar">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar()' id="imagenArtesaniaActualizar" ref="fileActualizar" type="file" style="display:none">
+                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='updateFile' id="imagenArtesaniaActualizar" ref="fileActualizar" type="file" style="display:none">
                 </div>
                 <div class="form-group">
                   <label for="telefonoArtesaniaActualizar">Teléfono:</label>
@@ -107,7 +107,6 @@
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
               </form>
             </div>
-            <h1>hjhbefnke</h1>
             <div class="modal-footer">
               <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
             </div>
@@ -130,8 +129,11 @@
          image: '',
          phone: '',
          description: '',
+         customer_id: '',
+         
        },
        file: null,
+       fileA: null,
        nuevaArtesania: {
          name: '',
          address: '',
@@ -232,18 +234,44 @@
        } 
      },
      async actualizarArtesania() {
+      if (this.fileA) {
+        var formData = new FormData();
+        formData.append('imagen', this.fileA);
+        formData.append('image', "");
+        formData.append('name', this.artesaniaActualizada.name);
+        formData.append('address', this.artesaniaActualizada.address);
+        formData.append('phone', this.artesaniaActualizada.phone);
+        formData.append('description', this.artesaniaActualizada.description);
+        formData.append('customer_id', this.artesaniaActualizada.customer_id);
+        try {
+          const response = await axios.put(`${process.env.API}/Artesania/${this.artesaniaActualizada._id}`, formData);
+          console.log(response);
+          this.fetchArtesanias();
+          this.fileA = null;
+          this.cerrarModalActualizar();
+        } catch (error) {
+          console.error('Error updating Artesania:', error);
+        }
+      } else {
+      
        try {
+         console.log(this.artesaniaActualizada);
          const response = await axios.put(`${process.env.API}/Artesania/${this.artesaniaActualizada._id}`, this.artesaniaActualizada);
          console.log(response);
+        
          this.fetchArtesanias();
          // Close the modal
          this.cerrarModalActualizar();
        } catch (error) {
          console.error('Error updating Artesania:', error);
        }
+      }
      },
      uploadFile(event) {
       this.file = event.target.files[0];
+    },
+    updateFile(event) {
+      this.fileA = event.target.files[0];
     },
     
 

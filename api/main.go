@@ -37,6 +37,7 @@ func main() {
 	}))
 	
 	app.Static("/app", "./public")
+	
 	//rutas
 	Routes.Rutas(app)
 
