@@ -127,23 +127,45 @@ func UpdateTrasporte(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Los datos del trasporte no son corectos"})
 	}
 
-	form, err := c.MultipartForm()
-	if err != nil {
-		return err
-	}
 
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el trasporte"})
 	}
 
-	// Obtiene los archivos subidos
-	files := form.File["image"]
-	ImageFile := files[0]
+	if data.Image != "" {
+		form, err := c.MultipartForm()
+		if err != nil {
+			return err
+		}
+		
+		files := form.File["imagen"]
 
-	if ImageFile != nil {
-		UrlCloudinary := config.UploadImage(ImageFile)
+		if len(files) == 0 {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "La imagen es requerida",
+			})
+		
+		}
+		ImageFile := files[0]
+		var UrlCloudinary string
+		var wg sync.WaitGroup
+		wg.Add(1)
+		go func() {
+			UrlCloudinary = config.UploadImage(ImageFile)
+			wg.Done()
+		}()
+		wg.Wait()
+
+		if UrlCloudinary == "error al subir la imagen a cloudinary" {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error al subir la imagen",
+			})
+		}
+
 		data.Image = UrlCloudinary
+
+
 	}
 
 	_, err = trasporte.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})

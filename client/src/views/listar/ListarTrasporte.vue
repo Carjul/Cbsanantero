@@ -90,7 +90,7 @@
                 </div>
                 <div class="form-group">
                   <label for="imagenTrasporteActualizar">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar()' id="imagenTrasporteActualizar" ref="fileActualizar" type="file" style="display:none">
+                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar' id="imagenTrasporteActualizar" ref="fileActualizar" type="file" style="display:none">
                 </div>
                 <div class="form-group">
                   <label for="placaTrasporteActualizar">Placa:</label>
@@ -130,8 +130,10 @@
           placa: '',
           conductor: '',
           celular: '',
+          customer_id: '',
         },
         file:null,
+        fileActualizar:null,
         nuevoTransporte: {
           tipo: '',
           image: '',
@@ -226,6 +228,26 @@
         }
       },
       async actualizarTransporte() {
+        if (this.fileActualizar) {
+          var formData = new FormData();
+          formData.append('tipo', this.transporteActualizado.tipo);
+          formData.append('placa', this.transporteActualizado.placa);
+          formData.append('conductor', this.transporteActualizado.conductor);
+          formData.append('celular', this.transporteActualizado.celular);
+          formData.append('customer_id', this.transporteActualizado.customer_id);
+          formData.append('imagen', this.fileActualizar);
+          formData.append('image', "");
+          try {
+            const response = await axios.put(`${process.env.API}/Trasporte/${this.transporteActualizado._id}`, formData);
+            console.log(response);
+            this.fetchTransportes();
+            this.cerrarModalActualizar();
+            this.fileActualizar = null;
+          } catch (error) {
+            console.error('Error updating Trasporte:', error);
+          }
+          return;
+        }
         try {
           const response = await axios.put(`${process.env.API}/Trasporte/${this.transporteActualizado._id}`, this.transporteActualizado);
           console.log(response);
@@ -240,8 +262,8 @@
       this.file = event.target.files[0];
     },
     
-      uploadFileActualizar() {
-        this.uploadFile('fileActualizar', 'transporteActualizado');
+      uploadFileActualizar(event) {
+      this.fileActualizar= event.target.files[0];
       }
     },
   };

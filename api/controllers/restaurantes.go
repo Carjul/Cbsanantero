@@ -133,17 +133,40 @@ func UpdateRestaurante(c *fiber.Ctx) error {
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el restaurante"})
 	}
-	form, err := c.MultipartForm()
-	if err != nil {
-		return err
-	}
+	if data.Image == "" {
+		form, err := c.MultipartForm()
+		if err != nil {
+			return err
+		}
+		files := form.File["imagen"]
+		if len(files) == 0 {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "La imagen es requerida",
+			})
+		}
 
-	files := form.File["image"]
-	ImageFile := files[0]
+		ImageFile := files[0]
+		var UrlCloudinary string
+		var wg sync.WaitGroup
+		wg.Add(1)
+		go func() {
+			UrlCloudinary = config.UploadImage(ImageFile)
+			wg.Done()
+		}()
+		wg.Wait()
 
-	if ImageFile != nil {
-		UrlCloudinary := config.UploadImage(ImageFile)
+		if UrlCloudinary == "error al subir la imagen a cloudinary" {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error al subir la imagen",
+			})
+		
+		}
 		data.Image = UrlCloudinary
+		_, err = restaurantes.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
+		if err != nil {
+			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el restaurante"})
+		}
+		return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Restaurante actualizado"})
 	}
 	_, err = restaurantes.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
 	if err != nil {
