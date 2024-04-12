@@ -28,6 +28,9 @@
               <p class="card-text">Address: {{ customer.address }}</p>
               <p class="card-text">Phone: {{ customer.phone }}</p>
               <p class="card-text">Role: {{ customer.rol }}</p>
+              <p class="card-text">Peticiones: {{ 0}}</p>
+
+
               <p v-if="customer.rol === 'Vendedor'" class="card-text">Tipo Negocio: {{ customer.tipo_negocio }}</p>
               <!-- Switch -->
               <!-- Lever Toggle Switch -->
@@ -235,9 +238,23 @@ export default {
     };
   },
   mounted() {
+    this.fetchServicio();
     this.fetchCustomers();
   },
   methods: {
+    async fetchServicio(cid) {
+      
+      try {
+        const response = await axios.get(`${process.env.API}/pedirServicioc/${cid}`);
+      
+        console.log(response.data);
+       return response.data.length
+
+  
+      } catch (error) {
+        console.error('Error fetching customers:', error);
+      }
+    },
     async fetchCustomers() {
       let id = localStorage.getItem('customerId');
       try {
