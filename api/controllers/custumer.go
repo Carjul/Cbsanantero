@@ -22,7 +22,7 @@ func GetCustumer(c *fiber.Ctx) error {
 	}
 	defer busqueda.Close(context.Background())
 
-	var customers []bson.M
+	var customers []models.Customer
 
 	if err = busqueda.All(context.Background(), &customers); err != nil {
 		log.Println(err)

@@ -126,22 +126,48 @@ func UpdateHoteles(c *fiber.Ctx) error {
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el hotel"})
 	}
-	form, err := c.MultipartForm()
-	if err != nil {
-		return err
-	}
-
+	
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el hotel"})
 	}
+	
+	if data.Image == "" {
+		form, err := c.MultipartForm()
+		if err != nil {
+			return err
+		}
 
-	// Obtiene los archivos subidos
-	files := form.File["image"]
-	ImageFile := files[0]
-	if ImageFile != nil {
-		UrlCloudinary := config.UploadImage(ImageFile)
+		files := form.File["imagen"]
+		if len(files) == 0 {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "La imagen es requerida",
+			})
+		}
+		ImageFile := files[0]
+		var UrlCloudinary string
+		var wg sync.WaitGroup
+		wg.Add(1)
+		go func() {
+			UrlCloudinary = config.UploadImage(ImageFile)
+			wg.Done()
+		}()
+		wg.Wait()
+
+		if UrlCloudinary == "error al subir la imagen a cloudinary" {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error al subir la imagen",
+			})
+		}
 		data.Image = UrlCloudinary
+
+		_, err = hoteles.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})
+		if err != nil {
+			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo actualizar el hotel"})
+		}
+	
+		return c.Status(fiber.StatusAccepted).JSON(Message{Msg: "Hotel actualizado correctamente"})
+	
 	}
 
 	_, err = hoteles.UpdateOne(context.Background(), bson.M{"_id": objID}, bson.M{"$set": data})

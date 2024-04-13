@@ -96,7 +96,7 @@
                 </div>
                 <div class="form-group">
                   <label for="imagenRecreacionActualizar">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar()' id="imagenRecreacionActualizar" ref="fileActualizar" type="file" style="display:none">
+                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar' id="imagenRecreacionActualizar" ref="fileActualizar" type="file" style="display:none">
                 </div>
                 <div class="form-group">
                   <label for="serviciosRecreacionActualizar">Servicios:</label>
@@ -139,6 +139,7 @@ export default {
        
       },
       file: null,
+      filea: null,
       nuevaRecreacion: {
         nombre: '',
         services: '',
@@ -234,21 +235,41 @@ export default {
       }
     },
     async actualizarRecreacion() {
+      if (this.filea) {
+        var formData = new FormData();
+        formData.append('imagen', this.filea);
+        formData.append('image', "");
+        formData.append('name', this.recreacionActualizada.name);
+        formData.append('address', this.recreacionActualizada.address);
+        formData.append('services', this.recreacionActualizada.services);
+        formData.append('price', this.recreacionActualizada.price);
+        formData.append('customer_id', this.recreacionActualizada.customer_id);
+        try {
+          const response = await axios.put(`${process.env.API}/Recreacion/${this.recreacionActualizada._id}`, formData);
+          console.log(response);
+          this.fetchRecreaciones();
+          this.cerrarModalActualizar();
+          this.filea = null;
+        } catch (error) {
+          console.error('Error updating Recreacion:', error);
+        }
+        return;
+      }
       try {
         const response = await axios.put(`${process.env.API}/Recreacion/${this.recreacionActualizada._id}`, this.recreacionActualizada);
         console.log(response);
         this.fetchRecreaciones();
-        // Close the modal
         this.cerrarModalActualizar();
       } catch (error) {
         console.error('Error updating Recreacion:', error);
       }
+    
     },
     uploadFileCrear(event) {
       this.file = event.target.files[0];
     },
     uploadFileActualizar(event) {
-      this.file = event.target.files[0];
+      this.filea = event.target.files[0];
     },
   },
 };

@@ -122,6 +122,7 @@ export default {
 
     async submitForm() {
       try {
+        console.log(this.formData)
         const response = await axios.post(`${process.env.API}/pedirServicio?tipo=${this.tipo}`, this.formData);
         console.log(response);
         this.formData.customerId = null;
