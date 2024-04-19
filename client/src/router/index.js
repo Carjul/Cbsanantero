@@ -92,9 +92,10 @@ const routes = [
   },
   {
     path: '/listaTrasporte',
-    name: 'tra',
+    name: 'Transp',
     component: () => import('../views/listar/ListarTrasporte.vue'),
   },
+  
   {
     path: '/listarbar',
     name: 'ba',

@@ -118,7 +118,7 @@
   </template>
   <script>
   import axios from 'axios';
-  
+
   export default {
     data() {
       return {
@@ -132,8 +132,8 @@
           celular: '',
           customer_id: '',
         },
-        file:null,
-        fileActualizar:null,
+        file: null,
+        fileActualizar: null,
         nuevoTransporte: {
           tipo: '',
           image: '',
@@ -142,6 +142,9 @@
           celular: '',
           customer_id: '',
         },
+        // Agregar estado para controlar la visibilidad de los modales
+        mostrarModalActualizar: false,
+        mostrarModalCrear: false,
       };
     },
     mounted() {
@@ -154,6 +157,7 @@
           this.transportes = response.data;
         } catch (error) {
           console.error('Error fetching transportes:', error);
+          // Mostrar mensaje de error al usuario
         }
       },
       async eliminarTransporte(id) {
@@ -162,69 +166,46 @@
           this.fetchTransportes();
         } catch (error) {
           console.error('Error deleting transporte:', error);
+          // Mostrar mensaje de error al usuario
         }
       },
       abrirModalActualizar(transporte) {
         this.transporteActualizado = { ...transporte };
-        const modalElement = this.$refs.modalActualizar;
-        if (modalElement) {
-          modalElement.classList.add('show');
-          modalElement.style.display = 'block';
-        }
+        this.mostrarModalActualizar = true;
       },
       cerrarModalActualizar() {
-        const modalElement = this.$refs.modalActualizar;
-        if (modalElement) {
-          modalElement.classList.remove('show');
-          modalElement.style.display = 'none';
-        }
+        this.mostrarModalActualizar = false;
       },
       abrirModalCrear() {
-        const modalElement = this.$refs.modalCrear;
-        if (modalElement) {
-          modalElement.classList.add('show');
-          modalElement.style.display = 'block';
-        }
+        this.mostrarModalCrear = true;
       },
       cerrarModalCrear() {
-        const modalElement = this.$refs.modalCrear;
-        if (modalElement) {
-          modalElement.classList.remove('show');
-          modalElement.style.display = 'none';
-        }
+        this.mostrarModalCrear = false;
       },
       async crearTransporte() {
         let id = localStorage.getItem('customerId');
         try {
           if (id) {
             this.nuevoTransporte.customer_id = id;
-          var formData = new FormData();
-          formData.append('image', this.file);
-          formData.append('tipo', this.nuevoTransporte.tipo);
-          formData.append('placa', this.nuevoTransporte.placa);
-          formData.append('conductor', this.nuevoTransporte.conductor);
-          formData.append('celular', this.nuevoTransporte.celular);
-          formData.append('customer_id', this.nuevoTransporte.customer_id);
-          const response = await axios.post(`${process.env.API}/Trasporte`, formData);
-      
-          console.log(response);
-  
-          // Reset the form and close the modal
-          this.nuevoTransporte = {
-            tipo: '',
-            image: '',
-            placa: '',
-            conductor: '',
-            celular: '',
-            customer_id: '',
-          };
-  
-          // Close the modal
-          this.cerrarModalCrear();
-          this.fetchTransportes();
-        }
+            var formData = new FormData();
+            formData.append('image', this.file);
+            formData.append('tipo', this.nuevoTransporte.tipo);
+            formData.append('placa', this.nuevoTransporte.placa);
+            formData.append('conductor', this.nuevoTransporte.conductor);
+            formData.append('celular', this.nuevoTransporte.celular);
+            formData.append('customer_id', this.nuevoTransporte.customer_id);
+            const response = await axios.post(`${process.env.API}/Trasporte`, formData);
+
+            console.log(response);
+
+            // Resetear el formulario y cerrar el modal
+            this.resetearFormulario('nuevoTransporte');
+            this.cerrarModalCrear();
+            this.fetchTransportes();
+          }
         } catch (error) {
           console.error('Error creating Trasporte:', error);
+          // Mostrar mensaje de error al usuario
         }
       },
       async actualizarTransporte() {
@@ -245,6 +226,7 @@
             this.fileActualizar = null;
           } catch (error) {
             console.error('Error updating Trasporte:', error);
+            // Mostrar mensaje de error al usuario
           }
           return;
         }
@@ -252,20 +234,31 @@
           const response = await axios.put(`${process.env.API}/Trasporte/${this.transporteActualizado._id}`, this.transporteActualizado);
           console.log(response);
           this.fetchTransportes();
-          // Close the modal
+          // Cerrar el modal
           this.cerrarModalActualizar();
         } catch (error) {
           console.error('Error updating Trasporte:', error);
+          // Mostrar mensaje de error al usuario
         }
       },
       uploadFileCrear(event) {
-      this.file = event.target.files[0];
-    },
-    
+        this.file = event.target.files[0];
+      },
+
       uploadFileActualizar(event) {
-      this.fileActualizar= event.target.files[0];
+        this.fileActualizar = event.target.files[0];
+      },
+      resetearFormulario(formulario) {
+        // Resetear los valores del formulario
+        this[formulario] = {
+          tipo: '',
+          image: '',
+          placa: '',
+          conductor: '',
+          celular: '',
+          customer_id: '',
+        };
       }
     },
   };
-  </script>
-  
+</script>
