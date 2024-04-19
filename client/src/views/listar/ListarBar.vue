@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                       <label for="imagenBar">Imagen:</label>
-                      <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenBar" ref="fileCrear" type="file">
+                      <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="imagenBar" ref="fileCrear" type="file">
                     </div>
                     <div class="form-group">
                       <label for="telefonoBar">Teléfono:</label>
