@@ -28,7 +28,7 @@
               <p class="card-text">Address: {{ customer.address }}</p>
               <p class="card-text">Phone: {{ customer.phone }}</p>
               <p class="card-text">Role: {{ customer.rol }}</p>
-              <p class="card-text">Peticiones: {{ 0}}</p>
+              <p class="card-text">Peticiones: {{customer.servicio}}</p>
 
 
               <p v-if="customer.rol === 'Vendedor'" class="card-text">Tipo Negocio: {{ customer.tipo_negocio }}</p>
@@ -237,20 +237,20 @@ export default {
       },
     };
   },
-  mounted() {
-    this.fetchServicio();
-    this.fetchCustomers();
+ async mounted() {
+   await this.fetchCustomers();
+    for (let index = 0; index < this.customers.length; index++) {
+      const element = this.customers[index];
+   let x =await this.fetchServicio(element._id);
+   x !== undefined?  element.servicio=x : element.servicio=0
+    }
   },
   methods: {
-    async fetchServicio(cid) {
-      
+    async fetchServicio(cid) {  
       try {
         const response = await axios.get(`${process.env.API}/pedirServicioc/${cid}`);
-      
-        console.log(response.data);
+        console.log(response.data.length);
        return response.data.length
-
-  
       } catch (error) {
         console.error('Error fetching customers:', error);
       }
@@ -260,8 +260,6 @@ export default {
       try {
         const response = await axios.get(`${process.env.API}/Customer`);
         const Filtro = response.data.filter((e) => e._id !== id);
-        console.log(response.data);
-        console.log(Filtro);
         this.customers = Filtro;
       } catch (error) {
         console.error('Error fetching customers:', error);

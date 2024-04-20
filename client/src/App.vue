@@ -30,6 +30,10 @@
               <a class="text-primary pl-3" href="">
                 <i class="fab fa-youtube"></i>
               </a>
+
+             <!--  <a class="text-primary pl-3" href="">
+                <i class="fab fa-rr-bell"></i>
+              </a> -->
               <router-link class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'" to="/admin">Dashboard</router-link>
               
               <router-link class="text-primary pl-3" v-if="!usuarioAutenticado"  to="/login">Iniciar</router-link>

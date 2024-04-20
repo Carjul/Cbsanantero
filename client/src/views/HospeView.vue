@@ -66,7 +66,7 @@
 
               <div class="form-group">
                 <label for="description">Descripcion:</label>
-                <textarea id="description" placeholder="Describa su solicitud" rows="3" v-model="formData.descripcion"></textarea>
+                <textarea id="description" placeholder="Describa su solicitud" rows="3" v-model="formData.description"></textarea>
               </div>
 
               <button type="button" class="btn btn-success" @click="submitForm">Solicitar</button>
@@ -86,18 +86,26 @@ export default {
     return {
       hospedajes: [],
       customerRol: '',
+      tipo: 'Hospedaje',
       formData: {
-        _id: null,
         nombre: '',
         celular: '',
         correo: '',
-        descripcion: '',
+        description: '',
+        clienteId: null,
         customerId: null,
+        negocioId: null
       },
     };
   },
   mounted() {
     this.customerRol = localStorage.getItem('usuarioRol');
+
+    this.formData.clienteId = localStorage.getItem('customerId')
+    this.formData.nombre = localStorage.getItem('nombreUsuario');
+    this.formData.correo = localStorage.getItem('correoUsuario');
+    this.formData.celular = localStorage.getItem('celularUsuario');
+
     this.fetchHospedajes();
   },
   methods: {
@@ -109,14 +117,29 @@ export default {
         console.error('Error al obtener los hospedajes', error);
       }
     },
+    async submitForm() {
+      try {
+        console.log(this.formData)
+        const response = await axios.post(`${process.env.API}/pedirServicio?tipo=${this.tipo}`, this.formData);
+        console.log(response);
+        this.formData.customerId = null;
+        this.formData.negocioId = null;
+        this.formData.description = '';
+        this.closeModal();
+      } catch (error) {
+        console.error('Error al enviar la solicitud', error);
+      }
+
+
+
+    },
     enviarIdGaleria(id) {
       localStorage.setItem('negocioId', id);
       this.$router.push({ path: '/artegaleria' });
     },
     enviarcid(cid, id) {
       this.formData.customerId = cid;
-      this.formData._id = id;
-      console.log(this.formData);
+      this.formData.negocioId= id;
     },
     closeModal() {
       this.formData = {
@@ -127,13 +150,7 @@ export default {
         descripcion: '',
         customerId: null,
       };
-    },
-    submitForm() {
-      console.log('CustomerID seleccionado:', this.selectedCustomerId);
-      console.log('Formulario enviado con datos:', this.formData);
-      this.closeModal();
-      // Puedes agregar aquí la lógica para enviar el formulario al servidor si es necesario.
-    },
+    }
   },
 };
 </script>

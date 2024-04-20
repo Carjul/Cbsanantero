@@ -74,11 +74,21 @@ export default {
         .then(response => {
           if (response && response.data) {
             console.log('Respuesta del servidor:', response.data);
+          this.formData={
+        name: '',
+        email: '',
+        password: '',
+        address: '',
+        phone: '',
+        rol: '',
+        tipo_negocio:''
+      }
             // Aquí puedes manejar la respuesta del servidor si lo deseas
           } else {
             console.error('Error: No se recibió una respuesta válida del servidor.');
           }
         })
+
         .catch(error => {
           console.error('Error al enviar datos:', error);
           // Aquí puedes manejar el error si ocurre alguno

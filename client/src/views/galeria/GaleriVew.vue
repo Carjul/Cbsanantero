@@ -206,7 +206,7 @@ nexImage() {
     this.GaleriaEnv.customer_id = localStorage.getItem('customerId');
     this.GaleriaEnv.negocio_id = localStorage.getItem('negocioId');
     this.customerRol = localStorage.getItem('usuarioRol');
-    this.customerID = localStorage.getItem('dueñoId');
+    this.customerID = localStorage.getItem('customerId');
   },
   mounted() {
     this.fetchGaleria()

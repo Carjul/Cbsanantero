@@ -158,14 +158,16 @@ export default {
       },
     };
   },
-  mounted() {
-    this.fetchHospedajes();
+ async mounted() {
+    await this.fetchHospedajes();
+   
   },
   methods: {
     async fetchHospedajes() {
       try {
         const response = await axios.get(`${process.env.API}/Hospedaje`);
-        this.hospedajes = response.data;
+        let cid =  localStorage.getItem('customerId');
+        response.data?  this.hospedajes = response.data.filter((e)=> e.customer_id === cid):null
       } catch (error) {
         console.error('Error fetching hospedajes:', error);
       }
