@@ -62,14 +62,15 @@ type Customer struct {
 }
 
 type Hospedaje struct {
-	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name       string             `json:"name,omitempty" bson:"name,omitempty"`
-	Address    string             `json:"address,omitempty" bson:"address,omitempty"`
-	Image      string             `json:"image,omitempty" bson:"image,omitempty"`
-	Phone      string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Price      string             `json:"price,omitempty" bson:"price,omitempty"`
-	Status     string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
+	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name        string             `json:"name,omitempty" bson:"name,omitempty"`
+	Description string             `json:"description,omitempty" bson:"description,omitempty"`
+	Address     string             `json:"address,omitempty" bson:"address,omitempty"`
+	Image       string             `json:"image,omitempty" bson:"image,omitempty"`
+	Phone       string             `json:"phone,omitempty" bson:"phone,omitempty"`
+	Price       string             `json:"price,omitempty" bson:"price,omitempty"`
+	Status      string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 type Hoteles struct {

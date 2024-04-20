@@ -26,7 +26,7 @@
           </div>
           <div class="form-group animated">
             <label for="phone">Celular</label>
-            <input v-model="formData.phone" type="text" class="form-control falling-animation" id="phone" placeholder="Ingrese su número de celular" required>
+            <input v-model="formData.phone" type="number" class="form-control falling-animation" id="phone" placeholder="Ingrese su número de celular"  required>
           </div>
           <!-- Agregar control para el campo de rol si es necesario -->
           <button type="submit" class="btn btn-primary animated">Registrarse</button>

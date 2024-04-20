@@ -14,12 +14,24 @@
             class="card-img-top"
             alt="Hospedaje"
           />
-          <div class="card-body">
-            <h5 class="card-title">{{ hospedaje.name }}</h5>
-            <p class="card-text">{{ hospedaje.address }}</p>
-            <p class="card-text"><strong>Teléfono:</strong> {{ hospedaje.phone }}</p>
-            <p class="card-text"><strong>Precio:</strong> {{ hospedaje.price }}</p>
+         
 
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+            <hr>
+            <p  class="h3 text-decoration-none">{{ hospedaje.name }}</p>
+            <hr>
+            <p class="h5 text-decoration-none">{{ hospedaje.description }}</p>
+            <p class="card-text"></p>
+           
+                    <div class="d-flex justify-content-between">
+                       
+                            <h5 class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>{{ hospedaje.address }}</h5>
+                            
+                           
+                           <h5 class="m-0"><i class="fas fa-coins text-primary mr-2"></i>{{ hospedaje.price }}</h5>
+                   
+                      </div>
             <!-- Add the button for requesting service -->
             <div v-if="customerRol === 'Cliente'">
               <button class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal"
@@ -30,6 +42,10 @@
         </div>
       </div>
     </div>
+
+    
+                   
+    
 
     <!-- Modal -->
     <div class="modal" id="solicitudModal" tabindex="-1" role="dialog" aria-labelledby="solicitudModalLabel" aria-hidden="true">
