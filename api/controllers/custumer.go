@@ -119,27 +119,36 @@ func UpdateCustomer(c *fiber.Ctx) error {
 	if err := c.BodyParser(customer); err != nil {
 		log.Println(err)
 	}
-	log.Println(customer)
-	/* form, err := c.MultipartForm()
-	if err != nil {
-		return err
-	}
-	files := form.File["image"]
-	if len(files) == 0 {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "La imagen es requerida",
-		})
-	}
-	ImageFile := files[0]
-	UrlCloudinary := config.UploadImage(ImageFile)
-	if UrlCloudinary == "error al subir la imagen a cloudinary" {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Error al subir la imagen",
-		})
+	if customer.Image == "" {
+		form, err := c.MultipartForm()
+		if err != nil {
+			return err
+		}
+
+		files := form.File["imagen"]
+		if len(files) == 0 {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "La imagen es requerida",
+			})
+		}
+		ImageFile := files[0]
+		var UrlCloudinary string
+		var wg sync.WaitGroup
+		wg.Add(1)
+		go func() {
+			UrlCloudinary = config.UploadImage(ImageFile)
+			wg.Done()
+		}()
+		wg.Wait()
+
+		if UrlCloudinary == "error al subir la imagen a cloudinary" {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error al subir la imagen",
+			})
+		}
+		customer.Image = UrlCloudinary
 	}
 
-	customer.Image = UrlCloudinary
-	*/
 
 	update := bson.M{
 		"$set": customer,
@@ -159,6 +168,16 @@ func UpdateCustomer(c *fiber.Ctx) error {
 
 func DeleteCustomer(c *fiber.Ctx) error {
 	customers := Instance.Database.Collection("Customer")
+	artesanias := Instance.Database.Collection("Artesanias")
+	bares := Instance.Database.Collection("Bares")
+	hospedaje := Instance.Database.Collection("Hospedaje")
+	hoteles := Instance.Database.Collection("Hoteles")
+	recreacion := Instance.Database.Collection("Recreacion")
+	restaurantes := Instance.Database.Collection("Restaurantes")
+	tour := Instance.Database.Collection("Tour")
+	transportes := Instance.Database.Collection("Traporte")
+	galeria := Instance.Database.Collection("Galeria")
+	servicio := Instance.Database.Collection("Servicio")
 
 	id := c.Params("id")
 
@@ -169,6 +188,8 @@ func DeleteCustomer(c *fiber.Ctx) error {
 
 	var customer bson.M
 
+	filter := bson.M{"customer_id": id}
+
 	err = customers.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&customer)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
@@ -178,6 +199,49 @@ func DeleteCustomer(c *fiber.Ctx) error {
 	if err != nil {
 		log.Println(err)
 	}
+
+	_, err = artesanias.DeleteOne(context.Background(), filter)
+	if err != nil {
+		log.Println(err)
+	}
+	
+	_, err = bares.DeleteMany(context.Background(), filter)
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = hospedaje.DeleteMany(context.Background(), filter)
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = hoteles.DeleteMany(context.Background(), filter)
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = recreacion.DeleteMany(context.Background(), filter)
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = restaurantes.DeleteMany(context.Background(), filter)
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = tour.DeleteMany(context.Background(), filter)
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = transportes.DeleteMany(context.Background(), filter)
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = galeria.DeleteMany(context.Background(), filter)
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = servicio.DeleteMany(context.Background(), bson.M{"customerId": id})
+	if err != nil {
+		log.Println(err)
+	}
+
 	if result.DeletedCount == 0 {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo eliminar el cliente"})
 	} else {
@@ -271,7 +335,7 @@ func UpdateCustomerStatus(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Cannot update galeria"})
 	}
-	_, err = servicio.UpdateMany(context.Background(), filter, update)
+	_, err = servicio.UpdateMany(context.Background(), bson.M{"customerId": id}, update)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Cannot update servicio"})
 	}

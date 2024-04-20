@@ -71,7 +71,7 @@
                     <input type="text" v-model="nuevoCliente.name" class="form-control" id="newName" required>
                   </div>
                   <div class="form-group">
-
+                    <label for="file">Imagen:</label>
                     <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="file"
                       ref="file" type="file" s tyle="display:none">
 
@@ -159,6 +159,10 @@
                         <input type="password" v-model="clienteActualizado.password" class="form-control" id="password" required>
                     </div>
                     <div class="form-group col-md-6">
+                    <label for="imagenHospedajeActualizar">Imagen:</label>
+                    <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar' id="imagenHospedajeActualizar" ref="fileActualizar" type="file">
+                  </div>
+                    <div class="form-group col-md-6">
                         <label for="address">Address:</label>
                         <input type="text" v-model="clienteActualizado.address" class="form-control" id="address" required>
                     </div>
@@ -166,6 +170,7 @@
                         <label for="phone">Phone:</label>
                         <input type="text" v-model="clienteActualizado.phone" class="form-control" id="phone" required>
                     </div>
+                    
                     <div class="form-group col-md-6">
                         <label for="newRol">Rol:</label>
                         <select v-model="clienteActualizado.rol" class="form-control" id="newRol" required>
@@ -225,6 +230,7 @@ export default {
         
       },
       file: null,
+      fileActualizar: null,
       nuevoCliente: {
         name: '',
         image: '',
@@ -300,18 +306,47 @@ export default {
       }
     },
     async ActualizarCustomer(customer, id) {
+      if(this.fileActualizar){
+        const formData = new FormData();
+        formData.append('name', customer.name);
+        formData.append('email', customer.email);
+        formData.append('password', customer.password);
+        formData.append('address', customer.address);
+        formData.append('phone', customer.phone);
+        formData.append('rol', customer.rol);
+        formData.append('tipo_negocio', customer.tipo_negocio);
+        formData.append('image', "");
+        formData.append('imagen', this.fileActualizar);
+        try {
+       
+       const response = await axios.put(`${process.env.API}/Customer/${id}`, formData);
+       console.log(response);
+       this.fetchCustomers();
+       this.cerrarModalActualizar();
+       this.fileActualizar=null;
+     }
+      catch (error) {
+       console.error('Error updating customer:', error);
+     }
+        return;
+
+      }
       try {
        
         const response = await axios.put(`${process.env.API}/Customer/${id}`, customer);
         console.log(response);
         this.fetchCustomers();
         this.cerrarModalActualizar();
-      } catch (error) {
+      }
+       catch (error) {
         console.error('Error updating customer:', error);
       }
     },
     uploadFile(event) {
       this.file = event.target.files[0];
+    },
+    uploadFileActualizar(event) {
+      this.fileActualizar = event.target.files[0];
     },
     cerrarModalActualizar() {
       const modalElement = this.$refs.modalActualizar;
@@ -346,7 +381,7 @@ export default {
         formData.append('phone', this.nuevoCliente.phone);
         formData.append('rol', this.nuevoCliente.rol);
         formData.append('tipo_negocio', this.nuevoCliente.tipo_negocio);
-        console.log('Nuevo Cliente:',this.nuevoCliente);
+      
         const response = await axios.post(`${process.env.API}/Customer`, formData);
 
         console.log(response.data);
