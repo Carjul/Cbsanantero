@@ -33,7 +33,7 @@
                    
                       </div>
                       <hr>
-                      <div v-if="usuarioRol !== 'Cliente'">
+                      <div v-if="customerRol === null">
                         <a href="">Para solicitar servicio debe registrarse, haga clic aquí.</a>
                       </div>
             <!-- Add the button for requesting service -->
@@ -105,8 +105,7 @@ export default {
   data() {
     return {
       hospedajes: [],
-      customerRol: '',
-      usuarioRol: 'Cliente',
+      customerRol: null,
       tipo: 'Hospedaje',
       formData: {
         nombre: '',
