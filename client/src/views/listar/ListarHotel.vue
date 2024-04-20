@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                       <label for="imagenHotel">Imagen:</label>
-                      <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenHotel" ref="fileCrear" type="file">
+                      <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="imagenHotel" ref="fileCrear" type="file">
                     </div>
                     <div class="form-group">
                       <label for="telefonoHotel">Teléfono:</label>
@@ -278,18 +278,15 @@ this.$router.push({ path: '/artegaleria' });
     }  
 },
 
-  uploadFileCrear(event) {
-  this.file = event.target.files[0];
-  },
-  uploadFileActualizar(event) {
-  this.fileA = event.target.files[0];
-    
-  },
-
-
- 
-
 },
+    uploadFile(event) {
+      this.file = event.target.files[0];
+    },
+    uploadFileActualizar(event) {
+      this.fileActualizar = event.target.files[0];
+    },
+
+
 };
 </script>
 

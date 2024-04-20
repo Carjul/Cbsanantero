@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group">
                   <label for="imagenRestaurante">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenRestaurante" ref="fileCrear" type="file" style="display:none">
+                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="imagenRestaurante" ref="fileCrear" type="file" style="display:none">
                 </div>
                 <div class="form-group">
                   <label for="serviciosRestaurante">Servicios:</label>
@@ -267,12 +267,12 @@
           console.error('Error updating Restaurante:', error);
         }
       },
-      uploadFileCrear(event) {
-        this.file = event.target.files[0];
-      },
-      uploadFileActualizar(event) {
-        this.fileActualizar = event.target.files[0];
-      },
+    },
+    uploadFile(event) {
+      this.file = event.target.files[0];
+    },
+    uploadFileActualizar(event) {
+      this.fileActualizar = event.target.files[0];
     },
   };
   </script>

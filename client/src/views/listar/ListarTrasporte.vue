@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                   <label for="imagenTrasporte">Imagen:</label>
-                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenTrasporte" ref="fileCrear" type="file" style="display:none">
+                  <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="imagenTrasporte" ref="fileCrear" type="file" style="display:none">
                 </div>
                 <div class="form-group">
                   <label for="placaTrasporte">Placa:</label>
@@ -241,13 +241,13 @@
           // Mostrar mensaje de error al usuario
         }
       },
-      uploadFileCrear(event) {
-        this.file = event.target.files[0];
-      },
-
-      uploadFileActualizar(event) {
-        this.fileActualizar = event.target.files[0];
-      },
+    
+    uploadFile(event) {
+      this.file = event.target.files[0];
+    },
+    uploadFileActualizar(event) {
+      this.fileActualizar = event.target.files[0];
+    },
       resetearFormulario(formulario) {
         // Resetear los valores del formulario
         this[formulario] = {

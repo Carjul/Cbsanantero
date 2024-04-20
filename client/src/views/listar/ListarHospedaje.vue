@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                       <label for="imagenHospedaje">Imagen:</label>
-                      <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenHospedaje" ref="fileCrear" type="file">
+                      <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="imagenHospedaje" ref="fileCrear" type="file">
                     </div>
                     <div class="form-group">
                       <label for="telefonoHospedaje">Teléfono:</label>
@@ -269,8 +269,8 @@ export default {
         console.error('Error updating Hospedaje:', error);
       }
     }
-    },
-    uploadFileCrear(event){
+  },
+    uploadFile(event) {
       this.file = event.target.files[0];
     },
     uploadFileActualizar(event) {

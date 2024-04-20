@@ -258,13 +258,14 @@
          console.error('Error updating Artesania:', error);
        }
      },
-     uploadFile(event) {
+    },
+    uploadFile(event) {
       this.file = event.target.files[0];
     },
+    uploadFileActualizar(event) {
+      this.fileActualizar = event.target.files[0];
+    },
     
-
-    
-   },
  };
  </script>
  

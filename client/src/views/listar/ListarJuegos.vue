@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                       <label for="imagenRecreacion">Imagen:</label>
-                      <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileCrear' id="imagenRecreacion" ref="fileCrear" type="file">
+                      <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="imagenRecreacion" ref="fileCrear" type="file">
                     </div>
                     <div class="form-group">
                       <label for="telefonoRecreacion">Teléfono:</label>
@@ -277,12 +277,12 @@ export default {
       }
     
     },
-    uploadFileCrear(event) {
+  },
+    uploadFile(event) {
       this.file = event.target.files[0];
     },
     uploadFileActualizar(event) {
-      this.filea = event.target.files[0];
-    },
+      this.fileActualizar = event.target.files[0];
   },
 };
 </script>
