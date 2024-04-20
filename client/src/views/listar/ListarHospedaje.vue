@@ -274,7 +274,7 @@ export default {
       if (this.fileActualizar) {
         const formData = new FormData();
         formData.append('name', this.hospedajeActualizado.name);
-        forData.append('description', this.hospedajeActualizado.description);
+        formData.append('description', this.hospedajeActualizado.description);
         formData.append('address', this.hospedajeActualizado.address);
         formData.append('phone', this.hospedajeActualizado.phone);
         formData.append('price',this.hospedajeActualizado.price);

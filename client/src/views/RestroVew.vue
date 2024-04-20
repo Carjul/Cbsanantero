@@ -29,7 +29,7 @@
             <input v-model="formData.phone" type="number" class="form-control falling-animation" id="phone" placeholder="Ingrese su número de celular"  required>
           </div>
           <!-- Agregar control para el campo de rol si es necesario -->
-          <button type="submit" class="btn btn-primary animated">Registrarse</button>
+          <button  type="submit" class="btn btn-primary animated">Registrarse</button>
         </form>
       </div>
     </div>
@@ -37,11 +37,14 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import axios from 'axios';
+
 
 export default {
   data() {
     return {
+
       file:null,
       formData: {
         name: '',
@@ -59,7 +62,8 @@ export default {
       this.file = event.target.files[0];
     },
    
-    submitForm() {
+    submitForm() { 
+
       const Form = new FormData();
         Form.append('name', this.formData.name);
         Form.append('image', this.file);
@@ -72,29 +76,52 @@ export default {
 
       axios.post(`${process.env.API}/Customer`, Form)
         .then(response => {
-          if (response && response.data) {
-            console.log('Respuesta del servidor:', response.data);
-          this.formData={
-        name: '',
-        email: '',
-        password: '',
-        address: '',
-        phone: '',
-        rol: '',
-        tipo_negocio:''
-      }
+                      if (response && response.data) {
+                        console.log('Respuesta del servidor:', response.data);
+                      this.formData={
+                    name: '',
+                    email: '',
+                    password: '',
+                    address: '',
+                    phone: '',
+                    rol: '',
+                    tipo_negocio:''
+                  }
+                  if(response.data.message==="Cliente insertado")
+                  {
+                    Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "El usurario se ha registrado correctamente",
+                  showConfirmButton: false,
+                  timer: 3000
+                }).then(Re=>{
+                  this.$router.push({ path: '/login' });
+                  
+                })
+                  }
+                  
+              
             // Aquí puedes manejar la respuesta del servidor si lo deseas
           } else {
             console.error('Error: No se recibió una respuesta válida del servidor.');
           }
         })
-
+          
         .catch(error => {
           console.error('Error al enviar datos:', error);
           // Aquí puedes manejar el error si ocurre alguno
         });
+       
+      
+        
+
     }
+    
+    
+
   }
+
 }
 </script>
 

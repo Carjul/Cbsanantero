@@ -34,7 +34,7 @@
                       </div>
                       <hr>
                       <div v-if="customerRol === null">
-                        <a href="">Para solicitar servicio debe registrarse, haga clic aquí.</a>
+                        <router-link to="/resgister"> Para solicitar servicio debe registrarse, haga clic aquí.</router-link>
                       </div>
             <!-- Add the button for requesting service -->
             <div v-if="customerRol === 'Cliente'">
