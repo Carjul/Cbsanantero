@@ -17,7 +17,7 @@
          
 
           <div class="card-body">
-            <h5 class="card-title"></h5>
+            
             <hr>
             <p  class="h3 text-decoration-none">{{ hospedaje.name }}</p>
             <hr>
@@ -31,6 +31,10 @@
                            
                            <h5 class="m-0"><i class="fas fa-coins text-primary mr-2"></i>{{ hospedaje.price }}</h5>
                    
+                      </div>
+                      <hr>
+                      <div v-if="usuarioRol !== 'Cliente'">
+                        <a href="">Para solicitar servicio debe registrarse, haga clic aquí.</a>
                       </div>
             <!-- Add the button for requesting service -->
             <div v-if="customerRol === 'Cliente'">
@@ -102,6 +106,7 @@ export default {
     return {
       hospedajes: [],
       customerRol: '',
+      usuarioRol: 'Cliente',
       tipo: 'Hospedaje',
       formData: {
         nombre: '',
@@ -110,7 +115,7 @@ export default {
         description: '',
         clienteId: null,
         customerId: null,
-        negocioId: null
+        negocioId: null,
       },
     };
   },

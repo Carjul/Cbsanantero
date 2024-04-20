@@ -78,20 +78,28 @@
               <router-link v-if="usuarioAutenticado && usuarioRol === 'admin'" to="/admin">Publicar</router-link>
               -->
             
+              <div class="nav-item d-lg-none">
+              <router-link @click="ocultarMenu" v-if="!usuarioAutenticado" to="/login" class="nav-link">
+                <i  class="fas fa-sign-in-alt"></i> Iniciar sesión
+              </router-link>
+            </div>
+           
+           
+
+
               <a href="" class="nav-item nav-link">
-               
-                <router-link to="/">
-                  <i class="fas fa-home"></i> Inicio
+                <router-link @click="ocultarMenu" to="/">
+                   Inicio
                 </router-link>
               </a>
-              <router-link to="#" class="nav-item nav-link">
+              <router-link @click="ocultarMenu" to="#" class="nav-item nav-link">
                Acerca de
               </router-link>
               <a href="service.html" class="nav-item nav-link">
                Mapa turístico
                </a>
                
-               <router-link to="/tourn" class="nav-item nav-link">
+               <router-link @click="ocultarMenu" to="/tourn" class="nav-item nav-link">
                    Tours
                 </router-link>
 
@@ -102,17 +110,31 @@
                 </a>
 
                 <div class="dropdown-menu border-0 rounded-0 m-0">
-                  <router-link to="/artes" class="dropdown-item">Atesanias</router-link>
-                  <router-link to="/tranport" class="dropdown-item">Transporte</router-link>
-                  <router-link to="/hospe" class="dropdown-item">Hospedaje</router-link>
-                  <router-link to="/hotels" class="dropdown-item">Hoteles</router-link>
-                  <router-link to="/bard" class="dropdown-item">Bares</router-link>
-                  <router-link to="/recre" class="dropdown-item">Juegos y Recreación</router-link>
+                  <router-link @click="ocultarMenu" to="/artes" class="dropdown-item">Atesanias</router-link>
+                  <router-link @click="ocultarMenu" to="/tranport" class="dropdown-item">Transporte</router-link>
+                  <router-link @click="ocultarMenu" to="/hospe" class="dropdown-item">Hospedaje</router-link>
+                  <router-link @click="ocultarMenu" to="/hotels" class="dropdown-item">Hoteles</router-link>
+                  <router-link @click="ocultarMenu" to="/bard" class="dropdown-item">Bares</router-link>
+                  <router-link @click="ocultarMenu" to="/recre" class="dropdown-item">Juegos y Recreación</router-link>
                 </div>
               </div>
+
+               
+
               <!-- <a href="contact.html" class="nav-item nav-link">
                 <i class="fas fa-envelope"></i> Contact
               </a> -->
+
+             <a class="nav-item nav-link" href="">
+                  <div class="nav-item d-lg-none">
+                  <router-link @click="ocultarMenu" class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'" to="/admin">Admin</router-link>
+                </div>
+             </a>
+              
+              <div class="nav-item d-lg-none">
+              <i   v-if="usuarioAutenticado && usuarioRol !== ''" @click="cerrarSesion()" class="fas fa-sign-out-alt">Salir</i> 
+            </div>
+          
 
             </div>
           </div>
@@ -202,6 +224,7 @@
    <!-- eslint-enable -->
 </template>
 <script>
+
 import { ref, watchEffect } from 'vue'
 
 export default {
@@ -218,12 +241,20 @@ export default {
       imagenUsuario.value = localStorage.getItem('imagenUsuario');
       nombreUsuario.value = localStorage.getItem('nombreUsuario');
     });
+    const ocultarMenu = () => {
+      // Ocultar el menú al presionar el botón de "Iniciar sesión"
+      const navbarCollapse = document.getElementById('navbarCollapse');
+      if (navbarCollapse.classList.contains('show')) {
+        navbarCollapse.classList.remove('show');
+      }
+    };
 
     return {
       usuarioAutenticado,
       usuarioRol,
       imagenUsuario,
-      nombreUsuario
+      nombreUsuario,
+      ocultarMenu
     };
   },
   created(){
