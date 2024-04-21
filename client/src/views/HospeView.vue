@@ -89,6 +89,22 @@
                 <textarea id="description" placeholder="Describa su solicitud" rows="3" v-model="formData.description"></textarea>
               </div>
 
+              <div class="form-group">
+                <label for="person">Personal:</label>
+                <input type="text" class="form-control" id="person" placeholder="Número de personas " v-model="formData.person">
+              </div>
+
+              <div class="form-group">
+                <label for="entrada">Entrada:</label>
+                <input type="date" class="form-control" id="entrada"  v-model="formData.entrada" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="salida">Salida:</label>
+                <input type="date" class="form-control" id="salida"  v-model="formData.salida" required>
+              </div>
+
+
               <button type="button" class="btn btn-success" @click="submitForm">Solicitar</button>
             </form>
           </div>
@@ -112,6 +128,9 @@ export default {
         celular: '',
         correo: '',
         description: '',
+        person: '',
+        entrada: '',
+        salida: '',
         clienteId: null,
         customerId: null,
         negocioId: null,
@@ -125,6 +144,9 @@ export default {
     this.formData.nombre = localStorage.getItem('nombreUsuario');
     this.formData.correo = localStorage.getItem('correoUsuario');
     this.formData.celular = localStorage.getItem('celularUsuario');
+    this.formData.person = localStorage.getItem('person');
+    this.formData.entrada = localStorage.getItem('entrada');
+    this.formData.salida = localStorage.getItem('salida');
 
     this.fetchHospedajes();
   },
@@ -145,6 +167,9 @@ export default {
         this.formData.customerId = null;
         this.formData.negocioId = null;
         this.formData.description = '';
+        this.formData.person = '';
+        this.formData.entrada = '';
+        this.formData.salida = '';
         this.closeModal();
       } catch (error) {
         console.error('Error al enviar la solicitud', error);
@@ -168,6 +193,9 @@ export default {
         celular: '',
         correo: '',
         descripcion: '',
+        person: '',
+        entrada: '',
+        salida: '',
         customerId: null,
       };
     }

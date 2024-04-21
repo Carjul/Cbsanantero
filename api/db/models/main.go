@@ -9,6 +9,9 @@ type ClientePeticion struct {
 	Celular     string `json:"celular,omitempty" bson:"celular,omitempty"`
 	Correo      string `json:"correo,omitempty" bson:"correo,omitempty"`
 	Description string `json:"description,omitempty" bson:"description,omitempty"`
+	Person      string `json:"person,omitempty" bson:"person,omitempty"`
+	Entrada     string `json:"entrada,omitempty" bson:"entrada,omitempty"`
+	Salida      string `json:"salida,omitempty" bson:"salida,omitempty"`
 	Revision    bool
 	Fecha       string `json:"fecha,omitempty" bson:"fecha,omitempty"`
 	Hora        string `json:"hora,omitempty" bson:"hora,omitempty"`
