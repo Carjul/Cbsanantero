@@ -176,6 +176,7 @@ export default {
 
     },
     enviarIdGaleria(cid, id) {
+      
       localStorage.setItem('customerNegocioId', cid);
       localStorage.setItem('negocioId', id);
   

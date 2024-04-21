@@ -30,7 +30,7 @@
         <div class="row">
           <div class="col-md-4" v-for="(obj, imgIndex) in Galeria.photos" :key="imgIndex">
             <div class="card mb-2" @click="openModal(obj.image)">
-              <button  v-if="customerRol === 'Vendedor' && customerID === Galeria.customer_id" style="height: 50px; width: 50px;" type="button" class="btn btn-danger"
+              <button  v-if="customerRol === 'Vendedor' && customerID === GaleriaEnv.customer_id" style="height: 50px; width: 50px;" type="button" class="btn btn-danger"
                 @click.stop="EliminarPhoto(Galeria.photos[imgIndex])">X</button>
               <img :src="obj.image" class="card-img-top gallery-image" alt="imagen" loading="lazy" />
             </div>
@@ -87,13 +87,6 @@ export default {
     };
   },
   methods: {
-    mounted() {
-    this.GaleriaEnv.customer_id = localStorage.getItem('customerId');
-    this.GaleriaEnv.negocio_id = localStorage.getItem('negocioId');
-    this.customerRol = localStorage.getItem('usuarioRol');
-    this.customerID = localStorage.getItem('customerNegocioId');
-    this.fetchGaleria()
-  },
     uploadFile(event) {
       this.file = event.target.files;
       for (let key in this.file) {
@@ -209,8 +202,15 @@ nexImage() {
       this.selectedImage = this.artesanias[this.currentIndex].image;
     },
   },
-
-
+  created() {
+    this.GaleriaEnv.customer_id = localStorage.getItem('customerId');
+    this.GaleriaEnv.negocio_id = localStorage.getItem('negocioId');
+    this.customerRol = localStorage.getItem('usuarioRol');
+    this.customerID = localStorage.getItem('customerNegocioId');
+  },
+  mounted() {
+    this.fetchGaleria()
+  },
 };
 
 </script>
