@@ -168,9 +168,11 @@ export default {
   },
   methods: {
     async fetchRecreaciones() {
+      let id = localStorage.getItem('customerId');
       try {
         const response = await axios.get(`${process.env.API}/Recreacion`);
-        this.recreaciones = response.data;
+        let Filtro = response.data.filter((customer) => customer._id === id);
+        this.recreaciones = Filtro || [];
       } catch (error) {
         console.error('Error fetching recreaciones:', error);
       }

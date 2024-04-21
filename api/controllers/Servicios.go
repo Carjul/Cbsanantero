@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"log"
 
 	"github.com/cbsanantero/config"
 	. "github.com/cbsanantero/db"
@@ -16,7 +17,6 @@ func GetPedirServicionegocio(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
-	//service.DeleteMany(context.Background(), bson.M{"photos": bson.M{"$exists": true, "$size": 0}})
 	busqueda, err := service.Find(context.TODO(), bson.M{"negocioId": id, "status": "Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
@@ -35,12 +35,12 @@ func GetPedirServicionegocio(c *fiber.Ctx) error {
 
 }
 func GetPedirServicioClient(c *fiber.Ctx) error {
+
 	service := Instance.Database.Collection("Servicio")
 
 	id := c.Params("id")
 
-	//service.DeleteMany(context.Background(), bson.M{"photos": bson.M{"$exists": true, "$size": 0}})
-	busqueda, err := service.Find(context.TODO(), bson.M{"customerId":id, "status": "Activo"})
+	busqueda, err := service.Find(context.TODO(), bson.M{"customer_id":id, "status": "Activo"})
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
 	}
@@ -107,16 +107,16 @@ func CreatePedirServicio(c *fiber.Ctx) error {
 	servicio.Revision = false
 	servicio.Fecha = config.GetDate()
 	servicio.Hora = config.GetHour()
-
+	
 	_, err := service.InsertOne(context.Background(), servicio)
 
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el servicio"})
 	}
 
-	idCustomer, err := primitive.ObjectIDFromHex(servicio.CustomerId)
+	idCustomer, err := primitive.ObjectIDFromHex(servicio.CustomerID)																																																											
 	if err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el servicio"})
+		log.Fatal(err)
 	}
 	var customers models.Customer
 	err = customer.FindOne(context.TODO(), bson.M{"_id": idCustomer}).Decode(&customers)
@@ -137,7 +137,7 @@ func CreatePedirServicio(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el negocio"})
 		}
 	case "Bar":
-		err = db.Collection("Bar").FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
+		err = db.Collection("Bares").FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
 		if err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el negocio"})
 		}
@@ -251,9 +251,11 @@ func CreatePedirServicio(c *fiber.Ctx) error {
 
 }
 func DeleteServicio(c *fiber.Ctx) error {
+
 	service := Instance.Database.Collection("Servicio")
 
 	id := c.Params("id")
+
 	ObjID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "Id de servicio no valido"})

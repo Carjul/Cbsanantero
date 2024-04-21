@@ -169,9 +169,11 @@ export default {
   },
   methods: {
     async fetchBares() {
+      let id = localStorage.getItem('customerId');
       try {
         const response = await axios.get(`${process.env.API}/Bar`);
-        this.bares = response.data;
+        let Filtro = response.data.filter((customer) => customer._id === id);
+        this.bares = Filtro|| [];
       } catch (error) {
         console.error('Error fetching bares:', error);
       }

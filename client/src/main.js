@@ -16,12 +16,12 @@ app.use(
   );
 app.use(router)
 app.mount('#app')
-addEventListener('keypress', function(e) {
+/* addEventListener('keypress', function(e) {
   if(e.key == "Enter") {
     localStorage.clear();
     location.reload();
   }
-});
+}); */
 
 addEventListener('DOMContentLoaded', function() {
   var x = this.localStorage.getItem('usuarioAutenticado');

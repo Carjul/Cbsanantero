@@ -189,10 +189,10 @@ export default {
   },
   methods: {
     async fetchHospedajes() {
+      let id =  localStorage.getItem('customerId');
       try {
         const response = await axios.get(`${process.env.API}/Hospedaje`);
-        let cid =  localStorage.getItem('customerId');
-        response.data?  this.hospedajes = response.data.filter((e)=> e.customer_id === cid):null
+        response.data?  this.hospedajes = response.data.filter((e)=> e.customer_id === id):[]
       } catch (error) {
         console.error('Error fetching hospedajes:', error);
       }

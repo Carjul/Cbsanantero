@@ -152,9 +152,12 @@
     },
     methods: {
       async fetchTransportes() {
+      let id = localStorage.getItem('customerId');
+
         try {
           const response = await axios.get(`${process.env.API}/Trasporte`);
-          this.transportes = response.data;
+          let Filtro = response.data.filter((customer) => customer._id === id);
+          this.transportes = Filtro || [];
         } catch (error) {
           console.error('Error fetching transportes:', error);
           // Mostrar mensaje de error al usuario

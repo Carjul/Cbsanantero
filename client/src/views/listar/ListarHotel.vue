@@ -163,9 +163,11 @@ mounted() {
 },
 methods: {
   async fetchHoteles() {
+    let id = localStorage.getItem('customerId');
     try {
       const response = await axios.get(`${process.env.API}/Hotel`);
-      this.hoteles = response.data;
+      let Filtro = response.data.filter((customer) => customer._id === id);
+      this.hoteles = Filtro || [];
     } catch (error) {
       console.error('Error fetching hoteles:', error);
     }

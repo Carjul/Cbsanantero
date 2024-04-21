@@ -59,7 +59,13 @@ func CreateCustomer(c *fiber.Ctx) error {
 	if err := c.BodyParser(customer); err != nil {
 		log.Println(err)
 	}
-	form, err := c.MultipartForm()
+	var costomerExiste models.Customer
+	err := customers.FindOne(context.Background(), bson.M{"email": customer.Email}).Decode(&costomerExiste)
+	 if err == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El correo ya esta registrado"})
+	 }
+
+	 form, err := c.MultipartForm()
 	if err != nil {
 		return err
 	}
@@ -68,8 +74,7 @@ func CreateCustomer(c *fiber.Ctx) error {
 
 	files := form.File["image"]
 	if len(files) == 0 {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "La imagen es requerida",
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg:  "La imagen es requerida",
 		})
 	}
 	ImageFile := files[0]
@@ -99,8 +104,9 @@ func CreateCustomer(c *fiber.Ctx) error {
 	if result.InsertedID == nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo insertar el cliente"})
 	} else {
-		return c.Status(fiber.StatusCreated).JSON(Message{Msg: "Cliente insertado"})
+		return c.Status(fiber.StatusCreated).JSON(Message{Msg: "El usurario se ha registrado correctamente"})
 	}
+
 
 }
 
@@ -237,7 +243,7 @@ func DeleteCustomer(c *fiber.Ctx) error {
 	if err != nil {
 		log.Println(err)
 	}
-	_, err = servicio.DeleteMany(context.Background(), bson.M{"customerId": id})
+	_, err = servicio.DeleteMany(context.Background(), filter)
 	if err != nil {
 		log.Println(err)
 	}
@@ -335,7 +341,7 @@ func UpdateCustomerStatus(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Cannot update galeria"})
 	}
-	_, err = servicio.UpdateMany(context.Background(), bson.M{"customerId": id}, update)
+	_, err = servicio.UpdateMany(context.Background(), filter, update)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Cannot update servicio"})
 	}

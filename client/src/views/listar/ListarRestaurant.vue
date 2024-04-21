@@ -158,9 +158,11 @@
     },
     methods: {
       async fetchRestaurantes() {
+        let id = localStorage.getItem('customerId');
         try {
           const response = await axios.get(`${process.env.API}/Restaurante`);
-          this.restaurantes = response.data;
+          let Filtro = response.data.filter((customer) => customer._id === id);
+          this.restaurantes = Filtro || [];
         } catch (error) {
           console.error('Error fetching restaurantes:', error);
         }

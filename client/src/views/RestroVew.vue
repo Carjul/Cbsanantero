@@ -76,7 +76,7 @@ export default {
 
       axios.post(`${process.env.API}/Customer`, Form)
         .then(response => {
-                      if (response && response.data) {
+              if (response.data) {
                         console.log('Respuesta del servidor:', response.data);
                       this.formData={
                     name: '',
@@ -87,21 +87,16 @@ export default {
                     rol: '',
                     tipo_negocio:''
                   }
-                  if(response.data.message==="Cliente insertado")
-                  {
+                  if(response.data.message) {
                     Swal.fire({
-                  position: "top-end",
+                  position: "top-center",
                   icon: "success",
-                  title: "El usurario se ha registrado correctamente",
+                  title: response.data.message,
                   showConfirmButton: false,
                   timer: 3000
-                }).then(Re=>{
-                  this.$router.push({ path: '/login' });
-                  
-                })
+                }).then(()=>{ this.$router.push({ path: '/login' }); })
+
                   }
-                  
-              
             // Aquí puedes manejar la respuesta del servidor si lo deseas
           } else {
             console.error('Error: No se recibió una respuesta válida del servidor.');
@@ -109,8 +104,17 @@ export default {
         })
           
         .catch(error => {
-          console.error('Error al enviar datos:', error);
-          // Aquí puedes manejar el error si ocurre alguno
+          
+          if(error.response.data.message) {
+                    Swal.fire({
+                  position: "top-center",
+                  icon: "warning",
+                  title: error.response.data.message,
+                  showConfirmButton: false,
+                  timer: 4000
+                })
+              }
+          
         });
        
       

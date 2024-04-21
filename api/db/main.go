@@ -17,6 +17,9 @@ type MongoInstance struct {
 
 var Instance MongoInstance
 
+
+
+
 func ConexionDB() error {
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {

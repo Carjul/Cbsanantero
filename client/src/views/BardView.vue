@@ -87,7 +87,7 @@ export default {
         description: '',
         clienteId: null,
         customerId: null,
-        negocioId: null
+        negocio_id: null
       },
     };
   },
@@ -116,7 +116,7 @@ export default {
     },
     enviarcid(cid, id) {
       this.formData.customerId = cid;
-      this.formData.negocioId = id;
+      this.formData.negocio_id = id;
     },
 
 
@@ -126,7 +126,7 @@ export default {
         const response = await axios.post(`${process.env.API}/pedirServicio?tipo=${this.tipo}`, this.formData);
         console.log(response);
         this.formData.customerId = null;
-        this.formData.negocioId = null;
+        this.formData.negocio_id = null;
         this.formData.description = '';
     
       } catch (error) {

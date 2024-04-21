@@ -9,7 +9,7 @@
       >
         <div class="card mb-4">
           <img
-            @click="enviarIdGaleria(hospedaje._id)"
+            @click="enviarIdGaleria(hospedaje.customer_id, hospedaje._id)"
             :src="hospedaje.image"
             class="card-img-top"
             alt="Hospedaje"
@@ -91,7 +91,7 @@
 
               <div class="form-group">
                 <label for="person">Personal:</label>
-                <input type="text" class="form-control" id="person" placeholder="Número de personas " v-model="formData.person">
+                <input type="text" class="form-control" id="person" placeholder="Número de personas" v-model="formData.person">
               </div>
 
               <div class="form-group">
@@ -132,22 +132,20 @@ export default {
         entrada: '',
         salida: '',
         clienteId: null,
-        customerId: null,
         negocioId: null,
+        customer_id: null,
       },
     };
   },
   mounted() {
     this.customerRol = localStorage.getItem('usuarioRol');
-
-    this.formData.clienteId = localStorage.getItem('customerId')
+    this.formData.clienteId = localStorage.getItem('customerId');
     this.formData.nombre = localStorage.getItem('nombreUsuario');
     this.formData.correo = localStorage.getItem('correoUsuario');
     this.formData.celular = localStorage.getItem('celularUsuario');
     this.formData.person = localStorage.getItem('person');
     this.formData.entrada = localStorage.getItem('entrada');
     this.formData.salida = localStorage.getItem('salida');
-
     this.fetchHospedajes();
   },
   methods: {
@@ -161,16 +159,15 @@ export default {
     },
     async submitForm() {
       try {
-        console.log(this.formData)
+      
         const response = await axios.post(`${process.env.API}/pedirServicio?tipo=${this.tipo}`, this.formData);
         console.log(response);
-        this.formData.customerId = null;
+        this.formData.customer_id = null;
         this.formData.negocioId = null;
         this.formData.description = '';
         this.formData.person = '';
         this.formData.entrada = '';
         this.formData.salida = '';
-        this.closeModal();
       } catch (error) {
         console.error('Error al enviar la solicitud', error);
       }
@@ -178,12 +175,14 @@ export default {
 
 
     },
-    enviarIdGaleria(id) {
+    enviarIdGaleria(cid, id) {
+      localStorage.setItem('customerNegocioId', cid);
       localStorage.setItem('negocioId', id);
+  
       this.$router.push({ path: '/artegaleria' });
     },
     enviarcid(cid, id) {
-      this.formData.customerId = cid;
+      this.formData.customer_id = cid;
       this.formData.negocioId= id;
     },
     closeModal() {

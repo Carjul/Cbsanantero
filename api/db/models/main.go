@@ -17,8 +17,9 @@ type ClientePeticion struct {
 	Hora        string `json:"hora,omitempty" bson:"hora,omitempty"`
 	Status      string `json:"status,omitempty" bson:"status,omitempty"`
 	ClienteId   string `json:"clienteId,omitempty" bson:"clienteId,omitempty"`
-	CustomerId  string `json:"customerId,omitempty" bson:"customerId,omitempty"`
 	NegocioId   string `json:"negocioId,omitempty" bson:"negocioId,omitempty"`
+	CustomerID  string `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
+
 }
 
 type Artesanias struct {

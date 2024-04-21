@@ -10,10 +10,6 @@
           <button class="btn btn-success mb-4" @click="abrirModalCrear">Crear</button>
         </div>
       </div>
-
-
-
-
       <hr>
       <strong>Todos los clientes</strong>
       <hr>
@@ -121,9 +117,6 @@
                       <option value="Artesanías">Artesanías</option>
                     </select>
                   </div>
-
-                  
-
 
                 </div>
               </div>
@@ -243,13 +236,9 @@ export default {
       },
     };
   },
- async mounted() {
-   await this.fetchCustomers();
-    for (let index = 0; index < this.customers.length; index++) {
-      const element = this.customers[index];
-   let x =await this.fetchServicio(element._id);
-   x !== undefined?  element.servicio=x : element.servicio=0
-    }
+ mounted() {
+  this.fetchCustomers();
+  
   },
   methods: {
     async fetchServicio(cid) {  
@@ -265,8 +254,18 @@ export default {
       let id = localStorage.getItem('customerId');
       try {
         const response = await axios.get(`${process.env.API}/Customer`);
-        const Filtro = response.data.filter((e) => e._id !== id);
-        this.customers = Filtro;
+        let Filtro = response.data.filter((customer) => customer._id !== id);
+        if (Filtro.length > 0) {
+          for (let index = 0; index < Filtro.length; index++) {
+          const element = Filtro[index];
+          let x =  await this.fetchServicio(element._id);
+          x !== undefined?  element.servicio=x : element.servicio=0
+          }
+          
+          this.customers = Filtro || [];
+        } 
+        
+      
       } catch (error) {
         console.error('Error fetching customers:', error);
       }
