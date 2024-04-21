@@ -9,7 +9,7 @@
       >
         <div class="card mb-4">
           <img
-            @click="enviarIdGaleria(transporte._id)"
+            @click="enviarIdGaleria(transporte._id, trasporte.customer_id)"
             :src="transporte.image"
             class="card-img-top"
             alt="Vehículo de Transporte"
@@ -108,7 +108,8 @@ export default {
         console.error('Error al obtener la información de transporte', error);
       }
     },
-    enviarIdGaleria(id) {
+    enviarIdGaleria(id, cid) {
+      localStorage.setItem('customerNegocioId', cid);
       localStorage.setItem('negocioId', id);
       this.$router.push({ path: '/artegaleria' });
     },

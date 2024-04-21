@@ -110,9 +110,10 @@ export default {
         console.error('Error al obtener los hoteles', error);
       }
     },
-    enviarIdGaleria(id,cid) {
-      localStorage.setItem('negocioId',id);
-      localStorage.setItem('dueñoId',cid);
+    enviarIdGaleria(id, cid) {
+      
+      localStorage.setItem('customerNegocioId', cid);
+      localStorage.setItem('negocioId', id);
       this.$router.push({ path: '/artegaleria' });
     },
     enviarcid(cid, id) {

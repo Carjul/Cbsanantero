@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-md-4" v-for="bar in bares" :key="bar.id">
         <div class="card mb-4">
-          <img @click="enviarIdGaleria(bar._id)" :src="bar.image" class="card-img-top" alt="Bar" />
+          <img @click="enviarIdGaleria(bar._id,bar.customer_id)" :src="bar.image" class="card-img-top" alt="Bar" />
           <div class="card-body">
             <h5 class="card-title">{{ bar.name }}</h5>
             <p class="card-text">{{ bar.description }}</p>
@@ -110,8 +110,10 @@ export default {
         console.error('Error al obtener los bares', error);
       }
     },
-    enviarIdGaleria(id) {
+    enviarIdGaleria(id, cid) {
       localStorage.setItem('negocioId', id);
+      localStorage.setItem('customerNegocioId', cid);
+
       this.$router.push({ path: '/artegaleria' });
     },
     enviarcid(cid, id) {

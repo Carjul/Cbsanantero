@@ -93,9 +93,10 @@ export default {
     },
     enviarIdGaleria(id,cid) {
       localStorage.setItem('negocioId',id);
-      localStorage.setItem('dueñoId',cid);
+      localStorage.setItem('customerNegocioId', cid);
       this.$router.push({ path: '/artegaleria' });
     },
+
     enviarcid(cid,id){
       this.formData.customerId=cid;
       this.formData._id=id;
