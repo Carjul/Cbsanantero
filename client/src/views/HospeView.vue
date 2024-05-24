@@ -34,7 +34,9 @@
                       </div>
                       <hr>
                       <div v-if="customerRol === null">
-                        <router-link to="/resgister"> Para solicitar servicio debe registrarse, haga clic aquí.</router-link>
+                        <router-link to="/resgister"> 
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal">Solicitar servicio</button>
+                        </router-link>
                       </div>
             <!-- Add the button for requesting service -->
             <div v-if="customerRol === 'Cliente'">
