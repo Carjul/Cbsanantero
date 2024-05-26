@@ -10,7 +10,7 @@
             <div class="d-inline-flex align-items-center">
               <p><i class="fa fa-envelope mr-2"></i>costabrisaweb@gmail.com</p>
               <p class="text-body px-3">|</p>
-              <p><i class="fa fa-phone-alt mr-2"></i>+57 3117119510</p>
+              <p><i class="fa fa-phone-alt mr-2"></i>+57 312 5637781</p>
             </div>
           </div>
           <div class="col-lg-6 text-center text-lg-right">
@@ -178,7 +178,7 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
-                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Our Services</h5>
+                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Servicios</h5>
                 <div class="d-flex flex-column justify-content-start">
                     <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About</a>
                     <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destination</a>
@@ -190,7 +190,7 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
-                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Usefull Links</h5>
+                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Colaboradores</h5>
                 <div class="d-flex flex-column justify-content-start">
                     <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About</a>
                     <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destination</a>
@@ -202,18 +202,11 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
-                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Contact Us</h5>
-                <p><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>
-                <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
-                <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
-                <h6 class="text-white text-uppercase mt-4 mb-3" style="letter-spacing: 5px;">Newsletter</h6>
+                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Contacto</h5>
+                <p><i class="fa fa-map-marker-alt mr-2"></i>Monteria, Córdoba, Colombia</p>
+                <p><i class="fa fa-phone-alt mr-2"></i>+57 312 5637781</p>
+                <p><i class="fa fa-envelope mr-2"></i>costabrisaweb@gmail.com</p>
                 <div class="w-100">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-light" style="padding: 25px;" placeholder="Your Email">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary px-3">Sign Up</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
