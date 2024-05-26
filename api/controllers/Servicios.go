@@ -104,7 +104,7 @@ func CreatePedirServicio(c *fiber.Ctx) error {
 	}
 
 	servicio.Status = "Activo"
-	servicio.Revision = false
+	servicio.Revision = true
 	servicio.Fecha = config.GetDate()
 	servicio.Hora = config.GetHour()
 	
