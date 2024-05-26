@@ -120,9 +120,12 @@ const routes = [
     path: '/resgister',
     name: 'Res',
     component: () => import('../views/RestroVew.vue')
+  },
+  {
+    path: '/notification',
+    name: 'noti',
+    component: () => import('../views/notification/NotifiView.vue')
   }
-  
-  
 ];
 
 const router = createRouter({

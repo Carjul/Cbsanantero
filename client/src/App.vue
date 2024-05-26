@@ -54,15 +54,16 @@
                 
               </div>
                
-
+              <router-link to="/notification"> 
               <button  v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'"  type="button" class="btn btn-primary position-relative">
                     <i class="fas fa-bell"></i>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                       99+
                       <span class="visually-hidden">Solicitud..</span>
+                    
                     </span>
                   </button>
-
+                </router-link>
 
             </div>
           </div>
