@@ -19,7 +19,7 @@ func GetPedirServicionegocio(c *fiber.Ctx) error {
 
 	busqueda, err := service.Find(context.TODO(), bson.M{"negocioId": id, "status": "Activo"})
 	if err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el servicio"})
 	}
 
 	defer busqueda.Close(context.Background())
@@ -28,7 +28,7 @@ func GetPedirServicionegocio(c *fiber.Ctx) error {
 
 	if err = busqueda.All(context.Background(), &servicios); err != nil {
 
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el servicio"})
 	}
 
 	return c.Status(fiber.StatusAccepted).JSON(servicios)
@@ -42,7 +42,7 @@ func GetPedirServicioClient(c *fiber.Ctx) error {
 
 	busqueda, err := service.Find(context.TODO(), bson.M{"customer_id":id, "status": "Activo"})
 	if err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el servicio"})
 	}
 
 	defer busqueda.Close(context.Background())
@@ -51,7 +51,7 @@ func GetPedirServicioClient(c *fiber.Ctx) error {
 
 	if err = busqueda.All(context.Background(), &servicios); err != nil {
 
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el servicio"})
 	}
 
 	return c.Status(fiber.StatusAccepted).JSON(servicios)
