@@ -1,23 +1,34 @@
 <template>
     <div class="container">
         <br>
- <!-- no toques este codigo  -->
 
-<div data-bs-toggle="modal" data-bs-target="#messageModal" class="shadow-lg p-3 mb-5 bg-body-tertiary rounded message">
-    <i class="fas fa-envelope message-icon"></i>
-    <div class="message-content">Alfredo Gonzales</div>
+
+
+  <div v-if="notificaciones.length === 0">
+    <p>No tienes notificaciones</p>
   </div>
+  <div v-else >
+    <div v-for="notificacion in notificaciones" :key="notificacion.id"  @click="cargarNotificacion(notificacion)" data-bs-toggle="modal" data-bs-target="#messageModal" class="shadow-lg p-3 mb-5 bg-body-tertiary rounded message">  
+  <div>
+    <div class="message-content">
+      <i :class="['fas', notificacion.revision ? 'message-icon fa-envelope' : 'fa-envelope-open']"></i>
+      <div class="message-content">{{ notificacion.nombre }}</div>
+    </div>
+  </div>
+</div>
+</div>
+
 
   <!-- Modal -->
   <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="messageModalLabel">Solicitud</h5>
+          <h5 class="modal-title" id="messageModalLabel">fecha {{ notificacion.hora }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
         </div>
         <div class="modal-body">
-          <p>Aquí puedes colocar el contenido completo del mensaje. Este es un ejemplo de cómo se vería un mensaje más largo y detallado.</p>
+          <p>{{ notificacion.description }}</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -31,6 +42,52 @@
 
    
 </template>
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      notificacion:{
+   
+  
+},
+      notificaciones: [],
+    };
+  },
+methods:{
+getNotificacion(){
+  let idc= localStorage.getItem('customerId');
+    axios.get(`${process.env.API}/pedirServicioc/${idc}`)
+      .then((response) => {
+        this.notificaciones = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+},
+cargarNotificacion(obj){
+this.notificacion= obj;
+if(obj.revision){
+axios.put(`${process.env.API}/ServicioStatus/${obj._id}`,{"revision":false})
+.then((response) => {
+        console.log(response.data);
+        this.getNotificacion();
+
+      })
+.catch((error) => {
+        console.log(error);
+      });
+}
+},
+},
+
+  mounted() {
+   this.getNotificacion();
+  },
+};
+
+</script>
 
 <style>
  .message {
