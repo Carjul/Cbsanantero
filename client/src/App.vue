@@ -55,11 +55,11 @@
               </div>
                
               <router-link to="/notification"> 
-              <button  v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'"  type="button" class="btn btn-primary position-relative">
+              <button  v-if="usuarioAutenticado && usuarioRol === 'Vendedor'"  type="button" class="btn btn-primary position-relative">
                     <i class="fas fa-bell"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      99+
-                      <span class="visually-hidden">Solicitud..</span>
+                    <span v-if="notificaciones.length > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      {{ notificaciones.length}}
+                     <!--  <span class="visually-hidden">Solicitud..</span> --><!--  -->
                     
                     </span>
                   </button>
@@ -141,7 +141,7 @@
                   <router-link @click="ocultarMenu" class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'" to="/admin">Admin</router-link>
                 </div>
              </a>
-              
+
               <div class="nav-item d-lg-none">
               <i   v-if="usuarioAutenticado && usuarioRol !== ''" @click="cerrarSesion()" class="fas fa-sign-out-alt">Salir</i> 
             </div>
@@ -237,8 +237,13 @@
 <script>
 
 import { ref, watchEffect } from 'vue'
-
+import axios from 'axios'
 export default {
+  data() {
+    return {
+      notificaciones: [],
+    };
+  },
   setup() {
     // Declara las variables reactivas usando ref()
     const usuarioAutenticado = ref(localStorage.getItem('usuarioAutenticado'));
@@ -270,11 +275,23 @@ export default {
   },
   created(){
    
-  
+  this.getNotificacion();
+  console.log(this.notificaciones)
   },
   
   
   methods: {
+    getNotificacion(){
+  let idc= localStorage.getItem('customerId');
+    axios.get(`${process.env.API}/pedirServicioc/${idc}`)
+      .then((response) => {
+        this.notificaciones = response.data.filter(e=> e.revision === true)
+        
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+},
     cerrarSesion() {
       // Limpiar la información de autenticación y del usuario
       localStorage.clear();
