@@ -15,25 +15,18 @@
           </div>
           <div class="col-lg-6 text-center text-lg-right">
             <div class="d-inline-flex align-items-center" id="res">
-              <a class="text-primary px-3" href="">
+              <a class="text-primary px-3" href="https://www.facebook.com/profile.php?id=100087514673618">
                 <i class="fab fa-facebook-f"></i>
               </a>
-              <a class="text-primary px-3" href="">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a class="text-primary px-3" href="">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-              <a class="text-primary px-3" href="">
+              <a class="text-primary px-3" href="https://www.instagram.com/_costabrisa/">
                 <i class="fab fa-instagram"></i>
               </a>
-              <a class="text-primary pl-3" href="">
-                <i class="fab fa-youtube"></i>
-              </a>
+             
 
              <!--  <a class="text-primary pl-3" href="">
                 <i class="fab fa-rr-bell"></i>
               </a> -->
+              
               <router-link class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'" to="/admin">Dashboard</router-link>
               
               <router-link class="text-primary pl-3" v-if="!usuarioAutenticado"  to="/login">Iniciar</router-link>
@@ -106,27 +99,29 @@
               <router-link @click="ocultarMenu" to="#" class="nav-item nav-link">
                Acerca de
               </router-link>
-              <a href="service.html" class="nav-item nav-link">
+           <!--    <a href="service.html" class="nav-item nav-link">
                Mapa turístico
-               </a>
+               </a> -->
                
-               <router-link @click="ocultarMenu" to="/tourn" class="nav-item nav-link">
-                   Tours
+               <router-link @click="ocultarMenu" to="/tranport" class="nav-item nav-link">
+                Transporte
                 </router-link>
 
               
               <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                <a  href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                  Servicios
                 </a>
 
                 <div class="dropdown-menu border-0 rounded-0 m-0">
-                  <router-link @click="ocultarMenu" to="/artes" class="dropdown-item">Atesanias</router-link>
-                  <router-link @click="ocultarMenu" to="/tranport" class="dropdown-item">Transporte</router-link>
-                  <router-link @click="ocultarMenu" to="/hospe" class="dropdown-item">Hospedaje</router-link>
-                  <router-link @click="ocultarMenu" to="/hotels" class="dropdown-item">Hoteles</router-link>
-                  <router-link @click="ocultarMenu" to="/bard" class="dropdown-item">Bares</router-link>
-                  <router-link @click="ocultarMenu" to="/recre" class="dropdown-item">Juegos y Recreación</router-link>
+                 <!--  <router-link @click="ocultarMenu" to="/artes" class="dropdown-item">Atesanias</router-link> -->
+                 <router-link @click="ocultarMenu" to="/hotels" class="dropdown-item">Zona Hotelera</router-link>
+<!--                   <router-link @click="ocultarMenu" to="/tranport" class="dropdown-item">Transporte</router-link>
+ -->              <!--  <router-link @click="ocultarMenu" to="/hospe" class="dropdown-item">Hospedaje</router-link> -->
+                 
+                  <router-link @click="ocultarMenu" to="/restaurantes" class="dropdown-item">Restaurantes</router-link>
+                  <!-- <router-link @click="ocultarMenu" to="/bard" class="dropdown-item">Bares</router-link> -->
+                  <!-- <router-link @click="ocultarMenu" to="/recre" class="dropdown-item">Juegos y Recreación</router-link> -->
                 </div>
               </div>
 

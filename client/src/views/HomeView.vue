@@ -14,7 +14,7 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img class="w-100"
-                            src="https://cdn.forbes.com.mx/2020/07/hoteles-Grand-Velas-Resorts-e1596047698604.jpg"
+                            src="https://i.pinimg.com/736x/2e/e0/65/2ee06566abc4d0cfc5ef608919fbe1e8.jpg"
                             alt="Image">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 900px;">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="carousel-item">
                         <img class="w-100"
-                            src="https://media.admagazine.com/photos/618a6ae690c4ec9a52ca12cd/master/w_1600%2Cc_limit/61423.jpg"
+                            src="https://i.pinimg.com/736x/63/d7/a3/63d7a3fbc7105ad21bbd015305f9d98f.jpg"
                             alt="Image">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 900px;">
@@ -123,14 +123,14 @@
                         <div
                             class="position-absolute h-100 top-0 bottom-0 left-0 right-0 d-flex align-items-center justify-content-center">
                             <img class="w-100 h-100"
-                                src="https://img.freepik.com/foto-gratis/impresionado-vistas-pueblo_329181-13895.jpg?t=st=1710033647~exp=1710037247~hmac=c4be828b8d71004a343a14f968684fa7525f7870fb8d0b12f9d121721c35095f&w=900"
+                                src="https://i.pinimg.com/736x/94/29/d0/9429d017040c47a6e29c4559e4526ba4.jpg "
                                 style="object-fit: cover;">
                         </div>
                     </div>
                     <div class="col-lg-6 pt-5 pb-lg-5">
                         <div class="about-text bg-white p-4 p-lg-5 my-lg-5">
                             <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;"> SOBRE NOSOTROS</h6>
-                            <h1 class="mb-3">Ofrecemos los mejores paquetes turísticos dentro de su presupuesto</h1>
+                            <h1 class="mb-3">Ofrecemos los mejores alojamientos en la Costa Caribe Colombiana.</h1>
                             <p>
 
                                 Desde la selección de destinos hasta la elección de alojamientos y actividades, estamos
@@ -140,12 +140,12 @@
                             <div class="row mb-4">
                                 <div class="col-6">
                                     <img class="img-fluid"
-                                        src="https://img.freepik.com/foto-gratis/mujer-disfrutando-paseo-cuestas-espalda-su-novio-cerca-mar_23-2147841615.jpg?w=900&t=st=1702656585~exp=1702657185~hmac=0c1117589156323fd46fc81049f4d13083a648cebcb6a4f26fbd79f8e4b512d3"
+                                        src="https://i.pinimg.com/736x/58/b7/82/58b782c63413df5977594a92a275ac04.jpg"
                                         alt="">
                                 </div>
                                 <div class="col-6">
                                     <img class="img-fluid"
-                                        src="https://img.freepik.com/foto-gratis/feliz-compania-hipster-amigos-viajando-mundo_285396-3649.jpg?w=900&t=st=1702656653~exp=1702657253~hmac=afe6d425190d9e33f086828f1257ee1c7d7f29847b5390deb4b0d946840e05ae"
+                                        src="https://i.pinimg.com/736x/17/bf/4a/17bf4a295745963b32a5009ee018e31d.jpg"
                                         alt="">
                                 </div>
                             </div>
@@ -216,44 +216,44 @@
         <div class="container-fluid py-5">
             <div class="container pt-5 pb-3">
                 <div class="text-center mb-3 pb-3">
-                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Destinos</h6>
-                    <h1>Explora tu destino</h1>
+                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Hoteles</h6>
+                    <h1>Destacados</h1>
                 </div>
                 <div class="row">
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="destination-item position-relative overflow-hidden mb-2">
                             <img class="img-fluid"
-                                src="https://img.freepik.com/foto-gratis/tipo-complejo-entretenimiento-popular-complejo-piscinas-parques-acuaticos-turquia-mas-5-millones-visitantes-al-ano-amara-dolce-vita-hotel-lujo-recurso-tekirova-kemer_146671-18728.jpg?t=st=1710034702~exp=1710038302~hmac=cf98140bc7bf5945dacd09e38db56e8065b2853d672d267049a58f645af1d6e8&w=900"
+                            style="width:500px;height:250px;"        src="https://i.pinimg.com/736x/63/d7/a3/63d7a3fbc7105ad21bbd015305f9d98f.jpg"
                                 alt="">
                             <a class="destination-overlay text-white text-decoration-none" href="">
-                                <h5 class="text-white">Los Amiguitos</h5>
-                                <span>100 Visitas</span>
+                                <h5 class="text-white">Hotel Dubai</h5>
+                                <span>San Antero</span>
                             </a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="destination-item position-relative overflow-hidden mb-2">
                             <img class="img-fluid"
-                                src="https://img.freepik.com/foto-gratis/piscina_74190-1977.jpg?t=st=1710034750~exp=1710038350~hmac=abc36cb247152aa1e609e9427a1d0b13f7d23bc07308f1229b11de2bba7e15c9&w=900"
+                            style="width:500px;height:250px;"      src="https://i.pinimg.com/736x/2e/e0/65/2ee06566abc4d0cfc5ef608919fbe1e8.jpg"
                                 alt="">
                             <a class="destination-overlay text-white text-decoration-none" href="">
-                                <h5 class="text-white">Robles</h5>
-                                <span>80 Visitas</span>
+                                <h5 class="text-white">Hotel Maria Mulata</h5>
+                                <span>San Antero</span>
                             </a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="destination-item position-relative overflow-hidden mb-2">
                             <img class="img-fluid"
-                                src="https://img.freepik.com/foto-gratis/piscina_74190-2109.jpg?t=st=1710034774~exp=1710038374~hmac=dde8a6f910141120b6154b404a8cabd7127e35c9ffb8ace7f6ca17b6d77f433b&w=900"
+                            style="width:500px;height:250px;"    src="https://i.pinimg.com/736x/74/2a/6b/742a6be53be5c8122476976f51fb56ef.jpg"
                                 alt="">
                             <a class="destination-overlay text-white text-decoration-none" href="">
-                                <h5 class="text-white">El Condor</h5>
-                                <span>100 Visitas</span>
+                                <h5 class="text-white">Hotel Perlayana</h5>
+                                <span>San Antero</span>
                             </a>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
+                    <!-- <div class="col-lg-4 col-md-6 mb-4">
                         <div class="destination-item position-relative overflow-hidden mb-2">
                             <img class="img-fluid"
                                 src="https://img.freepik.com/foto-gratis/piscina-playa-hotel-lujo-tipo-complejo-entretenimiento-amara-dolce-vita-hotel-lujo-recurso-tekirova-kemer-pavo_146671-18726.jpg?t=st=1710034827~exp=1710038427~hmac=f0c1f5ba02a73c299f6ec4abf2f74f267f5a9ea8940ec36d1b7808c818030600&w=900"
@@ -263,8 +263,8 @@
                                 <span>120 Visitas</span>
                             </a>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
+                    </div> -->
+                    <!-- <div class="col-lg-4 col-md-6 mb-4">
                         <div class="destination-item position-relative overflow-hidden mb-2">
                             <img class="img-fluid"
                                 src="https://img.freepik.com/foto-gratis/tipo-complejo-entretenimiento-popular-complejo-piscinas-parques-acuaticos-turquia-hotel-lujo-recurso_146671-18827.jpg?t=st=1710035820~exp=1710039420~hmac=758c1a330afa4df6e036a65708c4252b9b6e2d5b1670c726752740c59ca49bad&w=900"
@@ -274,8 +274,8 @@
                                 <span>300 Visitas</span>
                             </a>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
+                    </div> -->
+                    <!-- <div class="col-lg-4 col-md-6 mb-4">
                         <div class="destination-item position-relative overflow-hidden mb-2">
                             <img class="img-fluid"
                                 src="https://img.freepik.com/foto-gratis/hermosa-piscina-lujo-al-aire-libre-hotel-resort_74190-7433.jpg?t=st=1710034886~exp=1710038486~hmac=ec17208b54994f9a9ca75cf0f1315a49ea314572bcc4c57ef737aa1c103cc5f9&w=900"
@@ -285,7 +285,7 @@
                                 <span>200 Visitas</span>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -335,25 +335,71 @@
             <div class="container pt-6 pb-3">
 
                 <div class="text-center mb-3 pb-3">
-                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Favoritos</h6>
-                    <h1>Hoteles Destacados</h1>
+                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Nuestros</h6>
+                    <h1>Hoteles</h1>
                 </div>
                 <div class="row">
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="package-item bg-white mb-2">
                             <img class="img-fluid"
-                                src="https://img.freepik.com/foto-gratis/playa-sur-miami_649448-149.jpg?t=st=1709608813~exp=1709612413~hmac=d2f46ed1d625352c7213f1b79c6ff565da241c37ae75746dcd6dc50c455f8de6&w=1060"
+                                src="https://i.pinimg.com/736x/74/2a/6b/742a6be53be5c8122476976f51fb56ef.jpg"
                                 alt="">
                             <div class="p-4">
                                 <div class="d-flex justify-content-between mb-3">
                                     <small class="m-0"><i
-                                            class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                    <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3
-                                        days</small>
-                                    <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
+                                            class="fa fa-map-marker-alt text-primary mr-2"></i>San Antero</small>
+                                   
+                                    <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Perlayana</small>
                                 </div>
-                                <a class="h5 text-decoration-none" href="">Discover amazing places of the world with
-                                    us</a>
+                                <a class="h5 text-decoration-none" href="">El condominio cuenta con piscina, vigilancia privada..</a>
+                                <div class="border-top mt-4 pt-4">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
+                                            <small>(250)</small>
+                                        </h6>
+                                        <h5 class="m-0">$60.000</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="package-item bg-white mb-2">
+                            <img class="img-fluid"
+                                src="https://i.pinimg.com/736x/63/d7/a3/63d7a3fbc7105ad21bbd015305f9d98f.jpg"
+                                alt="">
+                            <div class="p-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <small class="m-0"><i
+                                            class="fa fa-map-marker-alt text-primary mr-2"></i>San Antero</small>
+                                   
+                                    <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Dubai</small>
+                                </div>
+                                <a class="h5 text-decoration-none" href="">Ofrece piscina al aire libre, jardín, terraza y restaurante..</a>
+                                <div class="border-top mt-4 pt-4">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
+                                            <small>(250)</small>
+                                        </h6>
+                                        <h5 class="m-0">$000</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="package-item bg-white mb-2">
+                            <img class="img-fluid"
+                                src="https://i.pinimg.com/736x/63/82/be/6382befaf24cf7e1902390695025e72d.jpg"
+                                alt="">
+                            <div class="p-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <small class="m-0"><i
+                                            class="fa fa-map-marker-alt text-primary mr-2"></i>San Antero</small>
+                                 
+                                    <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Camping Cispata</small>
+                                </div>
+                                <a class="h5 text-decoration-none" href="">Ofrece un hermoso mar, playa, sol y un bello paisaje de árboles..</a>
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
@@ -368,18 +414,16 @@
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="package-item bg-white mb-2">
                             <img class="img-fluid"
-                                src="https://img.freepik.com/foto-gratis/piscina_74190-2104.jpg?t=st=1709609578~exp=1709613178~hmac=d38e64428fe064f8e5919878b318781575be8f3225ac51b97b76d8b642bc84bf&w=900"
+                                src="https://i.pinimg.com/736x/f9/08/39/f90839c2030ab2ff4b06462c7485c82d.jpg"
                                 alt="">
                             <div class="p-4">
                                 <div class="d-flex justify-content-between mb-3">
                                     <small class="m-0"><i
-                                            class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                    <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3
-                                        days</small>
-                                    <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
+                                            class="fa fa-map-marker-alt text-primary mr-2"></i>San Antero</small>
+                                   
+                                    <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Apartahotel</small>
                                 </div>
-                                <a class="h5 text-decoration-none" href="">Discover amazing places of the world with
-                                    us</a>
+                                <a class="h5 text-decoration-none" href="">El hotel cuenta con piscina,servicio de Wi-Fi gratuito..</a>
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
@@ -394,18 +438,16 @@
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="package-item bg-white mb-2">
                             <img class="img-fluid"
-                                src="https://img.freepik.com/foto-gratis/camarero-feliz-sirviendo-comida-grupo-amigos-alegres-pub_637285-12525.jpg?t=st=1709609631~exp=1709613231~hmac=bdbd45d5b6ef93cac464beacd7ed4786b8b3ff807a8ff678c440b1cd59e9fc6e&w=900"
+                                src="https://i.pinimg.com/736x/37/f6/84/37f6841ad68cb94e29489076fae8e59c.jpg"
                                 alt="">
                             <div class="p-4">
                                 <div class="d-flex justify-content-between mb-3">
                                     <small class="m-0"><i
-                                            class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                    <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3
-                                        days</small>
-                                    <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
+                                            class="fa fa-map-marker-alt text-primary mr-2"></i>San Antero</small>
+                                   
+                                    <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Mono Cuco</small>
                                 </div>
-                                <a class="h5 text-decoration-none" href="">Discover amazing places of the world with
-                                    us</a>
+                                <a class="h5 text-decoration-none" href="">Ofrece alojamiento con salón compartido, estacionamiento..</a>
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
@@ -420,70 +462,16 @@
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="package-item bg-white mb-2">
                             <img class="img-fluid"
-                                src="https://img.freepik.com/foto-gratis/hamacas-sombrillas-puestas-cercas-piscina-grande_1203-192.jpg?t=st=1709609691~exp=1709613291~hmac=d75478a6a7d5de7842a54c929a7840087b3149c69bdeca1814cf9096db8cd267&w=900"
+                                src="https://i.pinimg.com/736x/58/a0/e8/58a0e8250890b1cc253525f720c12587.jpg"
                                 alt="">
                             <div class="p-4">
                                 <div class="d-flex justify-content-between mb-3">
                                     <small class="m-0"><i
-                                            class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                    <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3
-                                        days</small>
-                                    <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
+                                            class="fa fa-map-marker-alt text-primary mr-2"></i>San Antero</small>
+                                 
+                                    <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>Uvita de Playa</small>
                                 </div>
-                                <a class="h5 text-decoration-none" href="">Discover amazing places of the world with
-                                    us</a>
-                                <div class="border-top mt-4 pt-4">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small>
-                                        </h6>
-                                        <h5 class="m-0">$350</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="package-item bg-white mb-2">
-                            <img class="img-fluid"
-                                src="https://img.freepik.com/foto-gratis/moderna-habitacion-hotel-lujo-ropa-cama-comoda-generada-ia_188544-17078.jpg?t=st=1709609745~exp=1709613345~hmac=1bed5e2e7d6bc27363d75d474d208e009643ef1fdb07cc556fb7f294829f0265&w=1060"
-                                alt="">
-                            <div class="p-4">
-                                <div class="d-flex justify-content-between mb-3">
-                                    <small class="m-0"><i
-                                            class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                    <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3
-                                        days</small>
-                                    <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                                </div>
-                                <a class="h5 text-decoration-none" href="">Discover amazing places of the world with
-                                    us</a>
-                                <div class="border-top mt-4 pt-4">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small>
-                                        </h6>
-                                        <h5 class="m-0">$350</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="package-item bg-white mb-2">
-                            <img class="img-fluid"
-                                src="https://img.freepik.com/foto-gratis/feliz-ciudad-turistica-mapa_329181-477.jpg?t=st=1709609865~exp=1709613465~hmac=595756046e0cb17690213a024ed0420a696a95f3ee07521abe0974abc501337e&w=900"
-                                alt="">
-                            <div class="p-4">
-                                <div class="d-flex justify-content-between mb-3">
-                                    <small class="m-0"><i
-                                            class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                    <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3
-                                        days</small>
-                                    <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                                </div>
-                                <a class="h5 text-decoration-none" href="">Discover amazing places of the world with
-                                    us</a>
+                                <a class="h5 text-decoration-none" href="">El hotel ofrece cómodas habitaciones con aire..</a>
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
@@ -665,25 +653,23 @@
         </div>
     </div>
     Testimonial End -->
-
-
         <!-- Blog Start -->
         <div class="container-fluid py-6">
             <div class="container pt-6 pb-3">
                 <div class="text-center mb-3 pb-3">
-                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Hospedajes</h6>
-                    <h1>Reconocidos</h1>
+                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Nuestros</h6>
+                    <h1>Restaurantes</h1>
                 </div>
                 <div class="row pb-3">
                     <div class="col-lg-4 col-md-6 mb-4 pb-2">
                         <div class="blog-item">
                             <div class="position-relative">
                                 <img class="img-fluid w-100"
-                                    src="https://img.freepik.com/foto-gratis/puente-madera-isla-koh-nangyuan-surat-thani-tailandia_335224-1082.jpg?t=st=1710036618~exp=1710040218~hmac=9f4e2032547034e7b05926a75d8815eb349d8822d9e78206e9d9cbdcc7648063&w=900"
+                                style="width:500px;height:250px;"    src="https://i.pinimg.com/736x/c7/1d/75/c71d754462be0ebea7cf040d8836832f.jpg"
                                     alt="">
                                 <div class="blog-date">
-                                    <h6 class="font-weight-bold mb-n1">01</h6>
-                                    <small class="text-white text-uppercase">Jan</small>
+                                    <h6 class="font-weight-bold mb-n1">Costa</h6>
+                                    <small class="text-white text-uppercase">Brisa</small>
                                 </div>
                             </div>
                             <div class="bg-white p-4">
@@ -692,8 +678,7 @@
                                 <span class="text-primary px-2">|</span> -->
                                     <!--  <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a> -->
                                 </div>
-                                <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo
-                                    diam amet</a>
+                                <a class="h5 m-0 text-decoration-none" href="">Restaurante Cangrejo Azul</a>
                             </div>
                         </div>
                     </div>
@@ -701,11 +686,11 @@
                         <div class="blog-item">
                             <div class="position-relative">
                                 <img class="img-fluid w-100"
-                                    src="https://img.freepik.com/foto-gratis/popular-complejo-turistico-amara-dolce-vita-luxury-hotel-piscinas-parques-acuaticos-area-recreativa-lo-largo-costa-mar-turquia-al-atardecer-tekirova-kemer_146671-18752.jpg?t=st=1710036700~exp=1710040300~hmac=9276d3cf4c950d03c95f82eb252269d583643bb055b50ef5115a35315d2ad0b5&w=900"
+                                style="width:500px;height:250px;"  src="https://i.pinimg.com/736x/f4/59/ee/f459ee1e439f4473743a963598bcdc72.jpg"
                                     alt="">
                                 <div class="blog-date">
-                                    <h6 class="font-weight-bold mb-n1">01</h6>
-                                    <small class="text-white text-uppercase">Jan</small>
+                                    <h6 class="font-weight-bold mb-n1">Costa</h6>
+                                    <small class="text-white text-uppercase">Brisa</small>
                                 </div>
                             </div>
                             <div class="bg-white p-4">
@@ -714,8 +699,7 @@
                                 <span class="text-primary px-2">|</span>
                                 <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a> -->
                                 </div>
-                                <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo
-                                    diam amet</a>
+                                <a class="h5 m-0 text-decoration-none" href="">Restaurante Cangrejo Azul</a>
                             </div>
                         </div>
                     </div>
@@ -723,11 +707,11 @@
                         <div class="blog-item">
                             <div class="position-relative">
                                 <img class="img-fluid w-100"
-                                    src="https://img.freepik.com/foto-gratis/ocio-asiatico-joven-hermoso-mujer-retrato-relaja-sonrisa-feliz-alrededor-piscina-centro-turistico-hotel_74190-8755.jpg?t=st=1710036726~exp=1710040326~hmac=1dfe9304e527e942a87f3b823d0e21e011118f0059af0ac77e381d2646bc12d6&w=900"
+                                style="width:500px;height:250px;"   src="https://i.pinimg.com/736x/20/ff/08/20ff08999c08218b3dc5e92d8b06c61b.jpg"
                                     alt="">
                                 <div class="blog-date">
-                                    <h6 class="font-weight-bold mb-n1">01</h6>
-                                    <small class="text-white text-uppercase">Jan</small>
+                                    <h6 class="font-weight-bold mb-n1">Costa</h6>
+                                    <small class="text-white text-uppercase">Brisa</small>
                                 </div>
                             </div>
                             <div class="bg-white p-4">
@@ -736,8 +720,7 @@
                                 <span class="text-primary px-2">|</span>
                                 <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a> -->
                                 </div>
-                                <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo
-                                    diam amet</a>
+                                <a class="h5 m-0 text-decoration-none" href="">Restaurante Cangrejo Azul</a>
                             </div>
                         </div>
                     </div>

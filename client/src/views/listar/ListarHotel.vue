@@ -8,7 +8,7 @@
       </nav>
 
       <section class="content">
-        <!-- Panel de crear negocio -->
+        <!-- Panel de crear hotel -->
         <div class="left-content">
           <div class="card">
             <div class="card-body">
@@ -41,25 +41,34 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form @submit.prevent="crearHotel">
-                    <div class="form-group">
+                  <form @submit.prevent="crearHotel" class="row">
+                    <div class="form-group col-md-6">
                       <label for="nombreHotel">Nombre:</label>
                       <input type="text" v-model="nuevoHotel.name" class="form-control" id="nombreHotel" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
+                      <label for="descriptionHotel">Descripcion:</label>
+                      <input type="text" v-model="nuevoHotel.description" class="form-control" id="descriptionHotel" required>
+                    </div>
+                    <div class="form-group col-md-6">
                       <label for="direccionHotel">Dirección:</label>
                       <input type="text" v-model="nuevoHotel.address" class="form-control" id="direccionHotel" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                       <label for="imagenHotel">Imagen:</label>
                       <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile' id="imagenHotel" ref="fileCrear" type="file">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                       <label for="telefonoHotel">Teléfono:</label>
                       <input type="text" v-model="nuevoHotel.phone" class="form-control" id="telefonoHotel" required>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Crear Hotel</button>
+                    <div class="form-group col-md-6">
+                      <label for="precioHotel">Precio:</label>
+                      <input type="text" v-model="nuevoHotel.price" class="form-control" id="precioHotel" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <button type="submit" class="btn btn-primary">Crear Hotel</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -67,9 +76,9 @@
           </div>
         </div>
 
-        <!-- Todos los negocios -->
+        <!-- Todos los hoteles -->
         <div class="right-content">
-          <strong>NEGOCIO ACTUAL</strong>
+          <strong>HOTEL ACTUAL</strong>
           <div class="row">
             <div v-for="hotel in hoteles" :key="hotel._id" class="col-md-12 mb-6">
               <div class="card">
@@ -78,6 +87,7 @@
                   <h5 class="card-title">{{ hotel.name }}</h5>
                   <p class="card-text">Dirección: {{ hotel.address }}</p>
                   <p class="card-text">Descripción: {{ hotel.description }}</p>
+                  <p>{{hotel.price}}</p>
                   <p class="card-text">Teléfono: {{ hotel.phone }}</p>
 
                   <button class="btn btn-danger" @click="eliminarHotel(hotel._id)">Eliminar</button>
@@ -89,44 +99,52 @@
         </div>
 
         <!-- Modal Actualizar -->
-       <!-- Modal Actualizar -->
-<div ref="modalActualizar" class="modal fade" id="modalActualizar" tabindex="-1" role="dialog" aria-labelledby="modalActualizarLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalActualizarLabel">Actualizar Hotel</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModalActualizar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form @submit.prevent="actualizarHotel">
-          <div class="form-group">
-            <label for="nombreHotelActualizar">Nombre:</label>
-            <input type="text" v-model="hotelActualizado.name" class="form-control" id="nombreHotelActualizar" required>
+        <div ref="modalActualizar" class="modal fade" id="modalActualizar" tabindex="-1" role="dialog" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalActualizarLabel">Actualizar Hotel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModalActualizar">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="actualizarHotel" class="row">
+                  <div class="form-group col-md-6">
+                    <label for="nombreHotelActualizar">Nombre:</label>
+                    <input type="text" v-model="hotelActualizado.name" class="form-control" id="nombreHotelActualizar" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="descriptionHotelActualizar">Descripción:</label>
+                    <input type="text" v-model="hotelActualizado.description" class="form-control" id="descriptionHotelActualizar" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="direccionHotelActualizar">Dirección:</label>
+                    <input type="text" v-model="hotelActualizado.address" class="form-control" id="direccionHotelActualizar" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="imagenHotelActualizar">Imagen:</label>
+                    <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar' id="imagenHotelActualizar" ref="fileActualizar" type="file">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="telefonoHotelActualizar">Teléfono:</label>
+                    <input type="text" v-model="hotelActualizado.phone" class="form-control" id="telefonoHotelActualizar" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="precioHotelActualizar">Precio:</label>
+                    <input type="text" v-model="hotelActualizado.price" class="form-control" id="precioHotelActualizar" required>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="direccionHotelActualizar">Dirección:</label>
-            <input type="text" v-model="hotelActualizado.address" class="form-control" id="direccionHotelActualizar" required>
-          </div>
-          <div class="form-group">
-            <label for="imagenHotelActualizar">Imagen:</label>
-            <input class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFileActualizar' id="imagenHotelActualizar" ref="fileActualizar" type="file">
-          </div>
-          <div class="form-group">
-            <label for="telefonoHotelActualizar">Teléfono:</label>
-            <input type="text" v-model="hotelActualizado.phone" class="form-control" id="telefonoHotelActualizar" required>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
-      </div>
-    </div>
-  </div>
-</div>
+        </div>
       </section>
     </main>
   </div>
@@ -137,158 +155,158 @@
 import axios from 'axios';
 
 export default {
-data() {
-  return {
-    hoteles: [],
-    hotelActualizado: {
-      _id: null,
-      name: '',
-      address: '',
-      image: '',
-      phone: '',
-    },
-    file:null,
-    fileA:null,
-    nuevoHotel: {
-      name: '',
-      address: '',
-      image: '',
-      phone: '',
-      customer_id: '',
-    },
-  };
-},
-mounted() {
-  this.fetchHoteles();
-},
-methods: {
-  async fetchHoteles() {
-    let id = localStorage.getItem('customerId');
-    try {
-      const response = await axios.get(`${process.env.API}/Hotel`);
-      let Filtro = response.data.filter((customer) => customer._id === id);
-      this.hoteles = Filtro || [];
-    } catch (error) {
-      console.error('Error fetching hoteles:', error);
-    }
-  },
-  async eliminarHotel(id) {
-    try {
-      await axios.delete(`${process.env.API}/Hotel/${id}`);
-      this.fetchHoteles();
-    } catch (error) {
-      console.error('Error deleting hotel:', error);
-    }
-  },
-  
-  enviarIdGaleria(id, cid) {
-localStorage.setItem('negocioId', id);
-localStorage.setItem('dueñoId', cid);
-this.$router.push({ path: '/artegaleria' });
-},
-
-  abrirModalActualizar(hotel) {
-    this.hotelActualizado = { ...hotel };
-    const modalElement = this.$refs.modalActualizar;
-    if (modalElement) {
-      modalElement.classList.add('show');
-      modalElement.style.display = 'block';
-    }
-  },
-  cerrarModalActualizar() {
-    const modalElement = this.$refs.modalActualizar;
-    if (modalElement) {
-      modalElement.classList.remove('show');
-      modalElement.style.display = 'none';
-    }
-  },
-  abrirModalCrear() {
-    const modalElement = this.$refs.modalCrear;
-    if (modalElement) {
-      modalElement.classList.add('show');
-      modalElement.style.display = 'block';
-    }
-  },
-  cerrarModalCrear() {
-    const modalElement = this.$refs.modalCrear;
-    if (modalElement) {
-      modalElement.classList.remove('show');
-      modalElement.style.display = 'none';
-    }
-  },
-  async crearHotel() {
-    let id = localStorage.getItem('customerId');
-    try {
-      if (id) {
-        this.nuevoHotel.customer_id = id;
-      var formData = new FormData();
-      formData.append('image', this.file);
-      formData.append('name', this.nuevoHotel.name);
-      formData.append('address', this.nuevoHotel.address);
-      formData.append('phone', this.nuevoHotel.phone);
-      formData.append('customer_id', this.nuevoHotel.customer_id);
-      const response = await axios.post(`${process.env.API}/Hotel`, formData);
-      
-      console.log(response);
-
-      // Reset the form and close the modal
-      this.nuevoHotel = {
+  data() {
+    return {
+      hoteles: [],
+      hotelActualizado: {
+        _id: null,
         name: '',
+        description: '',
         address: '',
         image: '',
         phone: '',
+        price: '',
+      },
+      file: null,
+      fileActualizar: null,
+      nuevoHotel: {
+        name: '',
+        description: '',
+        address: '',
+        image: '',
+        phone: '',
+        price: '',
         customer_id: '',
-      };
-
-      // Close the modal
-      this.cerrarModalCrear();
-      this.fetchHoteles();
-    }
-    } catch (error) {
-      console.error('Error creating Hotel:', error);
-    }
+      },
+    };
   },
-  async actualizarHotel() {
-    if (this.fileA){
-      var formData = new FormData();
-      formData.append('name', this.hotelActualizado.name);
-      formData.append('address', this.hotelActualizado.address);
-      formData.append('phone', this.hotelActualizado.phone);
-      formData.append('customer_id', this.hotelActualizado.customer_id);
-      formData.append('imagen', this.fileA);
-      formData.append('image', "");
-      const response = await axios.put(`${process.env.API}/Hotel/${this.hotelActualizado._id}`, formData);
-      console.log(response);
-      // Si la solicitud se realizó con éxito, actualizamos la lista de hoteles
-      this.fetchHoteles();
-      this.cerrarModalActualizar();
-      this.fileA = null;
-    }else{
+  async mounted() {
+    await this.fetchHoteles();
+  },
+  methods: {
+    async fetchHoteles() {
+      let id = localStorage.getItem('customerId');
+      try {
+        const response = await axios.get(`${process.env.API}/Hotel`);
+        response.data ? this.hoteles = response.data.filter((e) => e.customer_id === id) : [];
+      } catch (error) {
+        console.error('Error fetching hoteles:', error);
+      }
+    },
+    async eliminarHotel(id) {
+      try {
+        await axios.delete(`${process.env.API}/Hotel/${id}`);
+        this.fetchHoteles();
+      } catch (error) {
+        console.error('Error deleting hotel:', error);
+      }
+    },
+    abrirModalActualizar(hotel) {
+      this.hotelActualizado = { ...hotel };
+      const modalElement = this.$refs.modalActualizar;
+      if (modalElement) {
+        modalElement.classList.add('show');
+        modalElement.style.display = 'block';
+      }
+    },
+    cerrarModalActualizar() {
+      const modalElement = this.$refs.modalActualizar;
+      if (modalElement) {
+        modalElement.classList.remove('show');
+        modalElement.style.display = 'none';
+      }
+    },
+    abrirModalCrear() {
+      const modalElement = this.$refs.modalCrear;
+      if (modalElement) {
+        modalElement.classList.add('show');
+        modalElement.style.display = 'block';
+      }
+    },
+    cerrarModalCrear() {
+      const modalElement = this.$refs.modalCrear;
+      if (modalElement) {
+        modalElement.classList.remove('show');
+        modalElement.style.display = 'none';
+      }
+    },
+    async crearHotel() {
+      let id = localStorage.getItem('customerId');
+      try {
+        if (id) {
+          this.nuevoHotel.customer_id = id;
+          const formData = new FormData();
+          formData.append('image', this.file);
+          formData.append('name', this.nuevoHotel.name);
+          formData.append('description', this.nuevoHotel.description);
+          formData.append('address', this.nuevoHotel.address);
+          formData.append('phone', this.nuevoHotel.phone);
+          formData.append('price', this.nuevoHotel.price);
+          formData.append('customer_id', this.nuevoHotel.customer_id);
+          const response = await axios.post(`${process.env.API}/Hotel`, formData);
+        
+          console.log(response);
 
-    
-  try {
-    const response = await axios.put(`${process.env.API}/Hotel/${this.hotelActualizado._id}`, this.hotelActualizado);
-    console.log(response);
-    // Si la solicitud se realizó con éxito, actualizamos la lista de hoteles
-    this.fetchHoteles();
-    // Cerramos el modal de actualización
-    this.cerrarModalActualizar();
-  } catch (error) {
-    console.error('Error updating Hotel:', error);
-    // Aquí puedes agregar cualquier lógica adicional para manejar el error, como mostrar un mensaje de error al usuario.
-  }
-    }  
-},
+          // Reset the form and close the modal
+          this.nuevoHotel = {
+            name: '',
+            description: '',
+            address: '',
+            image: '',
+            phone: '',
+            price: '',
+            customer_id: '',
+          };
 
-},
+          // Close the modal
+          this.cerrarModalCrear();
+          this.fetchHoteles();
+        }
+      } catch (error) {
+        console.error('Error creating Hotel:', error);
+      }
+    },
+    async actualizarHotel() {
+      if (this.fileActualizar) {
+        const formData = new FormData();
+        formData.append('name', this.hotelActualizado.name);
+        formData.append('description', this.hotelActualizado.description);
+        formData.append('address', this.hotelActualizado.address);
+        formData.append('phone', this.hotelActualizado.phone);
+        formData.append('price', this.hotelActualizado.price);
+        formData.append('customer_id', this.hotelActualizado.customer_id);
+        formData.append('imagen', this.fileActualizar);
+        formData.append('image', "");
+        try {
+          const response = await axios.put(`${process.env.API}/Hotel/${this.hotelActualizado._id}`, formData);
+          console.log(response);
+          this.fetchHoteles();
+          this.cerrarModalActualizar();
+          this.fileActualizar = null;
+          
+        } catch (error) {
+          console.error('Error updating Hotel:', error);
+          console.log(this.actualizarHotel)
+        }
+      } else {
+        try {
+          const response = await axios.put(`${process.env.API}/Hotel/${this.hotelActualizado._id}`, this.hotelActualizado);
+          console.log(response);
+          this.fetchHoteles();
+          // Close the modal
+          this.cerrarModalActualizar();
+        } catch (error) {
+          console.error('Error updating Hotel:', error);
+        }
+      }
+    },
     uploadFile(event) {
       this.file = event.target.files[0];
     },
     uploadFileActualizar(event) {
       this.fileActualizar = event.target.files[0];
     },
-
-
+  },
 };
 </script>
 

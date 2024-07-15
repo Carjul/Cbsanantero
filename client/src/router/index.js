@@ -44,12 +44,6 @@ const routes = [
     name: 'recrat',
     component: () => import('../views/RecreaView.vue'),
   },
-  
-  /*   path: '/restau',
-    name: 'rest',
-    component: () => import('../views/RestourView.vue'),
-  }, */
-  
   {
     path: '/tourn',
     name: 'tures',
@@ -59,6 +53,11 @@ const routes = [
     path: '/tranport',
     name: 'transp',
     component: () => import('../views/TransporView.vue'),
+  },
+  {
+    path: '/restaurantes',
+    name: 'res',
+    component: () => import('../views/RestauranteView.vue'),
   },
   {
     path: '/admin',
@@ -91,8 +90,8 @@ const routes = [
     component: () => import('../views/listar/ListarHotel.vue'),
   },
   {
-    path: '/listaTrasporte',
-    name: 'Transp',
+    path: '/listarTrasporte',
+    name: 'ta',
     component: () => import('../views/listar/ListarTrasporte.vue'),
   },
   

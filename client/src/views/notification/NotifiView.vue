@@ -38,14 +38,14 @@
             <td class="title">Personas:</td>
             <td>{{ notificacion.person }}</td>
         </tr>
-        <tr>
-            <td class="title">Fecha de entrada:</td>
-            <td>{{ notificacion.entrada }}</td>
-        </tr>
-        <tr>
-            <td class="title">Fecha salida:</td>
-            <td>{{ notificacion.salida }}</td>
-        </tr>
+        <tr v-if="notificacion.TipoNegocio !== 'Restaurantes'">
+        <td class="title">Fecha de entrada:</td>
+        <td>{{ notificacion.entrada }}</td>
+    </tr>
+    <tr v-if="notificacion.TipoNegocio !== 'Restaurantes'">
+        <td class="title">Fecha salida:</td>
+        <td>{{ notificacion.salida }}</td>
+    </tr>
         <tr>
             <td class="title">Correo:</td>
             <td>{{ notificacion.correo }}</td>
@@ -80,6 +80,7 @@ export default {
   
 },
       notificaciones: [],
+      tipoNegocioUsuario: '',
     };
   },
 methods:{
@@ -88,6 +89,7 @@ getNotificacion(){
     axios.get(`${process.env.API}/pedirServicioc/${idc}`)
       .then((response) => {
         this.notificaciones = response.data;
+        
       })
       .catch((error) => {
         console.log(error);
@@ -100,6 +102,7 @@ axios.put(`${process.env.API}/ServicioStatus/${obj._id}`,{"revision":false})
 .then((response) => {
         console.log(response.data);
         this.getNotificacion();
+        
 
       })
 .catch((error) => {
@@ -111,6 +114,7 @@ axios.put(`${process.env.API}/ServicioStatus/${obj._id}`,{"revision":false})
 
   mounted() {
    this.getNotificacion();
+   this.tipoNegocioUsuario = localStorage.getItem('tipoNegocioUsuario'); 
   },
 };
 

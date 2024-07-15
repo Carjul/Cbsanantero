@@ -19,7 +19,6 @@ type ClientePeticion struct {
 	ClienteId   string `json:"clienteId,omitempty" bson:"clienteId,omitempty"`
 	NegocioId   string `json:"negocioId,omitempty" bson:"negocioId,omitempty"`
 	CustomerID  string `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
-
 }
 
 type Artesanias struct {
@@ -78,15 +77,16 @@ type Hospedaje struct {
 }
 
 type Hoteles struct {
-	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name       string             `json:"name,omitempty" bson:"name,omitempty"`
-	Address    string             `json:"address,omitempty" bson:"address,omitempty"`
-	Image      string             `json:"image,omitempty" bson:"image,omitempty"`
-	Email      string             `json:"email,omitempty" bson:"email,omitempty"`
-	Phone      string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Price      string             `json:"price,omitempty" bson:"price,omitempty"`
-	Status     string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
+	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name        string             `json:"name,omitempty" bson:"name,omitempty"`
+	Description string             `json:"description,omitempty" bson:"description,omitempty"`
+	Address     string             `json:"address,omitempty" bson:"address,omitempty"`
+	Image       string             `json:"image,omitempty" bson:"image,omitempty"`
+	Email       string             `json:"email,omitempty" bson:"email,omitempty"`
+	Phone       string             `json:"phone,omitempty" bson:"phone,omitempty"`
+	Price       string             `json:"price,omitempty" bson:"price,omitempty"`
+	Status      string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 type Recreacion struct {
@@ -104,11 +104,12 @@ type Recreacion struct {
 type Restaurante struct {
 	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	Name        string             `json:"name,omitempty" bson:"name,omitempty"`
+	Description string             `json:"description,omitempty" bson:"description,omitempty"`
 	Address     string             `json:"address,omitempty" bson:"address,omitempty"`
 	Image       string             `json:"image,omitempty" bson:"image,omitempty"`
+	Price       string             `json:"price,omitempty" bson:"price,omitempty"`
 	Email       string             `json:"email,omitempty" bson:"email,omitempty"`
 	Phone       string             `json:"phone,omitempty" bson:"phone,omitempty"`
-	Description string             `json:"description,omitempty" bson:"description,omitempty"`
 	Status      string             `json:"status,omitempty" bson:"status,omitempty"`
 	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
@@ -126,12 +127,14 @@ type Tour struct {
 }
 
 type Trasporte struct {
-	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Tipo       string             `json:"tipo,omitempty" bson:"tipo,omitempty"`
-	Image      string             `json:"image,omitempty" bson:"image,omitempty"`
-	Placa      string             `json:"placa,omitempty" bson:"placa,omitempty"`
-	Conductor  string             `json:"conductor,omitempty" bson:"conductor,omitempty"`
-	Celular    string             `json:"celular,omitempty" bson:"celular,omitempty"`
-	Status     string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
+	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name        string             `json:"name,omitempty" bson:"name,omitempty"`
+	Description string             `json:"description,omitempty" bson:"description,omitempty"`
+	Address     string             `json:"address,omitempty" bson:"address,omitempty"`
+	Image       string             `json:"image,omitempty" bson:"image,omitempty"`
+	Email       string             `json:"email,omitempty" bson:"email,omitempty"`
+	Phone       string             `json:"phone,omitempty" bson:"phone,omitempty"`
+	Price       string             `json:"price,omitempty" bson:"price,omitempty"`
+	Status      string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }

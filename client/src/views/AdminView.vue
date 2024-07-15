@@ -19,7 +19,7 @@ import Ar from "@/views/listar/ListarArtesanias.vue";
 import Ba from "@/views/listar/ListarBar.vue";
 import Ho from "@/views/listar/ListarHospedaje.vue";
 import Te from "@/views/listar/ListarHotel.vue";
-import Tra from "@/views/listar/ListarTrasporte.vue"; // Actualizamos la importación
+import Ta from "@/views/listar/ListarTrasporte.vue";
 import Jue from "@/views/listar/ListarJuegos.vue";
 import Tures from "@/views/listar/ListarTures.vue";
 import Rest from "@/views/listar/ListarRestaurant.vue";
@@ -31,7 +31,7 @@ export default {
     Ba,
     Ho,
     Te, 
-    Tra, // Actualizamos la lista de componentes
+    Ta, 
     Jue,
     Tures,
     Rest
@@ -52,7 +52,7 @@ export default {
       else if (this.usuarioAutenticado && this.tipo_negocio === 'Juegos') return 'Jue';
       else if (this.usuarioAutenticado && this.tipo_negocio === 'Restaurantes') return 'Rest';
       else if (this.usuarioAutenticado && this.tipo_negocio === 'Tour') return 'Tures';
-      else if (this.usuarioAutenticado && this.tipo_negocio === 'Transp') return 'Tra'; // Actualizamos el tipo de negocio
+      else if (this.usuarioAutenticado && this.tipo_negocio === 'Transporte') return 'Ta'; // Actualizamos el tipo de negocio
       else if (this.usuarioAutenticado && this.usuarioRol === 'Admin') return 'Us';
       else return null;
     },
