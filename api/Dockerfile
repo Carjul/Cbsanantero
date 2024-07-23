@@ -7,7 +7,7 @@ WORKDIR /go/src/app
 COPY . .
 
 
-RUN go install github.com/cosmtrek/air@latest
+RUN go install github.com/air-verse/air@latest
 RUN go mod tidy
 
 
