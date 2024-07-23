@@ -591,7 +591,7 @@
                         </div>
                         <p class="text-white">Dedica tus mañanas a relajarte en las hermosas playas.
                             Puedes disfrutar del sol, leer un buen libro o simplemente descansar bajo una sombrilla.
-                            La Costa Caribe, es conocida por sus majestuosas playas, así que aprovecha al máximo este paraíso
+                            La <b>Costa Caribe,</b> es conocida por sus majestuosas playas, así que aprovecha al máximo este paraíso
                             tropical.</p>
                         <ul class="list-inline text-white m-0">
                             <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Playas</li>
