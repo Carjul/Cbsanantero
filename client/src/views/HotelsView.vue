@@ -18,7 +18,6 @@
             <hr>
             <p class="h3 text-decoration-none">{{ hotel.name }}</p>
             <hr>
-            <!-- <p class="h5 text-decoration-none">{{ hotel.description }}</p> -->
             <p class="card-text"></p>
             <div class="d-flex justify-content-between">
               <h5 class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>{{ hotel.address }}</h5>
@@ -26,9 +25,7 @@
             </div>
             <hr>
             <div v-if="customerRol === null">
-              <router-link to="/resgister">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal">Solicitar servicio</button>
-              </router-link>
+              <button class="btn btn-primary" @click="confirmarRegistro">Solicitar servicio</button>
             </div>
             <div v-if="customerRol === 'Cliente'">
               <button class="btn btn-primary" data-toggle="modal" data-target="#solicitudModal" @click="enviarcid(hotel.customer_id, hotel._id)">Obtener Servicio</button>
@@ -42,13 +39,11 @@
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="solicitudModalLabel">Solicitar Servicio</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal"></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="cerrarModal">X</button>
           </div>
           <div class="modal-body">
-            <b>
-              <p>Creando servicio:</p>
-            </b>
-            <form>
+           
+            <form @submit.prevent="submitForm">
               <div class="form-group">
                 <label for="nombre">Nombres:</label>
                 <input type="text" class="form-control" id="nombre" placeholder="Describa nombre y apellido" v-model="formData.nombre">
@@ -77,7 +72,8 @@
                 <label for="salida">Salida:</label>
                 <input type="date" class="form-control" id="salida" v-model="formData.salida" required>
               </div>
-              <button type="button" class="btn btn-success" @click="submitForm">Solicitar</button>
+              <button type="submit" class="btn btn-success">Solicitar</button>
+              <button type="button" class="btn btn-secondary" @click="cerrarModal">Cerrar</button>
             </form>
           </div>
         </div>
@@ -88,6 +84,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
   data() {
@@ -139,6 +136,17 @@ export default {
         this.formData.person = '';
         this.formData.entrada = '';
         this.formData.salida = '';
+        
+        // Mostrar la alerta de éxito
+        await Swal.fire({
+        title: "¡Bien hecho!",
+        text: "¡Has enviado la solicitud con éxito!",
+        icon: "success"
+      });
+       
+         // Recargar la página después de enviar con éxito
+      window.location.reload();
+        
       } catch (error) {
         console.error('Error al enviar la solicitud', error);
       }
@@ -152,9 +160,23 @@ export default {
       this.formData.customer_id = cid;
       this.formData.negocioId = id;
     },
-    closeModal() {
+    confirmarRegistro() {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Si desea solicitar un servicio, debe registrarse.",
+        footer: '<a href="https://api.whatsapp.com/send?phone=573125637781&text=Hola%2C%20me%20gustar%C3%ADa%20tomar%20un%20servicio%20desde%20la%20plataforma%20COSTA%20BRISA.">Why do I have this issue?</a>'
+      }).then(() => {
+        this.$router.push({
+          path: '/resgister',
+          name: 'Res',
+          component: () => import('../views/RestroVew.vue') // Ajusta la ruta y componente según tu estructura
+        });
+      });
+    },
+    cerrarModal() {
+      // Limpiar datos del formulario si es necesario
       this.formData = {
-        _id: null,
         nombre: '',
         celular: '',
         correo: '',
@@ -162,12 +184,26 @@ export default {
         person: '',
         entrada: '',
         salida: '',
-        customerId: null,
+        clienteId: null,
+        negocioId: null,
+        customer_id: null,
       };
+      // Cerrar el modal de Bootstrap
+      const modal = document.getElementById('solicitudModal');
+      if (modal) {
+        modal.classList.remove('show');
+        modal.style.display = 'none';
+        const modalBackdrop = document.getElementsByClassName('modal-backdrop');
+        document.body.removeChild(modalBackdrop[0]);
+      }
     }
   },
 };
 </script>
+
+
+
+
 
 
 <style scoped>

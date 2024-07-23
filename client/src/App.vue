@@ -27,7 +27,7 @@
                 <i class="fab fa-rr-bell"></i>
               </a> -->
               
-              <router-link class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'" to="/admin">Dashboard</router-link>
+              <router-link class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'" to="/admin">Administrador</router-link>
               
               <router-link class="text-primary pl-3" v-if="!usuarioAutenticado"  to="/login">Iniciar</router-link>
               <div  class="nav-item nav-link">
@@ -83,6 +83,20 @@
               -->
             
               <div class="nav-item d-lg-none">
+                <router-link to="/notification"> 
+              <button  v-if="usuarioAutenticado && usuarioRol === 'Vendedor'"  type="button" class="btn btn-primary position-relative">
+                    <i class="fas fa-bell"> Notificaciones</i>
+                    <span v-if="notificaciones.length > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      {{ notificaciones.length}}
+                     <!--  <span class="visually-hidden">Solicitud..</span> --><!--  -->
+                    
+                    </span>
+                  </button>
+                </router-link>
+            </div>
+
+              
+            <div class="nav-item d-lg-none">
               <router-link @click="ocultarMenu" v-if="!usuarioAutenticado" to="/login" class="nav-link">
                 <i  class="fas fa-sign-in-alt"></i> Iniciar sesión
               </router-link>
@@ -96,7 +110,7 @@
                    Inicio
                 </router-link>
               </a>
-              <router-link @click="ocultarMenu" to="#" class="nav-item nav-link">
+              <router-link @click="ocultarMenu" to="/about" class="nav-item nav-link">
                Acerca de
               </router-link>
            <!--    <a href="service.html" class="nav-item nav-link">
@@ -133,12 +147,12 @@
 
              <a class="nav-item nav-link" href="">
                   <div class="nav-item d-lg-none">
-                  <router-link @click="ocultarMenu" class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'" to="/admin">Admin</router-link>
+                  <router-link @click="ocultarMenu" class="text-primary pl-3" v-if="usuarioAutenticado && usuarioRol === 'Admin' || usuarioAutenticado && usuarioRol === 'Vendedor'" to="/admin">Administrador</router-link>
                 </div>
              </a>
 
               <div class="nav-item d-lg-none">
-              <i   v-if="usuarioAutenticado && usuarioRol !== ''" @click="cerrarSesion()" class="fas fa-sign-out-alt">Salir</i> 
+              <i   v-if="usuarioAutenticado && usuarioRol !== ''" @click="cerrarSesion()" class="fas fa-sign-out-alt">Cerrar</i> 
             </div>
           
 
@@ -157,43 +171,56 @@
   
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px;">
+    <div class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: auto;">
         <div class="row pt-6">
             <div class="col-lg-3 col-md-6 mb-5">
                 <a href="" class="navbar-brand">
                     <h1 class="text-primary"><span class="text-white">COSTA</span>BRISA</h1>
                 </a>
-                <p>Sed ipsum clita tempor ipsum ipsum amet sit ipsum lorem amet labore rebum lorem ipsum dolor. No sed vero lorem dolor dolor</p>
-                <h6 class="text-white text-uppercase mt-4 mb-3" style="letter-spacing: 5px;">Follow Us</h6>
+                <p>Es un proyecto  orientado a fortalecer el reconocimiento de diversos sectores atractivos de la Costa.</p>
+                <h6 class="text-white text-uppercase mt-4 mb-3" style="letter-spacing: 5px;">Siguenos en</h6>
                 <div class="text-white text-uppercase mt-4 mb-3">
-                    <a class="btn btn-outline-primary btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-primary btn-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-primary btn-square mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                 <!--    <a class="btn btn-outline-primary btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a> -->
+                    <a class="btn btn-outline-primary btn-square mr-2" href="https://www.facebook.com/profile.php?id=100087514673618"><i class="fab fa-facebook-f"></i></a>
+                    <!-- <a class="btn btn-outline-primary btn-square mr-2" href="#"><i class="fab fa-linkedin-in"></i></a> -->
+                    <a class="btn btn-outline-primary btn-square" href="https://www.instagram.com/_costabrisa/"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Servicios</h5>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destination</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Services</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Packages</a>
+                  <router-link class="text-white-50 mb-2" to="/tranport" @click.native="handleClick">
+                    <i class="fa fa-angle-right mr-2"></i>Transporte
+                  </router-link>
+                   
+                  <router-link class="text-white-50 mb-2" to="/hotels" @click.native="handleClick">
+                    <i class="fa fa-angle-right mr-2"></i>Zona Hotelera
+                  </router-link>
+
+                  <router-link class="text-white-50 mb-2" to="/restaurantes" @click.native="handleClick">
+                    <i class="fa fa-angle-right mr-2"></i>Restaurantes
+                  </router-link>
+
+                
+                    
+                
+            
+                   <!--  <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Packages</a>
                     <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Guides</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Testimonial</a>
-                    <a class="text-white-50" href="#"><i class="fa fa-angle-right mr-2"></i>Blog</a>
+                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Testimonial</a> -->
+                    <!-- <a class="text-white-50" href="#"><i class="fa fa-angle-right mr-2"></i>Blog</a> -->
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Colaboradores</h5>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About</a>
-                    <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destination</a>
+                    <a class="text-white-50 mb-2" href="https://web.facebook.com/revoluciontics"><i class="fa fa-angle-right mr-2"></i>REVOLUCION TIC S.A.S</a>
+                    <!-- <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destination</a>
                     <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Services</a>
                     <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Packages</a>
                     <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Guides</a>
                     <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Testimonial</a>
-                    <a class="text-white-50" href="#"><i class="fa fa-angle-right mr-2"></i>Blog</a>
+                    <a class="text-white-50" href="#"><i class="fa fa-angle-right mr-2"></i>Blog</a> -->
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
@@ -206,12 +233,12 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color: rgba(256, 256, 256, .1) !important;">
+    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="margin-top: -90px;border-color: rgba(256, 256, 256, .1) !important;">
         <div class="row">
             <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
                
             </div>
-            <div class="col-lg-6 text-center text-md-right">
+            <div class="col-lg-6 text-center text-md-right" style="margin-top: 10px;">
                 <p class="m-0 text-white-50">Designed by <a href="#">CostaBrisa</a>
                 </p>
             </div>

@@ -15,41 +15,43 @@ import (
 )
 
 type Galeria struct {
-	Photos     []map[string]interface{} `json:"photos,omitempty" bson:"photos,omitempty"`
-	NegocioID  string                   `json:"negocio_id,omitempty" bson:"negocio_id,omitempty"`
-	Status     string                   `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID string                   `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
+	Photos      []map[string]interface{} `json:"photos,omitempty" bson:"photos,omitempty"`
+	Description string                   `json:"description,omitempty" bson:"description,omitempty"`
+	NegocioID   string                   `json:"negocio_id,omitempty" bson:"negocio_id,omitempty"`
+	Status      string                   `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string                   `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 func GetGaleria(c *fiber.Ctx) error {
 	galeria := Instance.Database.Collection("Galeria")
 	id := c.Params("id")
 
-	galeria.DeleteMany(context.Background(), bson.M{"photos": bson.M{"$exists": true, "$size": 0}})
-
 	busqueda, err := galeria.Find(context.TODO(), bson.M{"negocio_id": id, "status": "Activo"})
 	if err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar la galería"})
 	}
-
 	defer busqueda.Close(context.Background())
 
 	var galerias []models.Galeria
-	if err = busqueda.All(context.Background(), &galerias); err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el bar"})
+	if err := busqueda.All(context.Background(), &galerias); err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar la galería"})
 	}
+
 	var result Galeria
 	if len(galerias) != 0 {
-		for i := 0; i < len(galerias); i++ {
-			for j := 0; j < len(galerias[i].Photos); j++ {
-				obj := map[string]interface{}{"image": galerias[i].Photos[j], "id": galerias[i].ID}
+		// Asigna las fotos y la descripción
+		for _, galeria := range galerias {
+			for _, photo := range galeria.Photos {
+				obj := map[string]interface{}{"image": photo, "id": galeria.ID}
 				result.Photos = append(result.Photos, obj)
 			}
-			result.Status = galerias[i].Status
-			result.CustomerID = galerias[i].CustomerID
-			result.NegocioID = galerias[i].NegocioID
+			result.Description = galeria.Description
+			result.Status = galeria.Status
+			result.CustomerID = galeria.CustomerID
+			result.NegocioID = galeria.NegocioID
 		}
 	}
+
 	return c.Status(fiber.StatusAccepted).JSON(result)
 }
 
@@ -69,6 +71,7 @@ func CreateGaleria(c *fiber.Ctx) error {
 	longitud := form.Value["logitud"]
 	customerID := form.Value["customer_id"]
 	negocioID := form.Value["negocio_id"]
+	description := form.Value["description"] // Obtén la descripción del formulario
 
 	num, err := strconv.Atoi(longitud[0])
 
@@ -100,6 +103,7 @@ func CreateGaleria(c *fiber.Ctx) error {
 	data.CustomerID = customerID[0]
 	data.NegocioID = negocioID[0]
 	data.Status = "Activo"
+	data.Description = description[0] // Asigna la descripción al modelo
 
 	idc := data.CustomerID
 

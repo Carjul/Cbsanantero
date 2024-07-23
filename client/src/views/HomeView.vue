@@ -18,11 +18,13 @@
                             alt="Image">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 900px;">
-                                <h4 class="text-white text-uppercase mb-md-3">Vamos</h4>
-                                <h1 class="display-3 text-white mb-md-4">Descubramos el mundo juntos</h1>
+                                <h4 class="text-white text-uppercase mb-md-3">¡En hora buena!</h4>
+                                <h1 class="display-3 text-white mb-md-4">Bienvenido a Costa Brisa</h1>
 
-                                <a to="/hotels" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">Solicitar
-                                    Servicio</a>
+                                <router-link to="/hotels" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">
+                                    Solicitar Servicio
+                                    </router-link>
+
 
                             </div>
                         </div>
@@ -35,8 +37,9 @@
                             <div class="p-3" style="max-width: 900px;">
                                 <h4 class="text-white text-uppercase mb-md-3">HORA DE CONOCER</h4>
                                 <h1 class="display-3 text-white mb-md-4">Descubre Lugares Increíbles Con Nosotros</h1>
-                                <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">Solicitar
-                                    Servicio</a>
+                                <router-link to="/hotels" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">
+                                    Solicitar Servicio
+                                    </router-link>
 
                             </div>
                         </div>
@@ -149,7 +152,9 @@
                                         alt="">
                                 </div>
                             </div>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">Solicitar Servicio</a>
+                            <router-link to="/hotels" class="btn btn-primary py-md-3 px-md-5 mt-2 btn-book-now">
+                                    Solicitar Servicio
+                                    </router-link>
 
                         </div>
                     </div>
@@ -225,10 +230,12 @@
                             <img class="img-fluid"
                             style="width:500px;height:250px;"        src="https://i.pinimg.com/736x/63/d7/a3/63d7a3fbc7105ad21bbd015305f9d98f.jpg"
                                 alt="">
-                            <a class="destination-overlay text-white text-decoration-none" href="">
-                                <h5 class="text-white">Hotel Dubai</h5>
-                                <span>San Antero</span>
-                            </a>
+                                
+                                <router-link class="destination-overlay text-white text-decoration-none" to="/hotels">
+                                    <h5 class="text-white">Hotel Dubai</h5>
+                                    <span>San Antero</span>
+                                    </router-link>
+
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 mb-4">
@@ -236,10 +243,10 @@
                             <img class="img-fluid"
                             style="width:500px;height:250px;"      src="https://i.pinimg.com/736x/2e/e0/65/2ee06566abc4d0cfc5ef608919fbe1e8.jpg"
                                 alt="">
-                            <a class="destination-overlay text-white text-decoration-none" href="">
+                                <router-link class="destination-overlay text-white text-decoration-none" to="/hotels">
                                 <h5 class="text-white">Hotel Maria Mulata</h5>
                                 <span>San Antero</span>
-                            </a>
+                                </router-link>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 mb-4">
@@ -247,10 +254,10 @@
                             <img class="img-fluid"
                             style="width:500px;height:250px;"    src="https://i.pinimg.com/736x/74/2a/6b/742a6be53be5c8122476976f51fb56ef.jpg"
                                 alt="">
-                            <a class="destination-overlay text-white text-decoration-none" href="">
+                                <router-link class="destination-overlay text-white text-decoration-none" to="/hotels">
                                 <h5 class="text-white">Hotel Perlayana</h5>
                                 <span>San Antero</span>
-                            </a>
+                                </router-link>
                         </div>
                     </div>
                     <!-- <div class="col-lg-4 col-md-6 mb-4">
@@ -340,29 +347,28 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="package-item bg-white mb-2">
-                            <img class="img-fluid"
-                                src="https://i.pinimg.com/736x/74/2a/6b/742a6be53be5c8122476976f51fb56ef.jpg"
-                                alt="">
-                            <div class="p-4">
-                                <div class="d-flex justify-content-between mb-3">
-                                    <small class="m-0"><i
-                                            class="fa fa-map-marker-alt text-primary mr-2"></i>San Antero</small>
-                                   
-                                    <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Perlayana</small>
-                                </div>
-                                <a class="h5 text-decoration-none" href="">El condominio cuenta con piscina, vigilancia privada..</a>
-                                <div class="border-top mt-4 pt-4">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small>
-                                        </h6>
-                                        <h5 class="m-0">$60.000</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  <div class="package-item bg-white mb-2">
+    <img class="img-fluid" src="https://i.pinimg.com/736x/74/2a/6b/742a6be53be5c8122476976f51fb56ef.jpg" alt="">
+    <div class="p-4">
+      <div class="d-flex justify-content-between mb-3">
+        <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>San Antero</small>
+        <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Perlayana</small>
+      </div>
+      <router-link class="h5 text-decoration-none" to="/hotels">
+        El condominio cuenta con piscina, vigilancia privada..
+      </router-link>
+      <div class="border-top mt-4 pt-4">
+        <div class="d-flex justify-content-between">
+          <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
+            <small>(200)</small>
+          </h6>
+          <h5 class="m-0">$60.000</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="package-item bg-white mb-2">
                             <img class="img-fluid"
@@ -375,13 +381,16 @@
                                    
                                     <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Dubai</small>
                                 </div>
-                                <a class="h5 text-decoration-none" href="">Ofrece piscina al aire libre, jardín, terraza y restaurante..</a>
+                                <router-link class="h5 text-decoration-none" to="/hotels">
+                                    Ofrece piscina al aire libre, jardín, terraza y restaurante..
+                                </router-link>
+                                
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small>
+                                            <small>(150)</small>
                                         </h6>
-                                        <h5 class="m-0">$000</h5>
+                                        <h5 class="m-0">$80.000</h5>
                                     </div>
                                 </div>
                             </div>
@@ -399,13 +408,14 @@
                                  
                                     <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Camping Cispata</small>
                                 </div>
-                                <a class="h5 text-decoration-none" href="">Ofrece un hermoso mar, playa, sol y un bello paisaje de árboles..</a>
+                                <router-link class="h5 text-decoration-none" to="/hotels">Ofrece un hermoso mar, playa, sol y un bello paisaje de árboles..</router-link>
+                                
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small>
+                                            <small>(180)</small>
                                         </h6>
-                                        <h5 class="m-0">$350</h5>
+                                        <h5 class="m-0">$70.000</h5>
                                     </div>
                                 </div>
                             </div>
@@ -423,13 +433,13 @@
                                    
                                     <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Apartahotel</small>
                                 </div>
-                                <a class="h5 text-decoration-none" href="">El hotel cuenta con piscina,servicio de Wi-Fi gratuito..</a>
+                                <router-link class="h5 text-decoration-none" to="/hotels">El hotel cuenta con piscina,servicio de Wi-Fi gratuito..</router-link>
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small>
+                                            <small>(160)</small>
                                         </h6>
-                                        <h5 class="m-0">$350</h5>
+                                        <h5 class="m-0">$60.000</h5>
                                     </div>
                                 </div>
                             </div>
@@ -447,13 +457,13 @@
                                    
                                     <small class="m-0"><i class="fa fa-hotel text-primary mr-2"></i>Mono Cuco</small>
                                 </div>
-                                <a class="h5 text-decoration-none" href="">Ofrece alojamiento con salón compartido, estacionamiento..</a>
+                                <router-link class="h5 text-decoration-none" to="/hotels">Ofrece alojamiento con salón compartido, estacionamiento..</router-link>
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
-                                            <small>(250)</small>
+                                            <small>(190)</small>
                                         </h6>
-                                        <h5 class="m-0">$350</h5>
+                                        <h5 class="m-0">$90.000</h5>
                                     </div>
                                 </div>
                             </div>
@@ -471,13 +481,13 @@
                                  
                                     <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>Uvita de Playa</small>
                                 </div>
-                                <a class="h5 text-decoration-none" href="">El hotel ofrece cómodas habitaciones con aire..</a>
+                                <router-link class="h5 text-decoration-none" to="/hotels">El hotel ofrece cómodas habitaciones con aire..</router-link>
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5
                                             <small>(250)</small>
                                         </h6>
-                                        <h5 class="m-0">$350</h5>
+                                        <h5 class="m-0">$40.000</h5>
                                     </div>
                                 </div>
                             </div>
@@ -488,9 +498,90 @@
         </div>
         <!-- Packages End -->
 
+        <div class="container-fluid py-6">
+            <div class="container pt-6 pb-3">
+                <div class="text-center mb-3 pb-3">
+                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Nuestros</h6>
+                    <h1>Restaurantes</h1>
+                </div>
+                <div class="row pb-3">
+                    <div class="col-lg-4 col-md-6 mb-4 pb-2">
+                        <div class="blog-item">
+                            <div class="position-relative">
+                                <img class="img-fluid w-100"
+                                style="width:500px;height:250px;"    src="https://i.pinimg.com/736x/c7/1d/75/c71d754462be0ebea7cf040d8836832f.jpg"
+                                    alt="">
+                                <div class="blog-date">
+                                    <h6 class="font-weight-bold mb-n1">Costa</h6>
+                                    <small class="text-white text-uppercase">Brisa</small>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4">
+                                <div class="d-flex mb-2">
+                                    <!--  <a class="text-primary text-uppercase text-decoration-none" href="">Admin</a>
+                                <span class="text-primary px-2">|</span> -->
+                                    <!--  <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a> -->
+                                </div>
+                                
+                                <router-link class="h5 m-0 text-decoration-none" to="/restaurantes">
+                                Restaurante Cangrejo Azul
+                                </router-link>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4 pb-2">
+                        <div class="blog-item">
+                            <div class="position-relative">
+                                <img class="img-fluid w-100"
+                                style="width:500px;height:250px;"  src="https://i.pinimg.com/736x/f4/59/ee/f459ee1e439f4473743a963598bcdc72.jpg"
+                                    alt="">
+                                <div class="blog-date">
+                                    <h6 class="font-weight-bold mb-n1">Costa</h6>
+                                    <small class="text-white text-uppercase">Brisa</small>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4">
+                                <div class="d-flex mb-2">
+                                    <!--  <a class="text-primary text-uppercase text-decoration-none" href="">Admin</a>
+                                <span class="text-primary px-2">|</span>
+                                <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a> -->
+                                </div>
+                                <router-link class="h5 m-0 text-decoration-none" to="/restaurantes">
+                                Restaurante Cangrejo Azul
+                                </router-link>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4 pb-2">
+                        <div class="blog-item">
+                            <div class="position-relative">
+                                <img class="img-fluid w-100"
+                                style="width:500px;height:250px;"   src="https://i.pinimg.com/736x/20/ff/08/20ff08999c08218b3dc5e92d8b06c61b.jpg"
+                                    alt="">
+                                <div class="blog-date">
+                                    <h6 class="font-weight-bold mb-n1">Costa</h6>
+                                    <small class="text-white text-uppercase">Brisa</small>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4">
+                                <div class="d-flex mb-2">
+                                    <!-- <a class="text-primary text-uppercase text-decoration-none" href="">Admin</a>
+                                <span class="text-primary px-2">|</span>
+                                <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a> -->
+                                </div>
+                                <router-link class="h5 m-0 text-decoration-none" to="/restaurantes">
+                                Restaurante Cangrejo Azul
+                                </router-link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Registration Start -->
-        <div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
+        <div class="container-fluid bg-registration py-5" style="margin: 30px 0;">
             <div class="container py-5">
                 <div class="row align-items-center">
                     <div class="col-lg-7 mb-5 mb-lg-0">
@@ -498,9 +589,9 @@
                             <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Costa Brisa</h6>
                             <h1 class="text-white"><span class="text-primary">Ofrece</span></h1>
                         </div>
-                        <p class="text-white">Dedica tus mañanas a relajarte en las hermosas playas de arena blanca.
+                        <p class="text-white">Dedica tus mañanas a relajarte en las hermosas playas.
                             Puedes disfrutar del sol, leer un buen libro o simplemente descansar bajo una sombrilla.
-                            Tulum es conocido por sus playas prístinas, así que aprovecha al máximo este paraíso
+                            La Costa Caribe, es conocida por sus majestuosas playas, así que aprovecha al máximo este paraíso
                             tropical.</p>
                         <ul class="list-inline text-white m-0">
                             <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Playas</li>
@@ -654,79 +745,7 @@
     </div>
     Testimonial End -->
         <!-- Blog Start -->
-        <div class="container-fluid py-6">
-            <div class="container pt-6 pb-3">
-                <div class="text-center mb-3 pb-3">
-                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Nuestros</h6>
-                    <h1>Restaurantes</h1>
-                </div>
-                <div class="row pb-3">
-                    <div class="col-lg-4 col-md-6 mb-4 pb-2">
-                        <div class="blog-item">
-                            <div class="position-relative">
-                                <img class="img-fluid w-100"
-                                style="width:500px;height:250px;"    src="https://i.pinimg.com/736x/c7/1d/75/c71d754462be0ebea7cf040d8836832f.jpg"
-                                    alt="">
-                                <div class="blog-date">
-                                    <h6 class="font-weight-bold mb-n1">Costa</h6>
-                                    <small class="text-white text-uppercase">Brisa</small>
-                                </div>
-                            </div>
-                            <div class="bg-white p-4">
-                                <div class="d-flex mb-2">
-                                    <!--  <a class="text-primary text-uppercase text-decoration-none" href="">Admin</a>
-                                <span class="text-primary px-2">|</span> -->
-                                    <!--  <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a> -->
-                                </div>
-                                <a class="h5 m-0 text-decoration-none" href="">Restaurante Cangrejo Azul</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4 pb-2">
-                        <div class="blog-item">
-                            <div class="position-relative">
-                                <img class="img-fluid w-100"
-                                style="width:500px;height:250px;"  src="https://i.pinimg.com/736x/f4/59/ee/f459ee1e439f4473743a963598bcdc72.jpg"
-                                    alt="">
-                                <div class="blog-date">
-                                    <h6 class="font-weight-bold mb-n1">Costa</h6>
-                                    <small class="text-white text-uppercase">Brisa</small>
-                                </div>
-                            </div>
-                            <div class="bg-white p-4">
-                                <div class="d-flex mb-2">
-                                    <!--  <a class="text-primary text-uppercase text-decoration-none" href="">Admin</a>
-                                <span class="text-primary px-2">|</span>
-                                <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a> -->
-                                </div>
-                                <a class="h5 m-0 text-decoration-none" href="">Restaurante Cangrejo Azul</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4 pb-2">
-                        <div class="blog-item">
-                            <div class="position-relative">
-                                <img class="img-fluid w-100"
-                                style="width:500px;height:250px;"   src="https://i.pinimg.com/736x/20/ff/08/20ff08999c08218b3dc5e92d8b06c61b.jpg"
-                                    alt="">
-                                <div class="blog-date">
-                                    <h6 class="font-weight-bold mb-n1">Costa</h6>
-                                    <small class="text-white text-uppercase">Brisa</small>
-                                </div>
-                            </div>
-                            <div class="bg-white p-4">
-                                <div class="d-flex mb-2">
-                                    <!-- <a class="text-primary text-uppercase text-decoration-none" href="">Admin</a>
-                                <span class="text-primary px-2">|</span>
-                                <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a> -->
-                                </div>
-                                <a class="h5 m-0 text-decoration-none" href="">Restaurante Cangrejo Azul</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- Blog End -->
 
 

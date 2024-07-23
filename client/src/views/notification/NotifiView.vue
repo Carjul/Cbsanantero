@@ -23,42 +23,39 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                     </div>
                     <div class="modal-body">
-
                         <div class="modal-body">
-    <table class="table table-bordered table-striped">
-        <tr>
-            <td class="title">Solicitante:</td>
-            <td>{{ notificacion.nombre }}</td>
-        </tr>
-        <tr>
-            <td class="title">Asunto:</td>
-            <td>{{ notificacion.description }}</td>
-        </tr>
-        <tr>
-            <td class="title">Personas:</td>
-            <td>{{ notificacion.person }}</td>
-        </tr>
-        <tr v-if="notificacion.TipoNegocio !== 'Restaurantes'">
-        <td class="title">Fecha de entrada:</td>
-        <td>{{ notificacion.entrada }}</td>
-    </tr>
-    <tr v-if="notificacion.TipoNegocio !== 'Restaurantes'">
-        <td class="title">Fecha salida:</td>
-        <td>{{ notificacion.salida }}</td>
-    </tr>
-        <tr>
-            <td class="title">Correo:</td>
-            <td>{{ notificacion.correo }}</td>
-        </tr>
-        <tr>
-            <td class="title">Contacto:</td>
-            <td>{{ notificacion.celular }}</td>
-        </tr>
-    </table>
-</div>
-
-   
-</div>
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <td class="title">Solicitante:</td>
+                                    <td>{{ notificacion.nombre }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="title">Asunto:</td>
+                                    <td>{{ notificacion.description }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="title">Personas:</td>
+                                    <td>{{ notificacion.person }}</td>
+                                </tr>
+                                <tr v-if="notificacion.TipoNegocio !== 'Restaurantes'">
+                                    <td class="title">Fecha de entrada:</td>
+                                    <td>{{ notificacion.entrada }}</td>
+                                </tr>
+                                <tr v-if="notificacion.TipoNegocio !== 'Restaurantes'">
+                                    <td class="title">Fecha salida:</td>
+                                    <td>{{ notificacion.salida }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="title">Correo:</td>
+                                    <td>{{ notificacion.correo }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="title">Contacto:</td>
+                                    <td>{{ notificacion.celular }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -75,50 +72,43 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      notificacion:{
-   
-  
-},
-      notificaciones: [],
+      notificacion: {},
+      notificaciones: [], // Inicializa como array vacío
       tipoNegocioUsuario: '',
     };
   },
-methods:{
-getNotificacion(){
-  let idc= localStorage.getItem('customerId');
-    axios.get(`${process.env.API}/pedirServicioc/${idc}`)
-      .then((response) => {
-        this.notificaciones = response.data;
-        
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-},
-cargarNotificacion(obj){
-this.notificacion= obj;
-if(obj.revision){
-axios.put(`${process.env.API}/ServicioStatus/${obj._id}`,{"revision":false})
-.then((response) => {
-        console.log(response.data);
-        this.getNotificacion();
-        
-
-      })
-.catch((error) => {
-        console.log(error);
-      });
-}
-},
-},
-
+  methods: {
+    getNotificacion() {
+      let idc = localStorage.getItem('customerId');
+      axios.get(`${process.env.API}/pedirServicioc/${idc}`)
+        .then((response) => {
+          this.notificaciones = response.data || [];
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    cargarNotificacion(obj) {
+      this.notificacion = obj;
+      if (obj.revision) {
+        axios.put(`${process.env.API}/ServicioStatus/${obj._id}`, { "revision": false })
+          .then((response) => {
+            console.log(response.data);
+            this.getNotificacion();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+  },
   mounted() {
-   this.getNotificacion();
-   this.tipoNegocioUsuario = localStorage.getItem('tipoNegocioUsuario'); 
+    this.getNotificacion();
+    this.tipoNegocioUsuario = localStorage.getItem('tipoNegocioUsuario'); 
   },
 };
-
 </script>
+
 
 <style>
  .message {

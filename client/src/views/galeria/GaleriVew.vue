@@ -1,37 +1,46 @@
 <template>
   <div>
-    <hr>
+<br>
     <div class="row gallery">
       <div class="col-md-11">
 
         <center>
           <div class="col-md-4" v-if="customerRol === 'Vendedor' && customerID === GaleriaEnv.customer_id">
-            <form @submit.prevent="crearGal">
+            <form @submit.prevent="crearGaleria">
               <div class="input-group mb-3">
-
-                <input type="file" class="form-control" accept="image/jpeg, image/jpg, image/png" @change='uploadFile'
+                <input type="file" class="form-control" accept="image/jpeg, image/jpg, image/png" @change="uploadFile"
                   multiple id="imagenBar" ref="file">
-                <p style="color: transparent;">+</p>
-                <input type="submit" value="enviar">
-
+                <input type="text" class="form-control" v-model="GaleriaEnv.description" placeholder="Descripción">
+                <button type="submit" class="btn btn-primary">Enviar</button>
               </div>
-
-
             </form>
             <progress v-if="uploadProgress !== null" :value="uploadProgress" max="100"></progress>
           </div>
         </center>
 
-
-
         <hr>
 
+    <div class="list-group">
+      <div class="list-group-item list-group-item-action active" aria-current="true">
+        <div class="d-flex w-100 justify-content-between">
+          <b class="mb-1">Descripción:</b>
+          <small>Costa Brisa</small>
+        </div>
+        <p v-if="Galeria.description" class="mb-1 justify-text"> 
+         {{ Galeria.description }}
+        </p>
+        <small></small>
+      </div>
+      <hr>
+
+    </div>
+      
 
         <div class="row">
           <div class="col-md-4" v-for="(obj, imgIndex) in Galeria.photos" :key="imgIndex">
             <div class="card mb-2" @click="openModal(obj.image)">
-              <button  v-if="customerRol === 'Vendedor' && customerID === GaleriaEnv.customer_id" style="height: 50px; width: 50px;" type="button" class="btn btn-danger"
-                @click.stop="EliminarPhoto(Galeria.photos[imgIndex])">X</button>
+              <button v-if="customerRol === 'Vendedor' && customerID === GaleriaEnv.customer_id" style="height: 50px; width: 50px;" type="button" class="btn btn-danger"
+                @click.stop="eliminarFoto(Galeria.photos[imgIndex])">X</button>
               <img :src="obj.image" class="card-img-top gallery-image" alt="imagen" loading="lazy" />
             </div>
           </div>
@@ -39,25 +48,19 @@
       </div>
 
       <div v-if="modalOpen" class="modal-container">
-      <span class="close-modal" @click="closeModal">&times;</span>
-      <img :src="selectedImage" class="modal-img" alt="Imagen agrandada" />
+        <span class="close-modal" @click="closeModal">&times;</span>
+        <img :src="selectedImage" class="modal-img" alt="Imagen agrandada" />
 
-      <!-- Botones de navegación -->
-      <input type="radio" id="prev" name="nav" class="modal-nav-input" @click="preImage" />
-      <label for="prev" class="modal-nav-btn prev">&#10094;</label>
-      <input type="radio" id="next" name="nav" class="modal-nav-input" @click="nexImage" />
-      <label for="next" class="modal-nav-btn next">&#10095;</label>
-    </div>
-    
+        <!-- Botones de navegación -->
+        <input type="radio" id="prev" name="nav" class="modal-nav-input" @click="preImage" />
+        <label for="prev" class="modal-nav-btn prev">&#10094;</label>
+        <input type="radio" id="next" name="nav" class="modal-nav-input" @click="nexImage" />
+        <label for="next" class="modal-nav-btn next">&#10095;</label>
+      </div>
+
     </div>
   </div>
-
-
-
-
-
 </template>
-
 
 <script>
 import Swal from 'sweetalert2';
@@ -78,21 +81,24 @@ export default {
       GaleriaEnv: {
         photos: [],
         negocio_id: null,
-        customer_id: null
+        customer_id: null,
+        description: ''
       },
       modalOpen: false,
       selectedImage: null,
       uploadProgress: null,
-      numSelectedImages: 0,
     };
   },
   methods: {
     uploadFile(event) {
       this.file = event.target.files;
+      // Limpiar cualquier archivo anterior
+      this.GaleriaEnv.photos = [];
       for (let key in this.file) {
-        this.GaleriaEnv.photos[key] = this.file[key];
+        if (typeof this.file[key] === 'object') {
+          this.GaleriaEnv.photos.push(this.file[key]);
+        }
       }
-      this.file = null;
     },
     openModal(image) {
       this.selectedImage = image;
@@ -102,16 +108,15 @@ export default {
       this.modalOpen = false;
     },
     preImage() {
-  const currentIndex = this.Galeria.photos.findIndex(photo => photo.image === this.selectedImage);
-  const prevIndex = (currentIndex - 1 + this.Galeria.photos.length) % this.Galeria.photos.length;
-  this.selectedImage = this.Galeria.photos[prevIndex].image;
-},
-nexImage() {
-  const currentIndex = this.Galeria.photos.findIndex(photo => photo.image === this.selectedImage);
-  const nextIndex = (currentIndex + 1) % this.Galeria.photos.length;
-  this.selectedImage = this.Galeria.photos[nextIndex].image;
-},
-
+      const currentIndex = this.Galeria.photos.findIndex(photo => photo.image === this.selectedImage);
+      const prevIndex = (currentIndex - 1 + this.Galeria.photos.length) % this.Galeria.photos.length;
+      this.selectedImage = this.Galeria.photos[prevIndex].image;
+    },
+    nexImage() {
+      const currentIndex = this.Galeria.photos.findIndex(photo => photo.image === this.selectedImage);
+      const nextIndex = (currentIndex + 1) % this.Galeria.photos.length;
+      this.selectedImage = this.Galeria.photos[nextIndex].image;
+    },
     async fetchGaleria() {
       try {
         const response = await axios.get(`${process.env.API}/galeria/${this.GaleriaEnv.negocio_id}`);
@@ -120,43 +125,56 @@ nexImage() {
           photos: data.photos,
           negocio_id: data.negocio_id,
           status: data.status,
-          customer_id: data.customer_id
+          customer_id: data.customer_id,
+          description: data.description
         };
       } catch (error) {
-        console.error('Error al obtener las artesanías', error);
+        console.error('Error al obtener la galería', error);
       }
     },
-    async crearGal() {
+    async crearGaleria() {
       try {
-        if (this.GaleriaEnv.customer_id !== null && this.GaleriaEnv.negocio_id !== null && this.GaleriaEnv.photos.length > 0) {
+        if (this.GaleriaEnv.customer_id !== null && this.GaleriaEnv.negocio_id !== null && this.GaleriaEnv.photos.length > 0 && this.GaleriaEnv.description.trim() !== '') {
           const formData = new FormData();
-          for (let i = 0; i < this.GaleriaEnv.photos.length; i++) { formData.append(`image${i}`, this.GaleriaEnv.photos[i]); }
+
+          // Agregar cada imagen al formData
+          for (let i = 0; i < this.GaleriaEnv.photos.length; i++) {
+            formData.append(`image${i}`, this.GaleriaEnv.photos[i]);
+          }
+
+          // Agregar la descripción al formData
+          formData.append('description', this.GaleriaEnv.description.trim());
+
           formData.append('logitud', this.GaleriaEnv.photos.length);
           formData.append('negocio_id', this.GaleriaEnv.negocio_id);
           formData.append('customer_id', this.GaleriaEnv.customer_id);
+
           const config = {
             onUploadProgress: (progressEvent) => {
               this.uploadProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             },
           };
+
           const response = await axios.post(`${process.env.API}/galeria`, formData, config);
           console.log(response);
+
           if (response.status === 202) {
             this.GaleriaEnv.photos = [];
+            this.GaleriaEnv.description = ''; // Limpiar la descripción después de enviarla
             this.fetchGaleria();
           }
         } else {
-          alert('No tienes las credenciales para subir fotos');
+          alert('Asegúrate de completar la descripción y tener las credenciales para subir fotos');
           console.log(this.GaleriaEnv);
         }
       } catch (error) {
-        console.error('Error creating Galeria:', error);
+        console.error('Error al crear la galería:', error);
       } finally {
         // Restaurar la variable de progreso después de completar la solicitud
         this.uploadProgress = null;
       }
     },
-    async EliminarPhoto(photo) {
+    async eliminarFoto(photo) {
       const result = await Swal.fire({
         title: "¿Quieres eliminar esta imagen?",
         text: "No podrás revertir esto",
@@ -166,6 +184,7 @@ nexImage() {
         cancelButtonColor: "#d33",
         confirmButtonText: "Sí, eliminar",
       });
+
       if (result.isConfirmed) {
         try {
           const response = await axios.put(`${process.env.API}/galeria/${photo.id}`, { photo: photo.image });
@@ -177,29 +196,11 @@ nexImage() {
             icon: "success"
           });
         } catch (error) {
-          console.log(error);
+          console.error('Error al eliminar la foto:', error);
         }
       } else {
         console.log("Solicitud cancelada");
       }
-    },
-    openImage(image, index) {
-      this.showModal = true;
-      this.selectedImage = image;
-      this.currentIndex = index;
-    },
-    closeImage() {
-      this.showModal = false;
-      this.selectedImage = "";
-      this.currentIndex = 0;
-    },
-    prevImage() {
-      this.currentIndex = (this.currentIndex - 1 + this.artesanias.length) % this.artesanias.length;
-      this.selectedImage = this.artesanias[this.currentIndex].image;
-    },
-    nextImage() {
-      this.currentIndex = (this.currentIndex + 1) % this.artesanias.length;
-      this.selectedImage = this.artesanias[this.currentIndex].image;
     },
   },
   created() {
@@ -209,11 +210,12 @@ nexImage() {
     this.customerID = localStorage.getItem('customerNegocioId');
   },
   mounted() {
-    this.fetchGaleria()
+    this.fetchGaleria();
   },
 };
 
 </script>
+
 
 
 <style scoped>
@@ -401,5 +403,16 @@ nexImage() {
 
 .modal-nav-btn.next {
   right: 10px;
+}
+
+
+/* justufucar textos */
+
+.justify-text {
+  text-align: justify;
+}
+
+.shadow-div {
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
 }
 </style>

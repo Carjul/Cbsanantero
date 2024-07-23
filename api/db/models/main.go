@@ -33,11 +33,12 @@ type Artesanias struct {
 }
 
 type Galeria struct {
-	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Photos     []string           `json:"photos,omitempty" bson:"photos,omitempty"`
-	NegocioID  string             `json:"negocio_id,omitempty" bson:"negocio_id,omitempty"`
-	Status     string             `json:"status,omitempty" bson:"status,omitempty"`
-	CustomerID string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
+	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Photos      []string           `json:"photos,omitempty" bson:"photos,omitempty"`
+	Description string             `json:"description,omitempty" bson:"description,omitempty"`
+	NegocioID   string             `json:"negocio_id,omitempty" bson:"negocio_id,omitempty"`
+	Status      string             `json:"status,omitempty" bson:"status,omitempty"`
+	CustomerID  string             `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
 
 type Bar struct {

@@ -61,11 +61,11 @@ func CreateCustomer(c *fiber.Ctx) error {
 	}
 	var costomerExiste models.Customer
 	err := customers.FindOne(context.Background(), bson.M{"email": customer.Email}).Decode(&costomerExiste)
-	 if err == nil {
+	if err == nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El correo ya esta registrado"})
-	 }
+	}
 
-	 form, err := c.MultipartForm()
+	form, err := c.MultipartForm()
 	if err != nil {
 		return err
 	}
@@ -74,8 +74,7 @@ func CreateCustomer(c *fiber.Ctx) error {
 
 	files := form.File["image"]
 	if len(files) == 0 {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg:  "La imagen es requerida",
-		})
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "La imagen es requerida"})
 	}
 	ImageFile := files[0]
 	var UrlCloudinary string
@@ -106,7 +105,6 @@ func CreateCustomer(c *fiber.Ctx) error {
 	} else {
 		return c.Status(fiber.StatusCreated).JSON(Message{Msg: "El usurario se ha registrado correctamente"})
 	}
-
 
 }
 
@@ -154,7 +152,6 @@ func UpdateCustomer(c *fiber.Ctx) error {
 		}
 		customer.Image = UrlCloudinary
 	}
-
 
 	update := bson.M{
 		"$set": customer,
@@ -210,7 +207,7 @@ func DeleteCustomer(c *fiber.Ctx) error {
 	if err != nil {
 		log.Println(err)
 	}
-	
+
 	_, err = bares.DeleteMany(context.Background(), filter)
 	if err != nil {
 		log.Println(err)
