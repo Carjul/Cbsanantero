@@ -9,5 +9,5 @@ type Message struct {
 }
 
 func Init(c *fiber.Ctx) error {
-    return c.SendFile("./public")
+	return c.SendFile("./public")
 }

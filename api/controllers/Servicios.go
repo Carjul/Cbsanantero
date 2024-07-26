@@ -10,6 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func GetPedirServicionegocio(c *fiber.Ctx) error {
@@ -34,13 +35,24 @@ func GetPedirServicionegocio(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusAccepted).JSON(servicios)
 
 }
-func GetPedirServicioClient(c *fiber.Ctx) error {
 
+func GetPedirServicioClient(c *fiber.Ctx) error {
 	service := Instance.Database.Collection("Servicio")
 
 	id := c.Params("id")
+	adminId := "669eeb77b1259a7ef20afcab"
 
-	busqueda, err := service.Find(context.TODO(), bson.M{"customer_id":id, "status": "Activo"})
+	var busqueda *mongo.Cursor
+	var err error
+
+	if id == adminId {
+		// Si es el admin, obtiene todos los servicios activos
+		busqueda, err = service.Find(context.TODO(), bson.M{"status": "Activo"})
+	} else {
+		// Si no es el admin, obtiene los servicios activos del customerId específico
+		busqueda, err = service.Find(context.TODO(), bson.M{"customer_id": id, "status": "Activo"})
+	}
+
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el servicio"})
 	}
@@ -50,13 +62,12 @@ func GetPedirServicioClient(c *fiber.Ctx) error {
 	var servicios []bson.M
 
 	if err = busqueda.All(context.Background(), &servicios); err != nil {
-
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el servicio"})
 	}
 
 	return c.Status(fiber.StatusAccepted).JSON(servicios)
-
 }
+
 func UpdateRevision(c *fiber.Ctx) error {
 	type RevisionStatus struct {
 		Revision bool `json:"revision,omitempty" bson:"revision,omitempty"`
@@ -107,14 +118,14 @@ func CreatePedirServicio(c *fiber.Ctx) error {
 	servicio.Revision = true
 	servicio.Fecha = config.GetDate()
 	servicio.Hora = config.GetHour()
-	
+
 	_, err := service.InsertOne(context.Background(), servicio)
 
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el servicio"})
 	}
 
-	idCustomer, err := primitive.ObjectIDFromHex(servicio.CustomerID)																																																											
+	idCustomer, err := primitive.ObjectIDFromHex(servicio.CustomerID)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -125,7 +136,6 @@ func CreatePedirServicio(c *fiber.Ctx) error {
 	}
 
 	objIDNegocio, err := primitive.ObjectIDFromHex(servicio.NegocioId)
-
 
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el servicio"})

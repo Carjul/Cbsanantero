@@ -20,7 +20,6 @@ type ClientePeticion struct {
 	NegocioId   string `json:"negocioId,omitempty" bson:"negocioId,omitempty"`
 	CustomerID  string `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
 }
-
 type Artesanias struct {
 	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	Name        string             `json:"name,omitempty" bson:"name,omitempty"`

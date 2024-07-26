@@ -8,7 +8,6 @@
             <div v-for="notificacion in notificaciones" :key="notificacion.id" @click="cargarNotificacion(notificacion)" data-bs-toggle="modal" data-bs-target="#messageModal" class="shadow-lg p-3 mb-2 bg-body-tertiary rounded message">  
                 <div class="message-content">
                     <i :class="['fas', notificacion.revision ? 'message-icon fa-envelope' : 'fa-envelope-open']"> : {{ notificacion.nombre }} </i>
-            
                     <div class="message-text"> <i>............{{ notificacion.description }}</i></div>
                 </div>
             </div>
@@ -73,14 +72,17 @@ export default {
   data() {
     return {
       notificacion: {},
-      notificaciones: [], // Inicializa como array vacío
+      notificaciones: [],
       tipoNegocioUsuario: '',
+      adminId: '669eeb77b1259a7ef20afcab', // ID del admin
     };
   },
   methods: {
     getNotificacion() {
       let idc = localStorage.getItem('customerId');
-      axios.get(`${process.env.API}/pedirServicioc/${idc}`)
+      let url = `${process.env.API}/pedirServicioc/${idc}`;
+
+      axios.get(url)
         .then((response) => {
           this.notificaciones = response.data || [];
         })
@@ -108,6 +110,7 @@ export default {
   },
 };
 </script>
+
 
 
 <style>
