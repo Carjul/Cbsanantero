@@ -58,42 +58,51 @@ func CreateCustomer(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(customer); err != nil {
 		log.Println(err)
-	}
-	var costomerExiste models.Customer
-	err := customers.FindOne(context.Background(), bson.M{"email": customer.Email}).Decode(&costomerExiste)
-	if err == nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El correo ya esta registrado"})
+		return c.Status(fiber.StatusBadRequest).JSON(Message{Msg: "Error al analizar los datos"})
 	}
 
+	var customerExists models.Customer
+	err := customers.FindOne(context.Background(), bson.M{"email": customer.Email}).Decode(&customerExists)
+	if err == nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "El correo ya está registrado"})
+	}
+
+	// Manejo del formulario multipart para la imagen
 	form, err := c.MultipartForm()
 	if err != nil {
-		return err
+		log.Println(err)
+	}
+
+	files := form.File["image"]
+	if len(files) > 0 {
+		ImageFile := files[0]
+		var UrlCloudinary string
+		var wg sync.WaitGroup
+		wg.Add(1)
+		go func() {
+			UrlCloudinary = config.UploadImage(ImageFile)
+			wg.Done()
+		}()
+		wg.Wait()
+
+		if UrlCloudinary == "error al subir la imagen a cloudinary" {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error al subir la imagen",
+			})
+		}
+
+		customer.Image = UrlCloudinary
+	} else {
+		// Establece una imagen predeterminada si no se proporciona ninguna
+		customer.Image = "https://i.pinimg.com/736x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg" // Reemplaza con la URL de la imagen predeterminada
+	}
+
+	// Asignar tipo de negocio si existe
+	if tipoNegocios, ok := form.Value["tipo_negocio"]; ok && len(tipoNegocios) > 0 {
+		customer.TipoNegocio = tipoNegocios[0]
 	}
 
 	customer.Status = "Inactivo"
-
-	files := form.File["image"]
-	if len(files) == 0 {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "La imagen es requerida"})
-	}
-	ImageFile := files[0]
-	var UrlCloudinary string
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		UrlCloudinary = config.UploadImage(ImageFile)
-		wg.Done()
-	}()
-	wg.Wait()
-
-	if UrlCloudinary == "error al subir la imagen a cloudinary" {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Error al subir la imagen",
-		})
-	}
-
-	customer.Image = UrlCloudinary
-	customer.TipoNegocio = form.Value["tipo_negocio"][0]
 
 	result, err := customers.InsertOne(context.Background(), customer)
 	if err != nil {
@@ -102,10 +111,9 @@ func CreateCustomer(c *fiber.Ctx) error {
 	}
 	if result.InsertedID == nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo insertar el cliente"})
-	} else {
-		return c.Status(fiber.StatusCreated).JSON(Message{Msg: "El usurario se ha registrado correctamente"})
 	}
 
+	return c.Status(fiber.StatusCreated).JSON(Message{Msg: "El usuario se ha registrado correctamente"})
 }
 
 func UpdateCustomer(c *fiber.Ctx) error {
