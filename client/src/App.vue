@@ -39,7 +39,7 @@
               </div>
   
               <div v-if="usuarioAutenticado" class="usuario-info">
-                <img :src="imagenUsuario" alt="avatar" loading="lazy" class="avatar" >
+                <img :src="imagenUsuario" alt="Bienvenido" loading="lazy" class="avatar" >
                 <p class="nombre-usuario">{{ nombreUsuario }}</p>
               </div>
                  <p style="color: transparent;">..</p>
