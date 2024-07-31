@@ -50,6 +50,14 @@
                     <td class="title">Contacto:</td>
                     <td>{{ notificacion.celular }}</td>
                   </tr>
+                  <tr>
+                    <td class="title">Fecha Entrada</td>
+                    <td>{{ notificacion.entrada }}</td>
+                  </tr>
+                  <tr>
+                    <td class="title">Fecha Salida:</td>
+                    <td>{{ notificacion.salida }}</td>
+                  </tr>
                 </table>
               </div>
             </div>
