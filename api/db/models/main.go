@@ -5,20 +5,21 @@ import (
 )
 
 type ClientePeticion struct {
-	Nombre      string `json:"nombre,omitempty" bson:"nombre,omitempty"`
-	Celular     string `json:"celular,omitempty" bson:"celular,omitempty"`
-	Correo      string `json:"correo,omitempty" bson:"correo,omitempty"`
-	Description string `json:"description,omitempty" bson:"description,omitempty"`
-	Person      string `json:"person,omitempty" bson:"person,omitempty"`
-	Entrada     string `json:"entrada,omitempty" bson:"entrada,omitempty"`
-	Salida      string `json:"salida,omitempty" bson:"salida,omitempty"`
-	Revision    bool
-	Fecha       string `json:"fecha,omitempty" bson:"fecha,omitempty"`
-	Hora        string `json:"hora,omitempty" bson:"hora,omitempty"`
-	Status      string `json:"status,omitempty" bson:"status,omitempty"`
-	ClienteId   string `json:"clienteId,omitempty" bson:"clienteId,omitempty"`
-	NegocioId   string `json:"negocioId,omitempty" bson:"negocioId,omitempty"`
-	CustomerID  string `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
+	Nombre       string `json:"nombre,omitempty" bson:"nombre,omitempty"`
+	Celular      string `json:"celular,omitempty" bson:"celular,omitempty"`
+	Correo       string `json:"correo,omitempty" bson:"correo,omitempty"`
+	Description  string `json:"description,omitempty" bson:"description,omitempty"`
+	Person       string `json:"person,omitempty" bson:"person,omitempty"`
+	Entrada      string `json:"entrada,omitempty" bson:"entrada,omitempty"`
+	Salida       string `json:"salida,omitempty" bson:"salida,omitempty"`
+	Revision     bool
+	Fecha        string `json:"fecha,omitempty" bson:"fecha,omitempty"`
+	Hora         string `json:"hora,omitempty" bson:"hora,omitempty"`
+	Status       string `json:"status,omitempty" bson:"status,omitempty"`
+	ClienteId    string `json:"clienteId,omitempty" bson:"clienteId,omitempty"`
+	NegocioId    string `json:"negocioId,omitempty" bson:"negocioId,omitempty"`
+	CustomerID   string `json:"customer_id,omitempty" bson:"customer_id,omitempty"`
+	CustomerName string `json:"customerName,omitempty" bson:"customerName,omitempty"`
 }
 type Artesanias struct {
 	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`

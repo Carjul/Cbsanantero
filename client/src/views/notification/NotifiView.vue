@@ -1,108 +1,140 @@
 <template>
     <div class="container">
-        <hr>
-        <div v-if="notificaciones.length === 0">
-            <p>No tienes notificaciones</p>
-        </div>
-        <div v-else>
-            <div v-for="notificacion in notificaciones" :key="notificacion.id" @click="cargarNotificacion(notificacion)" data-bs-toggle="modal" data-bs-target="#messageModal" class="shadow-lg p-3 mb-2 bg-body-tertiary rounded message">  
-                <div class="message-content">
-                    <i :class="['fas', notificacion.revision ? 'message-icon fa-envelope' : 'fa-envelope-open']"> : {{ notificacion.nombre }} </i>
-                    <div class="message-text"> <i>............{{ notificacion.description }}</i></div>
-                </div>
+      <hr>
+      <div v-if="notificaciones.length === 0">
+        <p>No tienes notificaciones</p>
+      </div>
+      <div v-else>
+        <div v-for="notificacion in notificaciones" :key="notificacion.id" @click="cargarNotificacion(notificacion)" data-bs-toggle="modal" data-bs-target="#messageModal" class="shadow-lg p-3 mb-2 bg-body-tertiary rounded message">
+          <div class="message-content">
+            <i :class="['fas', notificacion.revision ? 'message-icon fa-envelope' : 'fa-envelope-open']"> : {{ notificacion.nombre }} </i>
+            <div class="message-text">
+              <i>............{{ notificacion.description }}</i>
             </div>
+          </div>
         </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="messageModalLabel">Fecha: {{ notificacion.fecha }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="modal-body">
-                            <table class="table table-bordered table-striped">
-                                <tr>
-                                    <td class="title">Solicitante:</td>
-                                    <td>{{ notificacion.nombre }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="title">Asunto:</td>
-                                    <td>{{ notificacion.description }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="title">Personas:</td>
-                                    <td>{{ notificacion.person }}</td>
-                                </tr>
-                                
-                                <tr>
-                                    <td class="title">Correo:</td>
-                                    <td>{{ notificacion.correo }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="title">Contacto:</td>
-                                    <td>{{ notificacion.celular }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
+      </div>
+  
+      <!-- Modal -->
+      <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="messageModalLabel">Fecha: {{ notificacion.fecha }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
             </div>
+            <div class="modal-body">
+              <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                  <tr>
+                    <td class="title">Administrador</td>
+                    <td>{{ notificacion.customerName }}</td>
+                  </tr>
+                  <tr>
+                    <td class="title">Solicitante:</td>
+                    <td>{{ notificacion.nombre }}</td>
+                  </tr>
+                  <tr>
+                    <td class="title">Asunto:</td>
+                    <td>{{ notificacion.description }}</td>
+                  </tr>
+                  <tr>
+                    <td class="title">Personas:</td>
+                    <td>{{ notificacion.person }}</td>
+                  </tr>
+                  <tr>
+                    <td class="title">Correo:</td>
+                    <td>{{ notificacion.correo }}</td>
+                  </tr>
+                  <tr>
+                    <td class="title">Contacto:</td>
+                    <td>{{ notificacion.celular }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</template>
-
-<script>
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      notificacion: {},
-      notificaciones: [],
-      tipoNegocioUsuario: '',
-      adminId: '669eeb77b1259a7ef20afcab', // ID del admin
-    };
-  },
-  methods: {
-    getNotificacion() {
-      let idc = localStorage.getItem('customerId');
-      let url = `${process.env.API}/pedirServicioc/${idc}`;
-
-      axios.get(url)
-        .then((response) => {
-          this.notificaciones = response.data || [];
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  </template>
+  
+  <script>
+  import axios from 'axios';
+  
+  export default {
+    data() {
+      return {
+        notificacion: {},
+        notificaciones: [],
+        clientes: [], // Array para almacenar los clientes
+        tipoNegocioUsuario: '',
+        adminId: '669eeb77b1259a7ef20afcab', // ID del admin
+      };
     },
-    cargarNotificacion(obj) {
-      this.notificacion = obj;
-      if (obj.revision) {
-        axios.put(`${process.env.API}/ServicioStatus/${obj._id}`, { "revision": false })
+    methods: {
+      getNotificacion() {
+        let idc = localStorage.getItem('customerId');
+        let url = `${process.env.API}/pedirServicioc/${idc}`;
+  
+        axios.get(url)
           .then((response) => {
-            console.log(response.data);
-            this.getNotificacion();
+            this.notificaciones = response.data || [];
+            this.compareIds(); // Compara los IDs después de obtener las notificaciones
           })
           .catch((error) => {
             console.log(error);
           });
-      }
+      },
+      getAllClientes() {
+        let url = `${process.env.API}/Customer`;
+  
+        axios.get(url)
+          .then((response) => {
+            this.clientes = response.data || [];
+            console.log('Clientes:', this.clientes); // Imprime el array de clientes en la consola
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
+      cargarNotificacion(obj) {
+        this.notificacion = obj;
+        if (obj.revision) {
+          axios.put(`${process.env.API}/ServicioStatus/${obj._id}`, { "revision": false })
+            .then((response) => {
+              console.log(response.data);
+              this.getNotificacion();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      },
+      findClienteNameById(customerId) {
+        const cliente = this.clientes.find(cliente => cliente._id === customerId);
+        return cliente ? cliente.Name : 'No disponible';
+      },
+      compareIds() {
+        // Llama a este método después de obtener las notificaciones y clientes
+        this.notificaciones.forEach(notificacion => {
+          notificacion.clienteNombre = this.findClienteNameById(notificacion.customerId); // Asume que notificacion tiene un campo customerId
+        });
+      },
     },
-  },
-  mounted() {
-    this.getNotificacion();
-    this.tipoNegocioUsuario = localStorage.getItem('tipoNegocioUsuario'); 
-  },
-};
-</script>
+    mounted() {
+      this.getNotificacion();
+      this.getAllClientes(); // Llama al método para obtener todos los clientes
+      this.tipoNegocioUsuario = localStorage.getItem('tipoNegocioUsuario'); 
+    },
+  };
+  </script>
+  
+
 
 
 

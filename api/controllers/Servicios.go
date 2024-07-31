@@ -119,12 +119,6 @@ func CreatePedirServicio(c *fiber.Ctx) error {
 	servicio.Fecha = config.GetDate()
 	servicio.Hora = config.GetHour()
 
-	_, err := service.InsertOne(context.Background(), servicio)
-
-	if err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el servicio"})
-	}
-
 	idCustomer, err := primitive.ObjectIDFromHex(servicio.CustomerID)
 	if err != nil {
 		log.Fatal(err)
@@ -134,12 +128,19 @@ func CreatePedirServicio(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo encontrar el cliente"})
 	}
+	servicio.CustomerName = customers.Name
 
 	objIDNegocio, err := primitive.ObjectIDFromHex(servicio.NegocioId)
 
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el servicio"})
 	}
+	_, err3 := service.InsertOne(context.Background(), servicio)
+
+	if err3 != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(Message{Msg: "No se pudo crear el servicio"})
+	}
+
 	switch TipoNegocio {
 	case "Artesania":
 		err = artesanias.FindOne(context.Background(), bson.M{"_id": objIDNegocio, "status": "Activo"}).Decode(&Negocio)
