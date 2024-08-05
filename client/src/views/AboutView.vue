@@ -11,7 +11,7 @@
                     <div class="pb-3">
                         <div class="blog-item">
                             <div class="position-relative">
-                                <img class="img-fluid w-100" src="https://scontent.fbaq10-2.fna.fbcdn.net/v/t39.30808-6/438128221_419513054309180_5519711783360159008_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeGOBR5kZelEKeCrIXjUXtOYSJP4xkO5AjRIk_jGQ7kCNO56G_8eI6xWPdyU7mhyCS_q26qCjStZnk6PRHpfdQQR&_nc_ohc=Ms3-w26A9-cQ7kNvgFm7ugU&_nc_zt=23&_nc_ht=scontent.fbaq10-2.fna&oh=00_AYBBwP-94scq5aKKlU8r_8ER49_Uv2Fc8yvbyIgsdHIkuA&oe=66A33C0C" alt="">
+                                <img class="img-fluid w-100" src="https://i.pinimg.com/736x/8e/a5/a6/8ea5a6fb60c82061d0de256d4ee3c255.jpg" alt="">
                                 <div class="blog-date">
                                     <h6 class="font-weight-bold mb-n1">Costa</h6>
                                     <small class="text-white text-uppercase">Brisa</small>
