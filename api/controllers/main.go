@@ -11,3 +11,7 @@ type Message struct {
 func Init(c *fiber.Ctx) error {
 	return c.SendFile("./public")
 }
+
+func AppWeb(c *fiber.Ctx) error {
+	return c.SendFile("./public/dist/index.html")
+}

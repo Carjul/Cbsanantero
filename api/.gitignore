@@ -13,6 +13,7 @@
 *.test
 *.out
 .env
+go.mod
 
 # Archivos de dependencias
 vendor/

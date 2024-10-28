@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkfront"]=self["webpackChunkfront"]||[]).push([[779],{2779:function(n,r,e){e.r(r),e.d(r,{default:function(){return f}});var t=e(3396);function u(n,r,e,u,a,i){return(0,t.wg)(),(0,t.iD)("h1",null,"Vista one")}var a={name:"PrincipalView"},i=e(89);const c=(0,i.Z)(a,[["render",u]]);var f=c}}]);
+//# sourceMappingURL=779.9a65d552.js.map

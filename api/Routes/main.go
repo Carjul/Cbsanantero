@@ -6,6 +6,8 @@ import (
 )
 
 func Rutas(app *fiber.App) {
+	//Ruta app-web
+	app.Get("/", controllers.AppWeb)
 	//Ruta Inicial
 	app.Get("/app", controllers.Init)
 	//Rutas de Customer
