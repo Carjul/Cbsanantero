@@ -12,10 +12,11 @@
 # Archivos generados por el compilador
 *.test
 *.out
+*Dokerfile
 .env
-go.mod
+*.mod
 
 # Archivos de dependencias
+
 vendor/
 /tmp
-/dist
