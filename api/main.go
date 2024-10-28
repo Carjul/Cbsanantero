@@ -19,7 +19,7 @@ const secretSymmetricKey = "symmetric-secret-key (size = 32)"
 func main() {
 	// Load environment variables from .env file, where API keys and passwords are stored
 	if err := godotenv.Load(); err != nil {
-		log.Fatalln(".env file err:", err)
+		log.Printf(".env file err:", err)
 	}
 
 	if err := db.ConexionDB(); err != nil {
