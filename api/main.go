@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/cbsanantero/Routes"
 	"github.com/cbsanantero/controllers"
@@ -50,7 +51,7 @@ func main() {
 
 	// Restricted Routes
 	apiGroup.Get("/restricted", controllers.Restricted)
-
+	var port string = os.Getenv("PORT")
 	//Puerto de escucha
-	app.Listen(":3000")
+	app.Listen(":"+port)
 }
